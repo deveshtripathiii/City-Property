@@ -7,7 +7,7 @@ const PHONE = '919711733120';
 const defaultProperties = [
   {
     id: 'p1', title: '2 BHK Ready to Move Flat', category: 'sale', type: 'flat',
-    price: 4500000, priceDisplay: '₹45 Lakh', location: 'Sector 12, Noida',
+    price: 4500000, priceDisplay: '₹45 Lakh', location: 'Sector Alpha-1, Greater Noida (GNA)',
     size: '950 sqft', bedrooms: 2, bathrooms: 2,
     description: 'Beautiful 2 BHK flat fully furnished with modular kitchen, wardrobes and 24/7 security. Close to metro and school. The flat features marble flooring, branded fittings and excellent ventilation. Society amenities include gym, swimming pool, power backup and covered parking.',
     image: 'https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?w=800&q=80',
@@ -15,7 +15,7 @@ const defaultProperties = [
   },
   {
     id: 'p2', title: 'Spacious Room for Rent', category: 'rent', type: 'room',
-    price: 8000, priceDisplay: '₹8,000/mo', location: 'Rajouri Garden, Delhi',
+    price: 8000, priceDisplay: '₹8,000/mo', location: 'Sector Beta-2, Greater Noida (GNA)',
     size: '200 sqft', bedrooms: 1, bathrooms: 1,
     description: 'Fully furnished single room with attached bathroom, WiFi included. Ideal for working professionals. Features AC, geyser, wardrobe. Very safe locality, near metro station.',
     image: 'https://images.unsplash.com/photo-1631049307264-da0ec9d70304?w=800&q=80',
@@ -23,7 +23,7 @@ const defaultProperties = [
   },
   {
     id: 'p3', title: 'Commercial Plot for Sale', category: 'land', type: 'plot',
-    price: 12000000, priceDisplay: '₹1.2 Cr', location: 'Greater Noida West',
+    price: 12000000, priceDisplay: '₹1.2 Cr', location: 'Sector 22D, Yamuna Expressway (YEA)',
     size: '2400 sqft', bedrooms: 0, bathrooms: 0,
     description: 'Prime commercial plot on main road. Ideal for showroom, office building or residential complex. Clear title with all approvals. Freehold property, registry done. All utilities available at site.',
     image: 'https://images.unsplash.com/photo-1500382017468-9049fed747ef?w=800&q=80',
@@ -31,7 +31,7 @@ const defaultProperties = [
   },
   {
     id: 'p4', title: '3 BHK Builder Floor', category: 'sale', type: 'flat',
-    price: 7800000, priceDisplay: '₹78 Lakh', location: 'Dwarka Sector 6, Delhi',
+    price: 7800000, priceDisplay: '₹78 Lakh', location: 'Sector Omega-1, Greater Noida (GNA)',
     size: '1450 sqft', bedrooms: 3, bathrooms: 2,
     description: 'Spacious 3 BHK on 2nd floor with terrace access. Vastu compliant, registry done. Near metro station. Features modular kitchen, false ceiling, wooden flooring in bedrooms.',
     image: 'https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?w=800&q=80',
@@ -39,7 +39,7 @@ const defaultProperties = [
   },
   {
     id: 'p5', title: 'Boys Hostel — AC Rooms', category: 'rent', type: 'hostel',
-    price: 5500, priceDisplay: '₹5,500/mo', location: 'GTB Nagar, Delhi',
+    price: 5500, priceDisplay: '₹5,500/mo', location: 'Knowledge Park-3, Greater Noida (GNA)',
     size: '150 sqft', bedrooms: 1, bathrooms: 0,
     description: 'Well-maintained boys hostel with AC rooms, mess facility, WiFi, 24-hr security. Walking distance from university. Monthly rent includes electricity and water. No brokerage.',
     image: 'https://images.unsplash.com/photo-1555854877-bab0e564b8d5?w=800&q=80',
@@ -47,7 +47,7 @@ const defaultProperties = [
   },
   {
     id: 'p6', title: '4-Storey Commercial Building', category: 'sale', type: 'building',
-    price: 35000000, priceDisplay: '₹3.5 Cr', location: 'Laxmi Nagar, Delhi',
+    price: 35000000, priceDisplay: '₹3.5 Cr', location: 'Sector MU, Greater Noida (GNA)',
     size: '5000 sqft', bedrooms: 0, bathrooms: 6,
     description: 'Prime commercial building on main road. Ground floor shop + 3 floors offices. Excellent investment opportunity. Lift installed, parking available. Currently 80% rented with good yield.',
     image: 'https://images.unsplash.com/photo-1486325212027-8081e485255e?w=800&q=80',
@@ -55,7 +55,7 @@ const defaultProperties = [
   },
   {
     id: 'p7', title: 'Residential Plot — Corner', category: 'land', type: 'plot',
-    price: 3200000, priceDisplay: '₹32 Lakh', location: 'Indirapuram, Ghaziabad',
+    price: 3200000, priceDisplay: '₹32 Lakh', location: 'Sector 18, Yamuna Expressway (YEA)',
     size: '100 sqgyd', bedrooms: 0, bathrooms: 0,
     description: 'Corner plot in approved colony. Facing east, all utilities available. Perfect for dream home construction. Quiet residential area, near schools and shopping mall.',
     image: 'https://images.unsplash.com/photo-1448630360428-65456885c650?w=800&q=80',
@@ -63,7 +63,7 @@ const defaultProperties = [
   },
   {
     id: 'p8', title: '1 BHK Flat for Rent', category: 'rent', type: 'flat',
-    price: 12000, priceDisplay: '₹12,000/mo', location: 'Vaishali, Ghaziabad',
+    price: 12000, priceDisplay: '₹12,000/mo', location: 'Sector Gamma-2, Greater Noida (GNA)',
     size: '550 sqft', bedrooms: 1, bathrooms: 1,
     description: 'Semi-furnished 1 BHK with parking. Ground floor, easy access. Near metro station and market. Balcony with garden view. Rent negotiable for long-term tenants.',
     image: 'https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?w=800&q=80',
@@ -71,7 +71,7 @@ const defaultProperties = [
   },
   {
     id: 'p9', title: 'Girls PG / Hostel', category: 'rent', type: 'hostel',
-    price: 7000, priceDisplay: '₹7,000/mo', location: 'Mukherjee Nagar, Delhi',
+    price: 7000, priceDisplay: '₹7,000/mo', location: 'Knowledge Park-2, Greater Noida (GNA)',
     size: '120 sqft', bedrooms: 1, bathrooms: 0,
     description: 'Safe and secure girls PG with CCTV, tiffin service, WiFi. Ideal for students and working women. 24-hour security guard. Warden on premises.',
     image: 'https://images.unsplash.com/photo-1536376072261-38c75010e6c9?w=800&q=80',
@@ -149,11 +149,11 @@ function renderPropDetail(prop, allProps) {
     amenities.map(function(a){ return '<div style="display:flex;align-items:center;gap:8px;padding:10px;background:var(--bg);border-radius:8px;font-size:0.85rem;font-weight:500;"><i class="fas ' + a.icon + '" style="color:var(--primary);"></i> ' + a.label + '</div>'; }).join('') +
     '</div></div>' + relatedHTML + '</div>' +
     '<div><div class="prop-contact-card">' +
-    '<h3><i class="fas fa-headset" style="color:var(--accent)"></i> Contact Agent</h3>' +
+    '<h3><i class="fas fa-headset" style="color:var(--accent)"></i> Contact Us</h3>' +
     '<div style="text-align:center;margin-bottom:20px;padding:16px;background:var(--bg);border-radius:var(--radius-sm);">' +
     '<div style="width:60px;height:60px;background:linear-gradient(135deg,var(--primary),var(--primary-light));border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 10px;font-size:1.5rem;color:#fff;"><i class="fas fa-user-tie"></i></div>' +
     '<div style="font-weight:700;font-size:1rem;">City Property</div>' +
-    '<div style="font-size:0.8rem;color:var(--text-light);">Verified Agent</div>' +
+    '<div style="font-size:0.8rem;color:var(--text-light);">Verified</div>' +
     '<div style="display:flex;align-items:center;justify-content:center;gap:4px;margin-top:6px;font-size:0.9rem;font-weight:600;color:var(--primary);"><i class="fas fa-phone"></i> 97117 33120</div>' +
     '</div>' +
     '<div style="display:flex;flex-direction:column;gap:10px;">' +

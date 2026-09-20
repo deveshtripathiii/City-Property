@@ -416,7 +416,7 @@ input, select, textarea { font-family: var(--font); }
 .cid-result .cid-value { font-size: 1.3rem; font-weight: 800; color: var(--primary); letter-spacing: 1px; }
 
 /* ==================== FLOATING BUTTONS ==================== */
-.floating-btns { position: fixed; bottom: 24px; right: 20px; z-index: 800; display: flex; flex-direction: column; gap: 12px; align-items: flex-end; }
+.floating-btns { position: fixed; bottom: 160px; right: 20px; z-index: 800; display: flex; flex-direction: column; gap: 12px; align-items: flex-end; }
 .float-btn {
   width: 56px; height: 56px; border-radius: 50%;
   display: flex; align-items: center; justify-content: center;
@@ -701,7 +701,7 @@ table tr:hover td { background: #fafbfc; }
   footer { padding: 40px 0 0; }
 
   /* Floating buttons — make smaller & tighter on mobile */
-  .floating-btns { bottom: 16px; right: 14px; gap: 10px; }
+  .floating-btns { bottom: 150px; right: 14px; gap: 10px; }
   .float-btn { width: 50px; height: 50px; font-size: 1.2rem; }
 
   /* Section spacing */

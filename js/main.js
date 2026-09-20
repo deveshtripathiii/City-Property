@@ -10,81 +10,82 @@ let activeCategory = 'all';
 let activeType = 'all';
 let activeSortTab = 'buy';
 
-// ── Default Sample Properties ──
+// ── Default Sample Properties — Greater Noida ──
 const defaultProperties = [
   {
     id: 'p1', title: '2 BHK Ready to Move Flat', category: 'sale', type: 'flat',
-    price: 4500000, priceDisplay: '₹45 Lakh', location: 'Sector 12, Noida',
+    price: 4500000, priceDisplay: '₹45 Lakh', location: 'Sector Alpha-1, Greater Noida (GNA)',
     size: '950 sqft', bedrooms: 2, bathrooms: 2,
-    description: 'Beautiful 2 BHK flat fully furnished with modular kitchen, wardrobes and 24/7 security. Close to metro and school.',
+    description: 'Beautiful 2 BHK flat fully furnished with modular kitchen, wardrobes and 24/7 security. Allotted under Greater Noida Authority (GNA). Registry done.',
     image: 'https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?w=600&q=80',
     featured: true, status: 'active', createdAt: Date.now() - 86400000 * 2
   },
   {
     id: 'p2', title: 'Spacious Room for Rent', category: 'rent', type: 'room',
-    price: 8000, priceDisplay: '₹8,000/mo', location: 'Rajouri Garden, Delhi',
+    price: 8000, priceDisplay: '₹8,000/mo', location: 'Sector Beta-2, Greater Noida (GNA)',
     size: '200 sqft', bedrooms: 1, bathrooms: 1,
-    description: 'Fully furnished single room with attached bathroom, WiFi included. Ideal for working professionals.',
+    description: 'Fully furnished single room with attached bathroom, WiFi included. Ideal for working professionals near Expo Mart and Knowledge Park.',
     image: 'https://images.unsplash.com/photo-1631049307264-da0ec9d70304?w=600&q=80',
     featured: false, status: 'active', createdAt: Date.now() - 86400000 * 1
   },
   {
     id: 'p3', title: 'Commercial Plot for Sale', category: 'land', type: 'plot',
-    price: 12000000, priceDisplay: '₹1.2 Cr', location: 'Greater Noida West',
+    price: 12000000, priceDisplay: '₹1.2 Cr', location: 'Sector 22D, Yamuna Expressway (YEA)',
     size: '2400 sqft', bedrooms: 0, bathrooms: 0,
-    description: 'Prime commercial plot on main road. Ideal for showroom, office building or residential complex. Clear title.',
+    description: 'Prime commercial plot in Yamuna Expressway Industrial Development Authority (YEIDA) zone. Ideal for showroom or office. Clear freehold title.',
     image: 'https://images.unsplash.com/photo-1500382017468-9049fed747ef?w=600&q=80',
     featured: true, status: 'active', createdAt: Date.now() - 86400000 * 3
   },
   {
     id: 'p4', title: '3 BHK Builder Floor', category: 'sale', type: 'flat',
-    price: 7800000, priceDisplay: '₹78 Lakh', location: 'Dwarka Sector 6, Delhi',
+    price: 7800000, priceDisplay: '₹78 Lakh', location: 'Sector Omega-1, Greater Noida (GNA)',
     size: '1450 sqft', bedrooms: 3, bathrooms: 2,
-    description: 'Spacious 3 BHK on 2nd floor with terrace access. Vastu compliant, registry done. Near metro station.',
+    description: 'Spacious 3 BHK on 2nd floor with terrace access. Vastu compliant, GNA registry done. Near Pari Chowk metro and shopping mall.',
     image: 'https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?w=600&q=80',
     featured: false, status: 'active', createdAt: Date.now() - 86400000 * 5
   },
   {
     id: 'p5', title: 'Boys Hostel — AC Rooms', category: 'rent', type: 'hostel',
-    price: 5500, priceDisplay: '₹5,500/mo', location: 'GTB Nagar, Delhi',
+    price: 5500, priceDisplay: '₹5,500/mo', location: 'Knowledge Park-3, Greater Noida (GNA)',
     size: '150 sqft', bedrooms: 1, bathrooms: 0,
-    description: 'Well-maintained boys hostel with AC rooms, mess facility, WiFi, 24-hr security. Walking distance from university.',
+    description: 'Boys hostel with AC rooms, mess, WiFi, 24-hr security. Walking distance from Sharda University and GL Bajaj Institute.',
     image: 'https://images.unsplash.com/photo-1555854877-bab0e564b8d5?w=600&q=80',
     featured: false, status: 'active', createdAt: Date.now() - 86400000 * 4
   },
   {
     id: 'p6', title: '4-Storey Commercial Building', category: 'sale', type: 'building',
-    price: 35000000, priceDisplay: '₹3.5 Cr', location: 'Laxmi Nagar, Delhi',
+    price: 35000000, priceDisplay: '₹3.5 Cr', location: 'Sector MU, Greater Noida (GNA)',
     size: '5000 sqft', bedrooms: 0, bathrooms: 6,
-    description: 'Prime commercial building on main road. Ground floor shop + 3 floors offices. Excellent investment opportunity.',
+    description: 'Prime commercial building on GNA main road. Ground floor shop + 3 floors offices. Near Surajpur and Expo Mart.',
     image: 'https://images.unsplash.com/photo-1486325212027-8081e485255e?w=600&q=80',
     featured: true, status: 'active', createdAt: Date.now() - 86400000 * 6
   },
   {
     id: 'p7', title: 'Residential Plot — Corner', category: 'land', type: 'plot',
-    price: 3200000, priceDisplay: '₹32 Lakh', location: 'Indirapuram, Ghaziabad',
+    price: 3200000, priceDisplay: '₹32 Lakh', location: 'Sector 18, Yamuna Expressway (YEA)',
     size: '100 sqgyd', bedrooms: 0, bathrooms: 0,
-    description: 'Corner plot in approved colony. Facing east, all utilities available. Perfect for dream home construction.',
+    description: 'Corner plot in YEIDA approved residential scheme. Near Jewar International Airport — best investment opportunity.',
     image: 'https://images.unsplash.com/photo-1448630360428-65456885c650?w=600&q=80',
     featured: false, status: 'active', createdAt: Date.now() - 86400000 * 7
   },
   {
     id: 'p8', title: '1 BHK Flat for Rent', category: 'rent', type: 'flat',
-    price: 12000, priceDisplay: '₹12,000/mo', location: 'Vaishali, Ghaziabad',
+    price: 12000, priceDisplay: '₹12,000/mo', location: 'Sector Gamma-2, Greater Noida (GNA)',
     size: '550 sqft', bedrooms: 1, bathrooms: 1,
-    description: 'Semi-furnished 1 BHK with parking. Ground floor, easy access. Near metro station and market.',
+    description: 'Semi-furnished 1 BHK with parking in GNA society. Near Aqua Line metro station and Hypercity Mall.',
     image: 'https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?w=600&q=80',
     featured: false, status: 'active', createdAt: Date.now() - 86400000 * 8
   },
   {
     id: 'p9', title: 'Girls PG / Hostel', category: 'rent', type: 'hostel',
-    price: 7000, priceDisplay: '₹7,000/mo', location: 'Mukherjee Nagar, Delhi',
+    price: 7000, priceDisplay: '₹7,000/mo', location: 'Knowledge Park-2, Greater Noida (GNA)',
     size: '120 sqft', bedrooms: 1, bathrooms: 0,
-    description: 'Safe and secure girls PG with CCTV, tiffin service, WiFi. Ideal for students and working women.',
+    description: 'Safe and secure girls PG with CCTV, tiffin, WiFi. Ideal for students of Galgotias, Bennett and other Knowledge Park universities.',
     image: 'https://images.unsplash.com/photo-1536376072261-38c75010e6c9?w=600&q=80',
     featured: false, status: 'active', createdAt: Date.now() - 86400000 * 9
   },
 ];
+
 
 // ── Initialize ──
 document.addEventListener('DOMContentLoaded', () => {
