@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Property Details — City Property</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
+  <link rel="stylesheet" href="css/style.css"/>
+</head>
+<body>
+
+<!-- Toast -->
+<div class="toast-container" id="toastContainer"></div>
+
+<!-- ========== NAVBAR ========== -->
+<nav class="navbar scrolled" id="navbar">
+  <div class="nav-container">
+    <a href="index.html" class="nav-logo">
+      <div class="logo-icon">CP</div>
+      <div class="logo-text">
+        <div class="brand">City Property</div>
+        <div class="tagline">Your Trusted Real Estate Partner</div>
+      </div>
+    </a>
+    <div class="nav-links">
+      <a href="index.html">Home</a>
+      <a href="index.html#properties">Properties</a>
+      <a href="index.html#contact">Contact</a>
+    </div>
+    <div class="nav-cta">
+      <a href="tel:9711733120" class="btn btn-outline btn-sm"><i class="fas fa-phone"></i> Call</a>
+      <button class="btn btn-whatsapp btn-sm" onclick="openWAModal()"><i class="fab fa-whatsapp"></i> WhatsApp</button>
+    </div>
+  </div>
+</nav>
+
+<!-- ========== PROPERTY DETAIL ========== -->
+<div style="padding-top:70px;">
+  <div id="propDetailContent">
+    <!-- Loading Skeleton -->
+    <div class="container" style="padding-top:32px; padding-bottom:60px;">
+      <div class="skeleton" style="height:24px; width:300px; margin-bottom:24px;"></div>
+      <div class="prop-layout">
+        <div>
+          <div class="skeleton" style="height:380px; margin-bottom:24px;"></div>
+          <div class="skeleton" style="height:150px; margin-bottom:16px;"></div>
+        </div>
+        <div>
+          <div class="skeleton" style="height:300px;"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- WhatsApp Modal -->
+<div class="overlay" id="waOverlay" onclick="closeWAModal(event)">
+  <div class="modal">
+    <button class="modal-close" onclick="closeWAModal()"><i class="fas fa-times"></i></button>
+    <div class="modal-wa-icon"><i class="fab fa-whatsapp"></i></div>
+    <h3>Chat on WhatsApp</h3>
+    <p>Enter your phone number to get your Customer ID and enquire about this property.</p>
+    <div class="form-group">
+      <label>Your Mobile Number</label>
+      <input type="tel" id="waPhone" placeholder="Enter 10-digit mobile number" maxlength="10" oninput="generateCID()" />
+    </div>
+    <div id="cidResult" class="cid-result hidden">
+      <div class="cid-label">Your Customer ID</div>
+      <div class="cid-value" id="cidValue">—</div>
+    </div>
+    <button class="btn btn-whatsapp pulse" style="width:100%; justify-content:center; margin-top:16px; padding:14px;" onclick="sendToWhatsApp()">
+      <i class="fab fa-whatsapp"></i> Open WhatsApp Chat
+    </button>
+  </div>
+</div>
+
+<!-- Floating Buttons -->
+<div class="floating-btns">
+  <div class="float-btn-wrap">
+    <span class="float-label">Call Us</span>
+    <a href="tel:9711733120" class="float-btn float-call"><i class="fas fa-phone"></i></a>
+  </div>
+  <div class="float-btn-wrap">
+    <span class="float-label">WhatsApp</span>
+    <button class="float-btn float-wa" onclick="openWAModal()"><i class="fab fa-whatsapp"></i></button>
+  </div>
+</div>
+
+<script src="js/property.js"></script>
+</body>
+</html>

@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="City Property — Buy, Sell, Rent properties in your city. Flats, Plots, Houses, Hostels, Buildings available." />
+  <title>City Property — Your Trusted Real Estate Partner</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+
+<!-- ========== TOAST CONTAINER ========== -->
+<div class="toast-container" id="toastContainer"></div>
+
+<!-- ========== NAVBAR ========== -->
+<nav class="navbar" id="navbar">
+  <div class="nav-container">
+    <a href="index.html" class="nav-logo">
+      <div class="logo-icon">CP</div>
+      <div class="logo-text">
+        <div class="brand">City Property</div>
+        <div class="tagline">Your Trusted Real Estate Partner</div>
+      </div>
+    </a>
+    <div class="nav-links">
+      <a href="index.html" class="active">Home</a>
+      <a href="#properties">Properties</a>
+      <a href="#types">Categories</a>
+      <a href="#contact">Contact</a>
+      <a href="admin.html">Admin</a>
+    </div>
+    <div class="nav-cta">
+      <a href="tel:9711733120" class="btn btn-outline btn-sm"><i class="fas fa-phone"></i> Call Now</a>
+      <button class="btn btn-whatsapp btn-sm" onclick="openWAModal()"><i class="fab fa-whatsapp"></i> WhatsApp</button>
+    </div>
+    <button class="hamburger" id="hamburger" onclick="toggleMenu()" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+
+<!-- Mobile Menu -->
+<div class="mobile-menu" id="mobileMenu">
+  <a href="index.html" onclick="toggleMenu()"><i class="fas fa-home"></i> Home</a>
+  <a href="#properties" onclick="toggleMenu()"><i class="fas fa-building"></i> Properties</a>
+  <a href="#types" onclick="toggleMenu()"><i class="fas fa-th-large"></i> Categories</a>
+  <a href="#contact" onclick="toggleMenu()"><i class="fas fa-envelope"></i> Contact</a>
+  <a href="admin.html"><i class="fas fa-lock"></i> Admin Panel</a>
+  <div class="mobile-cta">
+    <a href="tel:9711733120" class="btn btn-primary btn-sm"><i class="fas fa-phone"></i> 97117 33120</a>
+    <button class="btn btn-whatsapp btn-sm" onclick="openWAModal(); toggleMenu();"><i class="fab fa-whatsapp"></i> WhatsApp</button>
+  </div>
+</div>
+
+<!-- ========== HERO SECTION ========== -->
+<section class="hero" id="home">
+  <div class="hero-particles">
+    <div class="particle"></div>
+    <div class="particle"></div>
+    <div class="particle"></div>
+    <div class="particle"></div>
+  </div>
+  <div class="container">
+    <div class="hero-grid">
+      <!-- Left Content -->
+      <div class="hero-content">
+        <div class="hero-badge">
+          <i class="fas fa-star"></i> #1 Trusted Real Estate
+        </div>
+        <h1 class="hero-title">
+          Find Your <span>Dream</span><br>Property Today
+        </h1>
+        <p class="hero-subtitle">
+          Buy, Sell, Rent — Flats, Plots, Rooms, Hostels & Buildings.<br>
+          Expert guidance at every step of your property journey.
+        </p>
+        <div class="d-flex gap-16" style="flex-wrap:wrap;">
+          <a href="#properties" class="btn btn-accent btn-lg"><i class="fas fa-search"></i> Browse Properties</a>
+          <a href="tel:9711733120" class="btn btn-lg" style="background:rgba(255,255,255,0.15); color:#fff; border:1.5px solid rgba(255,255,255,0.4); backdrop-filter:blur(4px);">
+            <i class="fas fa-phone-alt"></i> 97117 33120
+          </a>
+        </div>
+        <div class="hero-stats">
+          <div class="hero-stat"><div class="num" id="heroSaleCount">0</div><div class="lbl">Properties for Sale</div></div>
+          <div class="hero-stat"><div class="num" id="heroRentCount">0</div><div class="lbl">For Rent</div></div>
+          <div class="hero-stat"><div class="num" id="heroLandCount">0</div><div class="lbl">Land / Plots</div></div>
+        </div>
+      </div>
+      <!-- Search Box -->
+      <div class="search-box" id="searchBox">
+        <div class="search-tabs">
+          <button class="search-tab active" data-tab="buy" onclick="setTab(this,'buy')">🏠 Buy</button>
+          <button class="search-tab" data-tab="rent" onclick="setTab(this,'rent')">🔑 Rent</button>
+          <button class="search-tab" data-tab="land" onclick="setTab(this,'land')">🌿 Land</button>
+        </div>
+        <div class="search-fields">
+          <input type="text" id="searchLocation" placeholder="📍 Enter location, city, area..." />
+          <div class="field-row">
+            <select id="searchType">
+              <option value="">All Property Types</option>
+              <option value="flat">Flat / Apartment</option>
+              <option value="room">Room</option>
+              <option value="hostel">Hostel</option>
+              <option value="building">Building</option>
+              <option value="plot">Plot / Land</option>
+              <option value="house">House</option>
+            </select>
+            <select id="searchBudget">
+              <option value="">Any Budget</option>
+              <option value="5">Under ₹5 Lakh</option>
+              <option value="10">₹5–10 Lakh</option>
+              <option value="25">₹10–25 Lakh</option>
+              <option value="50">₹25–50 Lakh</option>
+              <option value="100">₹50L–1Cr</option>
+              <option value="999">Above ₹1 Cr</option>
+            </select>
+          </div>
+          <div class="search-btn-row">
+            <button class="btn btn-primary btn-lg" onclick="doSearch()">
+              <i class="fas fa-search"></i> Search Properties
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ========== PROPERTY TYPES ========== -->
+<section class="section types-section" id="types">
+  <div class="container">
+    <div class="text-center">
+      <h2 class="section-title">Property Categories</h2>
+      <p class="section-subtitle">Find exactly what you're looking for</p>
+    </div>
+    <div class="types-grid" id="typesGrid">
+      <div class="type-card" data-filter="all" onclick="filterByType('all', this)">
+        <div class="icon">🏘️</div>
+        <div class="label">All Properties</div>
+        <div class="count" id="typeCountAll">0 listings</div>
+      </div>
+      <div class="type-card" data-filter="flat" onclick="filterByType('flat', this)">
+        <div class="icon">🏢</div>
+        <div class="label">Flat / Apartment</div>
+        <div class="count" id="typeCountFlat">0 listings</div>
+      </div>
+      <div class="type-card" data-filter="room" onclick="filterByType('room', this)">
+        <div class="icon">🛏️</div>
+        <div class="label">Room</div>
+        <div class="count" id="typeCountRoom">0 listings</div>
+      </div>
+      <div class="type-card" data-filter="hostel" onclick="filterByType('hostel', this)">
+        <div class="icon">🏨</div>
+        <div class="label">Hostel</div>
+        <div class="count" id="typeCountHostel">0 listings</div>
+      </div>
+      <div class="type-card" data-filter="building" onclick="filterByType('building', this)">
+        <div class="icon">🏗️</div>
+        <div class="label">Building</div>
+        <div class="count" id="typeCountBuilding">0 listings</div>
+      </div>
+      <div class="type-card" data-filter="plot" onclick="filterByType('plot', this)">
+        <div class="icon">🌿</div>
+        <div class="label">Plot / Land</div>
+        <div class="count" id="typeCountPlot">0 listings</div>
+      </div>
+      <div class="type-card" data-filter="house" onclick="filterByType('house', this)">
+        <div class="icon">🏠</div>
+        <div class="label">House / Villa</div>
+        <div class="count" id="typeCountHouse">0 listings</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ========== PROPERTIES SECTION ========== -->
+<section class="section properties-section" id="properties">
+  <div class="container">
+    <div class="properties-header">
+      <div>
+        <h2 class="section-title">Featured Properties</h2>
+        <p class="section-subtitle">Handpicked properties just for you</p>
+      </div>
+      <select class="sort-select" id="sortSelect" onchange="sortProperties(this.value)">
+        <option value="newest">Newest First</option>
+        <option value="price-low">Price: Low to High</option>
+        <option value="price-high">Price: High to Low</option>
+      </select>
+    </div>
+    <div class="filter-bar" id="filterBar">
+      <button class="filter-chip active" data-cat="all" onclick="filterByCategory('all', this)">All</button>
+      <button class="filter-chip" data-cat="sale" onclick="filterByCategory('sale', this)">For Sale</button>
+      <button class="filter-chip" data-cat="rent" onclick="filterByCategory('rent', this)">For Rent</button>
+      <button class="filter-chip" data-cat="land" onclick="filterByCategory('land', this)">Land / Plot</button>
+      <button class="filter-chip" data-cat="construction" onclick="filterByCategory('construction', this)">Construction</button>
+    </div>
+    <div id="propertiesGrid" class="properties-grid" style="margin-top:28px;"></div>
+    <div id="emptyState" class="empty-state hidden">
+      <i class="fas fa-home"></i>
+      <p>No properties found. Try different filters.</p>
+    </div>
+    <div class="load-more-wrap" id="loadMoreWrap">
+      <button class="btn btn-outline" id="loadMoreBtn" onclick="loadMore()">Load More Properties <i class="fas fa-chevron-down"></i></button>
+    </div>
+  </div>
+</section>
+
+<!-- ========== STATS SECTION ========== -->
+<section class="section stats-section">
+  <div class="container">
+    <div class="stats-grid">
+      <div class="stat-item">
+        <div class="stat-icon"><i class="fas fa-home"></i></div>
+        <div class="stat-num" data-target="500">0</div>
+        <div class="stat-label">Properties Listed</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-icon"><i class="fas fa-users"></i></div>
+        <div class="stat-num" data-target="1200">0</div>
+        <div class="stat-label">Happy Clients</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-icon"><i class="fas fa-city"></i></div>
+        <div class="stat-num" data-target="15">0</div>
+        <div class="stat-label">Cities Covered</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-icon"><i class="fas fa-handshake"></i></div>
+        <div class="stat-num" data-target="800">0</div>
+        <div class="stat-label">Deals Closed</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ========== WHY US SECTION ========== -->
+<section class="section whyus-section">
+  <div class="container">
+    <div class="text-center">
+      <h2 class="section-title">Why Choose City Property?</h2>
+      <p class="section-subtitle">We make property buying simple, safe and seamless</p>
+    </div>
+    <div class="whyus-grid">
+      <div class="whyus-card fade-in">
+        <div class="icon-wrap"><i class="fas fa-shield-alt"></i></div>
+        <h3>Verified Properties</h3>
+        <p>Every property on our platform is personally verified by our team for authenticity and legal clarity.</p>
+      </div>
+      <div class="whyus-card fade-in">
+        <div class="icon-wrap"><i class="fas fa-headset"></i></div>
+        <h3>24/7 Expert Support</h3>
+        <p>Our dedicated team is always available via call or WhatsApp to assist you at every step of the process.</p>
+      </div>
+      <div class="whyus-card fade-in">
+        <div class="icon-wrap"><i class="fas fa-rupee-sign"></i></div>
+        <h3>Best Price Guarantee</h3>
+        <p>We negotiate the best deals for you. No hidden fees, no surprises — complete price transparency.</p>
+      </div>
+      <div class="whyus-card fade-in">
+        <div class="icon-wrap"><i class="fas fa-map-marker-alt"></i></div>
+        <h3>Prime Locations</h3>
+        <p>Access properties in top localities with proximity to schools, hospitals, markets and transport links.</p>
+      </div>
+      <div class="whyus-card fade-in">
+        <div class="icon-wrap"><i class="fas fa-file-contract"></i></div>
+        <h3>Legal Assistance</h3>
+        <p>Full documentation support including sale deed, registration and legal paperwork handled by our experts.</p>
+      </div>
+      <div class="whyus-card fade-in">
+        <div class="icon-wrap"><i class="fas fa-bolt"></i></div>
+        <h3>Quick Process</h3>
+        <p>From inquiry to final deal — our streamlined process ensures you get your property in record time.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ========== CONTACT SECTION ========== -->
+<section class="section contact-section" id="contact">
+  <div class="container">
+    <div class="text-center">
+      <h2 class="section-title">Get In Touch</h2>
+      <p class="section-subtitle">We're just a call or message away</p>
+    </div>
+    <div class="contact-grid">
+      <!-- Contact Info -->
+      <div class="contact-info">
+        <a href="tel:9711733120" class="contact-card">
+          <div class="icon icon-call"><i class="fas fa-phone-alt"></i></div>
+          <div class="info">
+            <h4>Call Us Directly</h4>
+            <p>97117 33120</p>
+          </div>
+        </a>
+        <div class="contact-card" onclick="openWAModal()" style="cursor:pointer;">
+          <div class="icon icon-wa"><i class="fab fa-whatsapp"></i></div>
+          <div class="info">
+            <h4>WhatsApp Chat</h4>
+            <p>97117 33120</p>
+          </div>
+        </div>
+        <div class="contact-card">
+          <div class="icon icon-loc"><i class="fas fa-map-marker-alt"></i></div>
+          <div class="info">
+            <h4>Our Location</h4>
+            <p>City Property Office</p>
+          </div>
+        </div>
+        <!-- Quick Actions -->
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px;">
+          <a href="tel:9711733120" class="btn btn-primary"><i class="fas fa-phone"></i> Call Now</a>
+          <button class="btn btn-whatsapp" onclick="openWAModal()"><i class="fab fa-whatsapp"></i> WhatsApp</button>
+        </div>
+      </div>
+      <!-- Inquiry Form -->
+      <div class="inquiry-form">
+        <h3><i class="fas fa-paper-plane" style="color:var(--accent)"></i> Send an Inquiry</h3>
+        <div class="form-row">
+          <div class="form-group">
+            <label>Your Name</label>
+            <input type="text" id="inqName" placeholder="Full Name" />
+          </div>
+          <div class="form-group">
+            <label>Phone Number</label>
+            <input type="tel" id="inqPhone" placeholder="10-digit mobile" maxlength="10" oninput="genCIDFromInquiry()" />
+          </div>
+        </div>
+        <div id="inqCIDDisplay" class="cid-display hidden">
+          <i class="fas fa-id-badge"></i>
+          Your Customer ID: <strong id="inqCIDVal">—</strong>
+        </div>
+        <div class="form-group mt-16">
+          <label>Interested In</label>
+          <select id="inqInterest">
+            <option>Select property type</option>
+            <option>Flat for Sale</option>
+            <option>Flat for Rent</option>
+            <option>Room for Rent</option>
+            <option>Hostel</option>
+            <option>Building / Commercial</option>
+            <option>Plot / Land</option>
+            <option>Construction</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Message</label>
+          <textarea id="inqMessage" rows="3" placeholder="Tell us about your requirements..."></textarea>
+        </div>
+        <button class="btn btn-whatsapp" style="width:100%; justify-content:center;" onclick="sendInquiryWhatsApp()">
+          <i class="fab fa-whatsapp"></i> Send via WhatsApp
+        </button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ========== FOOTER ========== -->
+<footer>
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <div class="brand-name"><i class="fas fa-building" style="color:var(--accent)"></i> City Property</div>
+        <p>Your trusted real estate partner for buying, selling, renting and construction of residential and commercial properties.</p>
+        <div class="footer-socials">
+          <button class="social-btn" onclick="openWAModal()"><i class="fab fa-whatsapp"></i></button>
+          <a href="tel:9711733120" class="social-btn"><i class="fas fa-phone"></i></a>
+          <div class="social-btn"><i class="fab fa-facebook-f"></i></div>
+          <div class="social-btn"><i class="fab fa-instagram"></i></div>
+        </div>
+      </div>
+      <div class="footer-col">
+        <h4>Quick Links</h4>
+        <ul>
+          <li><a href="#home">Home</a></li>
+          <li><a href="#properties">Properties</a></li>
+          <li><a href="#types">Categories</a></li>
+          <li><a href="#contact">Contact Us</a></li>
+          <li><a href="admin.html">Admin Panel</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Property Types</h4>
+        <ul>
+          <li><a href="#" onclick="filterByType('flat',null)">Flats & Apartments</a></li>
+          <li><a href="#" onclick="filterByType('room',null)">Rooms</a></li>
+          <li><a href="#" onclick="filterByType('hostel',null)">Hostels</a></li>
+          <li><a href="#" onclick="filterByType('building',null)">Buildings</a></li>
+          <li><a href="#" onclick="filterByType('plot',null)">Plots & Land</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Contact</h4>
+        <ul>
+          <li><a href="tel:9711733120"><i class="fas fa-phone"></i> 97117 33120</a></li>
+          <li><a href="#" onclick="openWAModal()"><i class="fab fa-whatsapp"></i> WhatsApp Us</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; 2024 City Property. All rights reserved.</p>
+      <p>Designed with <i class="fas fa-heart" style="color:#ef4444"></i> for your property needs</p>
+    </div>
+  </div>
+</footer>
+
+<!-- ========== WHATSAPP MODAL ========== -->
+<div class="overlay" id="waOverlay" onclick="closeWAModal(event)">
+  <div class="modal">
+    <button class="modal-close" onclick="closeWAModal()"><i class="fas fa-times"></i></button>
+    <div class="modal-wa-icon"><i class="fab fa-whatsapp"></i></div>
+    <h3>Chat on WhatsApp</h3>
+    <p>Enter your phone number to get your unique Customer ID and connect with us instantly.</p>
+    <div class="form-group">
+      <label>Your Mobile Number</label>
+      <input type="tel" id="waPhone" placeholder="Enter 10-digit mobile number" maxlength="10" oninput="generateCID()" />
+    </div>
+    <div id="cidResult" class="cid-result hidden">
+      <div class="cid-label">Your Customer ID</div>
+      <div class="cid-value" id="cidValue">—</div>
+    </div>
+    <div class="form-group mt-16">
+      <label>Property Interest (optional)</label>
+      <input type="text" id="waPropertyInterest" placeholder="e.g. 2BHK flat for rent in Sector 15" />
+    </div>
+    <button class="btn btn-whatsapp pulse" style="width:100%; justify-content:center; margin-top:12px; padding:14px;" onclick="sendToWhatsApp()">
+      <i class="fab fa-whatsapp"></i> Open WhatsApp Chat
+    </button>
+    <p style="font-size:0.75rem; color:var(--text-light); text-align:center; margin-top:10px;">
+      You'll be redirected to WhatsApp with your details pre-filled.
+    </p>
+  </div>
+</div>
+
+<!-- ========== FLOATING BUTTONS ========== -->
+<div class="floating-btns">
+  <div class="float-btn-wrap">
+    <span class="float-label">Call Us</span>
+    <a href="tel:9711733120" class="float-btn float-call" title="Call Now">
+      <i class="fas fa-phone"></i>
+    </a>
+  </div>
+  <div class="float-btn-wrap">
+    <span class="float-label">WhatsApp</span>
+    <button class="float-btn float-wa" onclick="openWAModal()" title="WhatsApp">
+      <i class="fab fa-whatsapp"></i>
+    </button>
+  </div>
+</div>
+
+<script src="js/main.js"></script>
+</body>
+</html>
