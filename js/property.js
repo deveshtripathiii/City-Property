@@ -506,7 +506,7 @@ function renderSimilar(props) {
       </div>
       <div class="sim-card-body">
         <div class="sim-card-title">${p.title}</div>
-        <div class="sim-card-price">${p.price}</div>
+        <div class="sim-card-price"><a href="tel:9711733120" style="color:var(--primary);font-weight:800;text-decoration:none;"><i class="fas fa-phone-alt"></i> Price on Call</a></div>
         <div class="sim-card-loc"><i class="fa-solid fa-location-dot" style="color:var(--danger)"></i> ${p.location.split(',')[0]}</div>
       </div>
     </div>

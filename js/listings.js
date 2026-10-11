@@ -419,7 +419,12 @@ function createListingCard(prop) {
     </div>
     <h3 class="card-title">${prop.title}</h3>
     <div class="card-location"><i class="fas fa-map-marker-alt"></i> ${prop.location}</div>
-    <div class="card-price">${prop.priceLabel} <span>${prop.priceNote}</span></div>
+    <div class="card-price" style="display:flex;align-items:center;gap:8px;">
+      <a href="tel:9711733120" style="display:inline-flex;align-items:center;gap:6px;background:linear-gradient(135deg,var(--primary),var(--accent));color:#fff;padding:6px 14px;border-radius:50px;font-size:0.88rem;font-weight:800;text-decoration:none;box-shadow:0 2px 8px rgba(230,81,0,0.25);">
+        <i class="fas fa-phone-alt"></i> Price on Call
+      </a>
+      <span style="font-size:0.75rem;color:var(--text-light);font-weight:600;">(Call 97117 33120)</span>
+    </div>
     <div class="card-feats">
       ${bedsHtml}${bathsHtml}${sizeHtml}${viewsHtml}
     </div>
