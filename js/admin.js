@@ -58,22 +58,59 @@ function checkSession() {
 }
 
 // ===================== LOGIN / LOGOUT =====================
-function doLogin() {
+async function doLogin() {
   const u = document.getElementById('login-user').value.trim();
   const p = document.getElementById('login-pass').value;
-  const cfg = getSettings();
-  const validUser = DEFAULT_ADMIN_USER;
-  const validPass = cfg.adminPass || DEFAULT_ADMIN_PASS;
+  const errorEl = document.getElementById('login-error');
+  const btn = document.querySelector('.login-btn');
+  if (btn) btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Verifying with Firebase...';
 
-  if (u === validUser && p === validPass) {
+  let authenticated = false;
+
+  // 1. Check with Firebase Realtime Database
+  if (window.FIREBASE_DB_URL) {
+    try {
+      const res = await fetch(window.FIREBASE_DB_URL + "/admin_credentials.json");
+      const cloudCreds = await res.json();
+      if (cloudCreds && cloudCreds.username && cloudCreds.password) {
+        if (u === cloudCreds.username && p === cloudCreds.password) {
+          authenticated = true;
+        }
+      } else {
+        // If credentials not set in Firebase yet, initialize them in Firebase now!
+        await fetch(window.FIREBASE_DB_URL + "/admin_credentials.json", {
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ username: DEFAULT_ADMIN_USER, password: DEFAULT_ADMIN_PASS })
+        });
+      }
+    } catch (err) {
+      console.warn('Firebase login check offline, falling back:', err);
+    }
+  }
+
+  // 2. Fallback to Local Settings
+  if (!authenticated) {
+    const cfg = getSettings();
+    const validUser = DEFAULT_ADMIN_USER;
+    const validPass = cfg.adminPass || DEFAULT_ADMIN_PASS;
+    if (u === validUser && p === validPass) {
+      authenticated = true;
+    }
+  }
+
+  if (btn) btn.innerHTML = '<i class="fas fa-sign-in-alt"></i> Log In to Dashboard';
+
+  if (authenticated) {
     sessionStorage.setItem('cp_admin_session', '1');
     showAdminApp();
   } else {
-    const el = document.getElementById('login-error');
-    el.style.display = 'flex';
-    el.style.alignItems = 'center';
-    el.style.gap = '8px';
-    setTimeout(() => el.style.display = 'none', 3000);
+    if (errorEl) {
+      errorEl.style.display = 'flex';
+      errorEl.style.alignItems = 'center';
+      errorEl.style.gap = '8px';
+      setTimeout(() => errorEl.style.display = 'none', 3000);
+    }
   }
 }
 
@@ -995,6 +1032,13 @@ function changePassword() {
   if (nw.length < 6) { showToast('⚠️ Password must be at least 6 characters.', 'warning'); return; }
 
   saveSettingsData({ adminPass: nw });
+  if (window.FIREBASE_DB_URL) {
+    fetch(window.FIREBASE_DB_URL + '/admin_credentials.json', {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ username: DEFAULT_ADMIN_USER, password: nw })
+    }).catch(function(e) { console.warn(e); });
+  }
   document.getElementById('set-cur-pass').value = '';
   document.getElementById('set-new-pass').value = '';
   document.getElementById('set-conf-pass').value = '';
