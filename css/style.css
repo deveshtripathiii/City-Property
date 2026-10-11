@@ -3767,3 +3767,69 @@ img, video, canvas, svg {
     font-size: 0.85rem !important;
   }
 }
+
+
+/* ===== COMPACT MOBILE CARDS (WHY US & TESTIMONIALS) ===== */
+@media (max-width: 768px) {
+  /* Why Choose Us: 2 Columns, Compact Padding, Smaller Icons */
+  .why-grid {
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 10px !important;
+  }
+  .why-card {
+    padding: 14px 10px !important;
+    border-radius: 12px !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    text-align: center !important;
+  }
+  .why-icon {
+    width: 40px !important;
+    height: 40px !important;
+    font-size: 1.1rem !important;
+    border-radius: 10px !important;
+    margin-bottom: 8px !important;
+  }
+  .why-title {
+    font-size: 0.85rem !important;
+    font-weight: 700 !important;
+    margin-bottom: 4px !important;
+    line-height: 1.2 !important;
+  }
+  .why-text {
+    font-size: 0.72rem !important;
+    line-height: 1.35 !important;
+    color: var(--text-light) !important;
+  }
+
+  /* Testimonials: Compact Cards */
+  .testimonials-grid {
+    grid-template-columns: 1fr !important;
+    gap: 12px !important;
+  }
+  .testimonial-card {
+    padding: 14px 16px !important;
+    border-radius: 12px !important;
+  }
+  .stars {
+    font-size: 0.85rem !important;
+    margin-bottom: 8px !important;
+  }
+  .testimonial-text {
+    font-size: 0.8rem !important;
+    line-height: 1.4 !important;
+    margin-bottom: 12px !important;
+  }
+  .avatar {
+    width: 36px !important;
+    height: 36px !important;
+    font-size: 0.85rem !important;
+  }
+  .author-name {
+    font-size: 0.82rem !important;
+  }
+  .author-loc {
+    font-size: 0.72rem !important;
+  }
+}
