@@ -1,0 +1,998 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Property Listings – City Property | Greater Noida</title>
+  <meta name="description" content="Browse all properties in Greater Noida – Flats, Plots, Hostels, Buildings. GNA & YEA authority areas. RERA registered listings." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <style>
+    /* ===== CSS VARIABLES ===== */
+    :root {
+      --primary: #1a3c6e;
+      --primary-light: #2554a0;
+      --primary-dark: #0f2444;
+      --accent: #f5a623;
+      --accent-dark: #d4891a;
+      --success: #27ae60;
+      --danger: #e74c3c;
+      --warning: #f59e0b;
+      --purple: #8b5cf6;
+      --bg: #f4f6f9;
+      --bg2: #eef1f6;
+      --white: #ffffff;
+      --card-bg: #ffffff;
+      --text: #2d2d2d;
+      --text-light: #6b7280;
+      --border: #e0e6ef;
+      --shadow: 0 4px 24px rgba(26,60,110,0.10);
+      --shadow-hover: 0 8px 32px rgba(26,60,110,0.18);
+      --radius: 14px;
+      --radius-sm: 8px;
+      --font: 'Poppins', sans-serif;
+      --transition: all 0.3s cubic-bezier(0.4,0,0.2,1);
+    }
+    [data-theme="dark"] {
+      --bg: #0f1923;
+      --bg2: #1a2535;
+      --white: #1a2535;
+      --card-bg: #1e2d42;
+      --text: #e8edf5;
+      --text-light: #8b9dc0;
+      --border: #2a3d5a;
+      --primary: #4a7fd4;
+      --primary-light: #6b9ee8;
+      --shadow: 0 4px 24px rgba(0,0,0,0.3);
+      --shadow-hover: 0 8px 32px rgba(0,0,0,0.45);
+    }
+
+    /* ===== RESET & BASE ===== */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body { font-family: var(--font); background: var(--bg); color: var(--text); line-height: 1.6; transition: background 0.3s, color 0.3s; }
+    a { color: inherit; text-decoration: none; }
+    img { max-width: 100%; display: block; }
+    button { cursor: pointer; border: none; font-family: var(--font); }
+    ul { list-style: none; }
+    .container { max-width: 1360px; margin: 0 auto; padding: 0 24px; }
+    .btn {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 10px 20px; border-radius: var(--radius-sm);
+      font-weight: 600; font-size: 0.88rem; transition: var(--transition); cursor: pointer;
+    }
+    .btn-primary { background: var(--primary); color: #fff; }
+    .btn-primary:hover { background: var(--primary-light); transform: translateY(-1px); }
+    .btn-outline { background: transparent; border: 1.5px solid var(--primary); color: var(--primary); }
+    .btn-outline:hover { background: var(--primary); color: #fff; }
+    .badge {
+      display: inline-flex; align-items: center; gap: 4px;
+      padding: 3px 10px; border-radius: 20px; font-size: 0.75rem; font-weight: 600;
+    }
+    .badge-sale { background: #e8f5e9; color: var(--success); }
+    .badge-rent { background: #e3f2fd; color: #1976d2; }
+    .badge-land { background: #fff3e0; color: #e65100; }
+    .badge-hostel { background: #f3e5f5; color: var(--purple); }
+    .badge-rera { background: #fff8e1; color: #f57f17; border: 1px solid #ffe082; }
+    .badge-gna { background: #e8eaf6; color: #3949ab; }
+    .badge-yea { background: #e0f2f1; color: #00695c; }
+    .badge-verified { background: #e8f5e9; color: var(--success); }
+    [data-theme="dark"] .badge-sale { background: rgba(39,174,96,0.18); }
+    [data-theme="dark"] .badge-rent { background: rgba(25,118,210,0.18); }
+    [data-theme="dark"] .badge-land { background: rgba(230,81,0,0.18); }
+    [data-theme="dark"] .badge-hostel { background: rgba(139,92,246,0.18); }
+    [data-theme="dark"] .badge-rera { background: rgba(245,167,35,0.12); }
+    [data-theme="dark"] .badge-gna { background: rgba(57,73,171,0.18); }
+    [data-theme="dark"] .badge-yea { background: rgba(0,105,92,0.18); }
+    [data-theme="dark"] .badge-verified { background: rgba(39,174,96,0.18); }
+
+    /* ===== NAVBAR ===== */
+    .navbar {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+      background: rgba(255,255,255,0.95);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+      transition: var(--transition);
+    }
+    [data-theme="dark"] .navbar { background: rgba(15,25,35,0.95); }
+    .navbar.scrolled { box-shadow: 0 2px 20px rgba(26,60,110,0.12); }
+    .navbar-inner { display: flex; align-items: center; height: 68px; gap: 32px; }
+    .logo { display: flex; align-items: center; gap: 10px; font-weight: 800; font-size: 1.25rem; color: var(--primary); flex-shrink: 0; }
+    .logo-icon {
+      width: 40px; height: 40px;
+      background: linear-gradient(135deg, var(--primary), var(--accent));
+      border-radius: 10px; display: flex; align-items: center; justify-content: center;
+      color: #fff; font-size: 1rem; font-weight: 900;
+    }
+    .logo span { color: var(--accent); }
+    .nav-links { display: flex; align-items: center; gap: 6px; margin-left: auto; }
+    .nav-links a {
+      padding: 8px 14px; border-radius: var(--radius-sm);
+      font-size: 0.9rem; font-weight: 500; color: var(--text); transition: var(--transition);
+    }
+    .nav-links a:hover, .nav-links a.active { background: var(--bg2); color: var(--primary); }
+    .nav-right { display: flex; align-items: center; gap: 10px; flex-shrink: 0; }
+    .lang-toggle { display: flex; background: var(--bg2); border-radius: 20px; padding: 3px; border: 1px solid var(--border); }
+    .lang-toggle button {
+      padding: 4px 12px; border-radius: 16px; font-size: 0.78rem; font-weight: 700;
+      background: transparent; color: var(--text-light); transition: var(--transition);
+    }
+    .lang-toggle button.active { background: var(--primary); color: #fff; }
+    .theme-btn {
+      width: 38px; height: 38px; border-radius: 50%;
+      background: var(--bg2); border: 1px solid var(--border); color: var(--text);
+      display: flex; align-items: center; justify-content: center; font-size: 1rem; transition: var(--transition);
+    }
+    .theme-btn:hover { background: var(--primary); color: #fff; }
+    .login-btn {
+      padding: 8px 20px; background: var(--primary); color: #fff;
+      border-radius: var(--radius-sm); font-size: 0.88rem; font-weight: 600; transition: var(--transition);
+    }
+    .login-btn:hover { background: var(--primary-light); }
+    .hamburger { display: none; flex-direction: column; gap: 5px; background: none; padding: 6px; border-radius: 6px; }
+    .hamburger span { display: block; width: 22px; height: 2px; background: var(--text); border-radius: 2px; transition: var(--transition); }
+    .mobile-menu {
+      display: none; position: fixed; top: 68px; left: 0; right: 0;
+      background: var(--white); border-bottom: 1px solid var(--border);
+      padding: 16px 24px; flex-direction: column; gap: 4px; z-index: 999;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.12);
+    }
+    .mobile-menu.open { display: flex; }
+    .mobile-menu a {
+      padding: 12px 16px; border-radius: var(--radius-sm);
+      font-weight: 500; color: var(--text); transition: var(--transition); font-size: 0.95rem;
+    }
+    .mobile-menu a:hover { background: var(--bg2); color: var(--primary); }
+    .mobile-menu-bottom {
+      display: flex; gap: 10px; margin-top: 8px; padding-top: 12px;
+      border-top: 1px solid var(--border); align-items: center;
+    }
+
+    /* ===== PAGE HEADER ===== */
+    .page-header {
+      background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary) 100%);
+      padding: 100px 0 40px;
+      color: #fff;
+    }
+    .breadcrumb {
+      display: flex; align-items: center; gap: 8px;
+      font-size: 0.85rem; opacity: 0.8; margin-bottom: 12px;
+    }
+    .breadcrumb a { color: rgba(255,255,255,0.75); transition: var(--transition); }
+    .breadcrumb a:hover { color: var(--accent); }
+    .breadcrumb span { opacity: 0.5; }
+    .page-title { font-size: 2rem; font-weight: 800; margin-bottom: 6px; }
+    .page-subtitle { opacity: 0.8; font-size: 0.95rem; }
+
+    /* ===== LISTINGS LAYOUT ===== */
+    .listings-layout {
+      display: grid;
+      grid-template-columns: 280px 1fr;
+      gap: 28px;
+      align-items: start;
+      padding: 32px 0 60px;
+    }
+
+    /* ===== FILTER SIDEBAR ===== */
+    .filter-sidebar {
+      background: var(--card-bg);
+      border-radius: var(--radius);
+      border: 1px solid var(--border);
+      box-shadow: var(--shadow);
+      position: sticky;
+      top: 88px;
+      max-height: calc(100vh - 108px);
+      overflow-y: auto;
+      scrollbar-width: thin;
+      scrollbar-color: var(--border) transparent;
+    }
+    .filter-sidebar::-webkit-scrollbar { width: 4px; }
+    .filter-sidebar::-webkit-scrollbar-track { background: transparent; }
+    .filter-sidebar::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
+    .filter-header {
+      padding: 18px 20px;
+      border-bottom: 1px solid var(--border);
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .filter-header h3 { font-size: 0.95rem; font-weight: 700; color: var(--text); display: flex; align-items: center; gap: 8px; }
+    .filter-reset {
+      font-size: 0.78rem; font-weight: 600; color: var(--danger);
+      background: none; border: none; cursor: pointer; transition: var(--transition);
+    }
+    .filter-reset:hover { opacity: 0.75; }
+    .filter-section { padding: 16px 20px; border-bottom: 1px solid var(--border); }
+    .filter-section:last-child { border-bottom: none; }
+    .filter-section-title {
+      font-size: 0.82rem; font-weight: 700; color: var(--text-light);
+      text-transform: uppercase; letter-spacing: 0.6px; margin-bottom: 12px;
+    }
+    .filter-search-input {
+      width: 100%; padding: 9px 12px;
+      border: 1.5px solid var(--border); border-radius: var(--radius-sm);
+      font-family: var(--font); font-size: 0.85rem; color: var(--text);
+      background: var(--bg); outline: none; transition: var(--transition);
+    }
+    .filter-search-input:focus { border-color: var(--primary); background: var(--white); }
+    /* Radio buttons */
+    .radio-group { display: flex; flex-direction: column; gap: 8px; }
+    .radio-item { display: flex; align-items: center; gap: 10px; cursor: pointer; }
+    .radio-item input[type="radio"] { accent-color: var(--primary); width: 15px; height: 15px; }
+    .radio-item label { font-size: 0.85rem; color: var(--text); cursor: pointer; font-weight: 500; }
+    /* Checkboxes */
+    .checkbox-group { display: flex; flex-direction: column; gap: 8px; }
+    .checkbox-item { display: flex; align-items: center; gap: 10px; cursor: pointer; }
+    .checkbox-item input[type="checkbox"] { accent-color: var(--primary); width: 15px; height: 15px; }
+    .checkbox-item label { font-size: 0.85rem; color: var(--text); cursor: pointer; font-weight: 500; flex: 1; }
+    .checkbox-item .count-badge {
+      font-size: 0.72rem; background: var(--bg2); color: var(--text-light);
+      padding: 1px 7px; border-radius: 10px; font-weight: 600;
+    }
+    /* Price range */
+    .price-range-inputs { display: flex; gap: 8px; align-items: center; }
+    .price-input-wrap { position: relative; flex: 1; }
+    .price-input-wrap span {
+      position: absolute; left: 10px; top: 50%; transform: translateY(-50%);
+      font-size: 0.8rem; color: var(--text-light); font-weight: 600;
+    }
+    .price-input-wrap input {
+      width: 100%; padding: 9px 10px 9px 22px;
+      border: 1.5px solid var(--border); border-radius: var(--radius-sm);
+      font-family: var(--font); font-size: 0.82rem; color: var(--text);
+      background: var(--bg); outline: none; transition: var(--transition);
+    }
+    .price-input-wrap input:focus { border-color: var(--primary); background: var(--white); }
+    .price-range-sep { color: var(--text-light); font-size: 0.8rem; }
+    /* Chip selections */
+    .chip-group { display: flex; flex-wrap: wrap; gap: 8px; }
+    .filter-chip {
+      padding: 5px 14px; border-radius: 20px;
+      border: 1.5px solid var(--border); background: var(--bg);
+      color: var(--text-light); font-size: 0.8rem; font-weight: 600;
+      cursor: pointer; transition: var(--transition);
+    }
+    .filter-chip:hover { border-color: var(--primary); color: var(--primary); }
+    .filter-chip.active { background: var(--primary); color: #fff; border-color: var(--primary); }
+    /* Apply button */
+    .filter-apply-btn {
+      width: 100%; padding: 12px;
+      background: linear-gradient(135deg, var(--primary), var(--primary-light));
+      color: #fff; border-radius: var(--radius-sm); font-size: 0.9rem; font-weight: 700;
+      display: flex; align-items: center; justify-content: center; gap: 8px;
+      transition: var(--transition);
+    }
+    .filter-apply-btn:hover { opacity: 0.9; transform: translateY(-1px); }
+    .active-count {
+      display: inline-flex; align-items: center; justify-content: center;
+      background: var(--accent); color: #fff; border-radius: 50%;
+      width: 18px; height: 18px; font-size: 0.72rem; font-weight: 800;
+    }
+
+    /* ===== RESULTS AREA ===== */
+    .results-area { flex: 1; min-width: 0; }
+    .results-topbar {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 14px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 20px;
+      flex-wrap: wrap;
+      gap: 12px;
+      box-shadow: var(--shadow);
+    }
+    .results-count { font-size: 0.88rem; color: var(--text-light); }
+    .results-count strong { color: var(--text); }
+    .results-controls { display: flex; align-items: center; gap: 10px; }
+    .sort-select {
+      padding: 8px 14px; border: 1.5px solid var(--border);
+      border-radius: var(--radius-sm); font-family: var(--font);
+      font-size: 0.85rem; color: var(--text); background: var(--bg);
+      outline: none; cursor: pointer; transition: var(--transition);
+    }
+    .sort-select:focus { border-color: var(--primary); }
+    .view-toggle { display: flex; gap: 4px; }
+    .view-btn {
+      width: 34px; height: 34px; border-radius: var(--radius-sm);
+      display: flex; align-items: center; justify-content: center;
+      background: var(--bg2); color: var(--text-light);
+      font-size: 0.85rem; transition: var(--transition); border: 1px solid var(--border);
+    }
+    .view-btn.active, .view-btn:hover { background: var(--primary); color: #fff; border-color: var(--primary); }
+
+    /* ===== LISTINGS GRID ===== */
+    #listingsGrid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+    }
+    #listingsGrid.list-view {
+      grid-template-columns: 1fr;
+    }
+
+    /* ===== PROPERTY CARD — GRID ===== */
+    .listing-card {
+      background: var(--card-bg);
+      border-radius: var(--radius);
+      overflow: hidden;
+      border: 1px solid var(--border);
+      box-shadow: var(--shadow);
+      transition: var(--transition);
+      position: relative;
+    }
+    .listing-card:hover { transform: translateY(-5px); box-shadow: var(--shadow-hover); }
+    .card-img-wrap {
+      position: relative; height: 190px; overflow: hidden;
+      background: linear-gradient(135deg, #e8edf5, #c8d5e8);
+    }
+    .card-img-wrap img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.4s ease; }
+    .listing-card:hover .card-img-wrap img { transform: scale(1.06); }
+    .card-img-placeholder {
+      width: 100%; height: 100%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 3rem;
+    }
+    .card-top-badges {
+      position: absolute; top: 10px; left: 10px;
+      display: flex; gap: 5px; flex-wrap: wrap;
+    }
+    .card-wishlist {
+      position: absolute; top: 10px; right: 10px;
+      width: 32px; height: 32px; border-radius: 50%;
+      background: rgba(255,255,255,0.9); color: var(--text-light);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 0.9rem; transition: var(--transition);
+      border: none; cursor: pointer; backdrop-filter: blur(4px);
+    }
+    .card-wishlist:hover, .card-wishlist.active { color: var(--danger); }
+    .card-new-tag {
+      position: absolute; bottom: 10px; left: 10px;
+      background: var(--accent); color: #fff;
+      font-size: 0.7rem; font-weight: 700; padding: 3px 9px;
+      border-radius: 10px;
+    }
+    .card-body { padding: 14px; }
+    .card-type-row {
+      display: flex; align-items: center; justify-content: space-between;
+      margin-bottom: 6px;
+    }
+    .card-type-label { font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.8px; font-weight: 700; color: var(--text-light); }
+    .card-title { font-size: 0.95rem; font-weight: 700; color: var(--text); margin-bottom: 5px; line-height: 1.4; }
+    .card-location {
+      display: flex; align-items: center; gap: 5px;
+      color: var(--text-light); font-size: 0.8rem; margin-bottom: 8px;
+    }
+    .card-price { font-size: 1.15rem; font-weight: 800; color: var(--primary); margin-bottom: 10px; }
+    [data-theme="dark"] .card-price { color: var(--primary-light); }
+    .card-price span { font-size: 0.78rem; font-weight: 400; color: var(--text-light); }
+    .card-feats {
+      display: flex; gap: 12px; flex-wrap: wrap;
+      margin-bottom: 10px; padding-bottom: 10px; border-bottom: 1px solid var(--border);
+    }
+    .card-feat {
+      display: flex; align-items: center; gap: 4px;
+      font-size: 0.78rem; color: var(--text-light);
+    }
+    .card-feat i { color: var(--primary); font-size: 0.8rem; }
+    [data-theme="dark"] .card-feat i { color: var(--primary-light); }
+    .card-tags { display: flex; gap: 5px; flex-wrap: wrap; margin-bottom: 10px; }
+    .tag {
+      font-size: 0.72rem; font-weight: 600; padding: 2px 8px;
+      border-radius: 8px; background: var(--bg2); color: var(--text-light); border: 1px solid var(--border);
+    }
+    .tag.furnished { background: #e8f5e9; color: var(--success); border-color: #c8e6c9; }
+    .tag.semi { background: #fff8e1; color: #f57f17; border-color: #ffe082; }
+    .tag.unfurnished { background: var(--bg2); color: var(--text-light); }
+    .tag.ready { background: #e3f2fd; color: #1976d2; border-color: #bbdefb; }
+    .tag.under-construction { background: #fff3e0; color: #e65100; border-color: #ffccbc; }
+    [data-theme="dark"] .tag.furnished { background: rgba(39,174,96,0.15); border-color: rgba(39,174,96,0.3); }
+    [data-theme="dark"] .tag.semi { background: rgba(245,127,23,0.15); border-color: rgba(245,127,23,0.3); }
+    [data-theme="dark"] .tag.ready { background: rgba(25,118,210,0.15); border-color: rgba(25,118,210,0.3); }
+    [data-theme="dark"] .tag.under-construction { background: rgba(230,81,0,0.15); border-color: rgba(230,81,0,0.3); }
+    .card-amenities { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 12px; }
+    .amenity-icon {
+      width: 26px; height: 26px; border-radius: 6px;
+      background: var(--bg2); display: flex; align-items: center; justify-content: center;
+      font-size: 0.7rem; color: var(--text-light); border: 1px solid var(--border);
+      title: attr(title);
+    }
+    .card-actions { display: flex; gap: 8px; }
+    .card-actions .btn { flex: 1; justify-content: center; padding: 8px 10px; font-size: 0.8rem; }
+    .btn-wa { background: #25d366; color: #fff; }
+    .btn-wa:hover { background: #1ebe59; transform: translateY(-1px); }
+
+    /* ===== LIST VIEW CARD ===== */
+    #listingsGrid.list-view .listing-card {
+      display: grid;
+      grid-template-columns: 240px 1fr;
+    }
+    #listingsGrid.list-view .card-img-wrap { height: 100%; min-height: 180px; border-radius: var(--radius) 0 0 var(--radius); }
+    #listingsGrid.list-view .card-body { padding: 18px 20px; }
+    #listingsGrid.list-view .card-feats { border-bottom: none; margin-bottom: 8px; }
+    #listingsGrid.list-view .card-title { font-size: 1.05rem; }
+    #listingsGrid.list-view .card-price { font-size: 1.25rem; }
+
+    /* ===== NO RESULTS ===== */
+    .no-results {
+      grid-column: 1 / -1;
+      text-align: center;
+      padding: 60px 20px;
+      background: var(--card-bg);
+      border-radius: var(--radius);
+      border: 1px solid var(--border);
+    }
+    .no-results-icon { font-size: 3.5rem; margin-bottom: 16px; }
+
+    /* ===== FILTER DRAWER (MOBILE) ===== */
+    .filter-drawer-overlay {
+      display: none;
+      position: fixed; inset: 0;
+      background: rgba(0,0,0,0.5);
+      z-index: 1500;
+      backdrop-filter: blur(2px);
+    }
+    .filter-drawer-overlay.open { display: block; }
+    .filter-drawer {
+      position: fixed;
+      top: 0; left: -320px;
+      width: 300px; height: 100%;
+      background: var(--card-bg);
+      z-index: 1600;
+      transition: left 0.35s cubic-bezier(0.4,0,0.2,1);
+      overflow-y: auto;
+      box-shadow: 4px 0 30px rgba(0,0,0,0.25);
+    }
+    .filter-drawer.open { left: 0; }
+    .filter-drawer-header {
+      padding: 16px 20px;
+      border-bottom: 1px solid var(--border);
+      display: flex; align-items: center; justify-content: space-between;
+      position: sticky; top: 0; background: var(--card-bg); z-index: 10;
+    }
+    .drawer-close {
+      width: 32px; height: 32px; border-radius: 50%;
+      background: var(--bg2); border: none; color: var(--text-light);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 0.9rem; cursor: pointer; transition: var(--transition);
+    }
+    .drawer-close:hover { background: var(--danger); color: #fff; }
+    .filter-trigger-btn {
+      display: none;
+      align-items: center; gap: 8px;
+      padding: 10px 18px;
+      background: var(--primary); color: #fff;
+      border-radius: var(--radius-sm); font-size: 0.88rem; font-weight: 600;
+      border: none; cursor: pointer; transition: var(--transition);
+    }
+    .filter-trigger-btn:hover { background: var(--primary-light); }
+
+    /* ===== LOAD MORE ===== */
+    .load-more-wrap { text-align: center; margin-top: 32px; }
+    .load-more-btn {
+      padding: 12px 36px;
+      background: transparent;
+      border: 2px solid var(--primary);
+      color: var(--primary);
+      border-radius: var(--radius-sm);
+      font-size: 0.92rem; font-weight: 700;
+      cursor: pointer; transition: var(--transition);
+      display: inline-flex; align-items: center; gap: 8px;
+    }
+    .load-more-btn:hover { background: var(--primary); color: #fff; }
+
+    /* ===== WHATSAPP MODAL ===== */
+    .modal-overlay {
+      position: fixed; inset: 0;
+      background: rgba(0,0,0,0.6); backdrop-filter: blur(4px);
+      z-index: 2000; display: none;
+      align-items: center; justify-content: center; padding: 20px;
+    }
+    .modal-overlay.open { display: flex; }
+    .modal {
+      background: var(--card-bg); border-radius: 20px; padding: 32px;
+      max-width: 460px; width: 100%;
+      box-shadow: 0 24px 80px rgba(0,0,0,0.3);
+      position: relative; animation: modalIn 0.3s ease;
+    }
+    @keyframes modalIn { from { opacity: 0; transform: scale(0.92) translateY(20px); } to { opacity: 1; transform: scale(1) translateY(0); } }
+    .modal-close {
+      position: absolute; top: 16px; right: 16px;
+      width: 32px; height: 32px; border-radius: 50%;
+      background: var(--bg2); border: none; font-size: 0.9rem;
+      cursor: pointer; display: flex; align-items: center; justify-content: center;
+      color: var(--text-light); transition: var(--transition);
+    }
+    .modal-close:hover { background: var(--danger); color: #fff; }
+    .modal-wa-header { display: flex; align-items: center; gap: 12px; margin-bottom: 20px; }
+    .modal-wa-icon { width: 52px; height: 52px; border-radius: 50%; background: #25d366; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; color: #fff; }
+    .modal-wa-title { font-size: 1.1rem; font-weight: 700; color: var(--text); }
+    .modal-wa-sub { font-size: 0.82rem; color: var(--text-light); }
+    .modal-prop-name { background: var(--bg2); border-radius: var(--radius-sm); padding: 10px 14px; font-size: 0.85rem; font-weight: 600; color: var(--text); margin-bottom: 16px; border: 1px solid var(--border); }
+    .modal-fields { display: flex; flex-direction: column; gap: 12px; margin-bottom: 16px; }
+    .modal-field input, .modal-field select {
+      width: 100%; padding: 11px 14px;
+      border: 1.5px solid var(--border); border-radius: var(--radius-sm);
+      font-family: var(--font); font-size: 0.88rem; color: var(--text);
+      background: var(--bg); outline: none; transition: var(--transition);
+    }
+    .modal-field input:focus, .modal-field select:focus { border-color: #25d366; }
+    .cid-badge { background: var(--bg2); border: 1px solid var(--border); border-radius: 6px; padding: 3px 10px; font-family: monospace; font-size: 0.82rem; font-weight: 700; color: var(--primary); letter-spacing: 0.5px; }
+    [data-theme="dark"] .cid-badge { color: var(--primary-light); }
+    .modal-cid-row { display: flex; align-items: center; gap: 8px; margin-bottom: 16px; font-size: 0.8rem; color: var(--text-light); }
+    .wa-send-btn { width: 100%; padding: 13px; background: #25d366; color: #fff; border-radius: var(--radius-sm); font-size: 0.95rem; font-weight: 700; display: flex; align-items: center; justify-content: center; gap: 10px; transition: var(--transition); border: none; cursor: pointer; }
+    .wa-send-btn:hover { background: #1ebe59; transform: translateY(-1px); }
+
+    /* ===== TOAST ===== */
+    .toast-container { position: fixed; bottom: 28px; left: 50%; transform: translateX(-50%); z-index: 3000; display: flex; flex-direction: column; gap: 8px; align-items: center; pointer-events: none; }
+    .toast { padding: 12px 24px; border-radius: 30px; font-size: 0.88rem; font-weight: 600; color: #fff; box-shadow: 0 4px 20px rgba(0,0,0,0.2); animation: toastIn 0.3s ease, toastOut 0.3s ease 2.7s both; }
+    .toast.success { background: var(--success); }
+    .toast.error { background: var(--danger); }
+    .toast.info { background: var(--primary); }
+    @keyframes toastIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+    @keyframes toastOut { from { opacity: 1; } to { opacity: 0; } }
+
+    /* ===== FLOATING BUTTONS ===== */
+    .floating-btns { position: fixed; bottom: 28px; right: 28px; display: flex; flex-direction: column; gap: 12px; z-index: 900; }
+    .float-btn { width: 54px; height: 54px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.3rem; color: #fff; box-shadow: 0 4px 20px rgba(0,0,0,0.25); transition: var(--transition); text-decoration: none; }
+    .float-btn:hover { transform: scale(1.12); }
+    .float-call { background: var(--primary); }
+    .float-wa { background: #25d366; }
+
+    /* ===== FOOTER ===== */
+    .footer { background: var(--primary-dark); color: rgba(255,255,255,0.8); padding: 40px 0 0; }
+    .footer-bottom { border-top: 1px solid rgba(255,255,255,0.1); padding: 20px 0; display: flex; align-items: center; justify-content: space-between; font-size: 0.8rem; color: rgba(255,255,255,0.5); flex-wrap: wrap; gap: 10px; }
+    .footer-bottom-links { display: flex; gap: 20px; }
+    .footer-bottom-links a { color: rgba(255,255,255,0.5); transition: var(--transition); }
+    .footer-bottom-links a:hover { color: var(--accent); }
+    .footer-mini-grid { display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 32px; margin-bottom: 32px; }
+    .footer-brand .logo { color: #fff; margin-bottom: 12px; }
+    .footer-brand .logo span { color: var(--accent); }
+    .footer-brand p { font-size: 0.83rem; line-height: 1.6; opacity: 0.7; }
+    .social-links { display: flex; gap: 8px; margin-top: 14px; }
+    .social-link { width: 34px; height: 34px; border-radius: 50%; background: rgba(255,255,255,0.1); display: flex; align-items: center; justify-content: center; color: rgba(255,255,255,0.75); font-size: 0.85rem; transition: var(--transition); border: 1px solid rgba(255,255,255,0.15); }
+    .social-link:hover { background: var(--accent); color: #fff; }
+    .footer-col h4 { font-size: 0.9rem; font-weight: 700; color: #fff; margin-bottom: 12px; }
+    .footer-links { display: flex; flex-direction: column; gap: 6px; }
+    .footer-links a { font-size: 0.82rem; color: rgba(255,255,255,0.6); transition: var(--transition); }
+    .footer-links a:hover { color: var(--accent); }
+
+    /* ===== RESPONSIVE ===== */
+    @media (max-width: 1100px) {
+      #listingsGrid { grid-template-columns: repeat(2, 1fr); }
+    }
+    @media (max-width: 900px) {
+      .nav-links { display: none; }
+      .hamburger { display: flex; }
+      .listings-layout { grid-template-columns: 1fr; }
+      .filter-sidebar { display: none; }
+      .filter-trigger-btn { display: flex; }
+      .footer-mini-grid { grid-template-columns: 1fr 1fr; }
+    }
+    @media (max-width: 640px) {
+      #listingsGrid { grid-template-columns: 1fr; }
+      #listingsGrid.list-view .listing-card { grid-template-columns: 1fr; }
+      #listingsGrid.list-view .card-img-wrap { height: 180px; border-radius: var(--radius) var(--radius) 0 0; }
+      .footer-mini-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ===== NAVBAR ===== -->
+<nav class="navbar" id="navbar">
+  <div class="container">
+    <div class="navbar-inner">
+      <a href="index.html" class="logo">
+        <div class="logo-icon">CP</div>
+        City <span>Property</span>
+      </a>
+      <div class="nav-links">
+        <a href="index.html">Home</a>
+        <a href="listings.html" class="active">Properties</a>
+        <a href="index.html#about">About</a>
+        <a href="index.html#contact">Contact</a>
+      </div>
+      <div class="nav-right">
+        <div class="lang-toggle">
+          <button id="langHi" onclick="setLangPage('hi')">HI</button>
+          <button id="langEn" onclick="setLangPage('en')" class="active">EN</button>
+        </div>
+        <button class="theme-btn" id="themeBtn" onclick="toggleTheme()" title="Toggle dark mode">
+          <i class="fas fa-moon" id="themeIcon"></i>
+        </button>
+        <a href="login.html" class="login-btn"><i class="fas fa-user"></i> Login</a>
+        <button class="hamburger" onclick="toggleMenuPage()" aria-label="Menu">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<!-- Mobile Menu -->
+<div class="mobile-menu" id="mobileMenu">
+  <a href="index.html">🏠 Home</a>
+  <a href="listings.html">🏢 Properties</a>
+  <a href="index.html#about" onclick="toggleMenuPage()">ℹ️ About</a>
+  <a href="index.html#contact" onclick="toggleMenuPage()">📞 Contact</a>
+  <div class="mobile-menu-bottom">
+    <div class="lang-toggle">
+      <button onclick="setLangPage('hi');toggleMenuPage()">HI</button>
+      <button onclick="setLangPage('en');toggleMenuPage()" class="active">EN</button>
+    </div>
+    <a href="login.html" class="login-btn" style="margin-left:auto">Login</a>
+  </div>
+</div>
+
+<!-- Filter Drawer Overlay (mobile) -->
+<div class="filter-drawer-overlay" id="filterDrawerOverlay" onclick="closeFilterDrawer()"></div>
+
+<!-- Filter Drawer (mobile) -->
+<div class="filter-drawer" id="filterDrawer">
+  <div class="filter-drawer-header">
+    <h3 style="font-size:0.95rem;font-weight:700;color:var(--text);display:flex;align-items:center;gap:8px;">
+      <i class="fas fa-sliders-h" style="color:var(--primary);"></i> Filters
+    </h3>
+    <button class="drawer-close" onclick="closeFilterDrawer()"><i class="fas fa-times"></i></button>
+  </div>
+  <!-- Filter content injected by JS -->
+  <div id="drawerFilterContent"></div>
+  <div style="padding:16px 20px;border-top:1px solid var(--border);">
+    <button class="filter-apply-btn" onclick="applyAllFilters();closeFilterDrawer()">
+      <i class="fas fa-search"></i> Apply Filters
+    </button>
+    <div style="text-align:center;margin-top:10px;">
+      <button class="filter-reset" onclick="resetFilters()">Reset All Filters</button>
+    </div>
+  </div>
+</div>
+
+<!-- ===== PAGE HEADER ===== -->
+<div class="page-header">
+  <div class="container">
+    <div class="breadcrumb">
+      <a href="index.html"><i class="fas fa-home"></i> Home</a>
+      <span>›</span>
+      <span>Properties</span>
+    </div>
+    <h1 class="page-title">Property Listings</h1>
+    <p class="page-subtitle" id="headerSubtitle">Showing all available properties in Greater Noida</p>
+  </div>
+</div>
+
+<!-- ===== LISTINGS LAYOUT ===== -->
+<div class="container">
+  <div class="listings-layout">
+
+    <!-- ─── FILTER SIDEBAR ─── -->
+    <aside class="filter-sidebar" id="filterSidebar">
+      <!-- Section 0: Header -->
+      <div class="filter-header">
+        <h3><i class="fas fa-sliders-h" style="color:var(--primary);"></i> Filters <span class="active-count" id="activeFilterCount" style="display:none;">0</span></h3>
+        <button class="filter-reset" onclick="resetFilters()">Reset All</button>
+      </div>
+
+      <!-- Section 1: Keyword Search -->
+      <div class="filter-section">
+        <div class="filter-section-title">Search</div>
+        <input type="text" class="filter-search-input" id="filterKeyword" placeholder="Property name, sector, locality..." oninput="applyAllFilters()" />
+      </div>
+
+      <!-- Section 2: Category -->
+      <div class="filter-section">
+        <div class="filter-section-title">Category</div>
+        <div class="radio-group">
+          <label class="radio-item">
+            <input type="radio" name="listingType" value="" checked onchange="applyAllFilters()" />
+            <label>All Categories</label>
+          </label>
+          <label class="radio-item">
+            <input type="radio" name="listingType" value="sale" onchange="applyAllFilters()" />
+            <label>Buy / Sale</label>
+          </label>
+          <label class="radio-item">
+            <input type="radio" name="listingType" value="rent" onchange="applyAllFilters()" />
+            <label>Rent</label>
+          </label>
+          <label class="radio-item">
+            <input type="radio" name="listingType" value="land" onchange="applyAllFilters()" />
+            <label>Land / Plot</label>
+          </label>
+          <label class="radio-item">
+            <input type="radio" name="listingType" value="hostel" onchange="applyAllFilters()" />
+            <label>Hostel / PG</label>
+          </label>
+        </div>
+      </div>
+
+      <!-- Section 3: Property Type -->
+      <div class="filter-section">
+        <div class="filter-section-title">Property Type</div>
+        <div class="checkbox-group">
+          <div class="checkbox-item">
+            <input type="checkbox" id="typeFlat" value="flat" onchange="applyAllFilters()" />
+            <label for="typeFlat">Flat / Apartment</label>
+            <span class="count-badge" id="countFlat">0</span>
+          </div>
+          <div class="checkbox-item">
+            <input type="checkbox" id="typeRoom" value="room" onchange="applyAllFilters()" />
+            <label for="typeRoom">Room</label>
+            <span class="count-badge" id="countRoom">0</span>
+          </div>
+          <div class="checkbox-item">
+            <input type="checkbox" id="typeHostel" value="hostel" onchange="applyAllFilters()" />
+            <label for="typeHostel">Hostel / PG</label>
+            <span class="count-badge" id="countHostel">0</span>
+          </div>
+          <div class="checkbox-item">
+            <input type="checkbox" id="typeBuilding" value="building" onchange="applyAllFilters()" />
+            <label for="typeBuilding">Building</label>
+            <span class="count-badge" id="countBuilding">0</span>
+          </div>
+          <div class="checkbox-item">
+            <input type="checkbox" id="typePlot" value="plot" onchange="applyAllFilters()" />
+            <label for="typePlot">Plot / Land</label>
+            <span class="count-badge" id="countPlot">0</span>
+          </div>
+          <div class="checkbox-item">
+            <input type="checkbox" id="typeHouse" value="house" onchange="applyAllFilters()" />
+            <label for="typeHouse">House / Villa</label>
+            <span class="count-badge" id="countHouse">0</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Section 4: Price Range -->
+      <div class="filter-section">
+        <div class="filter-section-title">Price Range</div>
+        <div class="price-range-inputs">
+          <div class="price-input-wrap">
+            <span>₹</span>
+            <input type="number" id="priceMin" placeholder="Min" oninput="applyAllFilters()" min="0" />
+          </div>
+          <span class="price-range-sep">–</span>
+          <div class="price-input-wrap">
+            <span>₹</span>
+            <input type="number" id="priceMax" placeholder="Max" oninput="applyAllFilters()" min="0" />
+          </div>
+        </div>
+      </div>
+
+      <!-- Section 5: BHK -->
+      <div class="filter-section">
+        <div class="filter-section-title">BHK Type</div>
+        <div class="chip-group" id="bhkChips">
+          <button class="filter-chip" onclick="toggleBhkChip(this,'1')">1 BHK</button>
+          <button class="filter-chip" onclick="toggleBhkChip(this,'2')">2 BHK</button>
+          <button class="filter-chip" onclick="toggleBhkChip(this,'3')">3 BHK</button>
+          <button class="filter-chip" onclick="toggleBhkChip(this,'4+')">4 BHK+</button>
+          <button class="filter-chip" onclick="toggleBhkChip(this,'studio')">Studio</button>
+        </div>
+      </div>
+
+      <!-- Section 6: Furnishing -->
+      <div class="filter-section">
+        <div class="filter-section-title">Furnishing</div>
+        <div class="chip-group" id="furnishingChips">
+          <button class="filter-chip" onclick="toggleSingleChip(this,'furnishing','furnished')">Furnished</button>
+          <button class="filter-chip" onclick="toggleSingleChip(this,'furnishing','semi')">Semi-Furnished</button>
+          <button class="filter-chip" onclick="toggleSingleChip(this,'furnishing','unfurnished')">Unfurnished</button>
+        </div>
+      </div>
+
+      <!-- Section 7: Possession -->
+      <div class="filter-section">
+        <div class="filter-section-title">Possession Status</div>
+        <div class="chip-group" id="possessionChips">
+          <button class="filter-chip" onclick="toggleSingleChip(this,'possession','ready')">Ready to Move</button>
+          <button class="filter-chip" onclick="toggleSingleChip(this,'possession','under-construction')">Under Construction</button>
+        </div>
+      </div>
+
+      <!-- Section 8: Authority -->
+      <div class="filter-section">
+        <div class="filter-section-title">Authority Area</div>
+        <div class="checkbox-group">
+          <div class="checkbox-item">
+            <input type="checkbox" id="authGNA" value="gna" onchange="applyAllFilters()" />
+            <label for="authGNA">🏛️ GNA – Greater Noida</label>
+          </div>
+          <div class="checkbox-item">
+            <input type="checkbox" id="authYEA" value="yea" onchange="applyAllFilters()" />
+            <label for="authYEA">🛣️ YEA – Yamuna Expressway</label>
+          </div>
+        </div>
+      </div>
+
+      <!-- Section 9: Amenities -->
+      <div class="filter-section">
+        <div class="filter-section-title">Amenities</div>
+        <div class="checkbox-group">
+          <div class="checkbox-item">
+            <input type="checkbox" id="amenParking" value="parking" onchange="applyAllFilters()" />
+            <label for="amenParking">🚗 Parking</label>
+          </div>
+          <div class="checkbox-item">
+            <input type="checkbox" id="amenGym" value="gym" onchange="applyAllFilters()" />
+            <label for="amenGym">🏋️ Gym</label>
+          </div>
+          <div class="checkbox-item">
+            <input type="checkbox" id="amenPool" value="pool" onchange="applyAllFilters()" />
+            <label for="amenPool">🏊 Swimming Pool</label>
+          </div>
+          <div class="checkbox-item">
+            <input type="checkbox" id="amenLift" value="lift" onchange="applyAllFilters()" />
+            <label for="amenLift">🛗 Lift</label>
+          </div>
+          <div class="checkbox-item">
+            <input type="checkbox" id="amenPowerBackup" value="power-backup" onchange="applyAllFilters()" />
+            <label for="amenPowerBackup">⚡ Power Backup</label>
+          </div>
+          <div class="checkbox-item">
+            <input type="checkbox" id="amenWifi" value="wifi" onchange="applyAllFilters()" />
+            <label for="amenWifi">📶 WiFi</label>
+          </div>
+          <div class="checkbox-item">
+            <input type="checkbox" id="amenSecurity" value="security" onchange="applyAllFilters()" />
+            <label for="amenSecurity">🔒 Security</label>
+          </div>
+        </div>
+      </div>
+
+      <!-- Apply + Reset -->
+      <div class="filter-section" style="border-bottom:none;">
+        <button class="filter-apply-btn" onclick="applyAllFilters()">
+          <i class="fas fa-search"></i> Apply Filters
+        </button>
+        <div style="text-align:center;margin-top:10px;">
+          <button class="filter-reset" onclick="resetFilters()" style="font-size:0.82rem;">Reset All Filters</button>
+        </div>
+      </div>
+    </aside>
+
+    <!-- ─── RESULTS AREA ─── -->
+    <div class="results-area">
+      <!-- Mobile: Filter trigger button -->
+      <div style="margin-bottom:16px;">
+        <button class="filter-trigger-btn" onclick="toggleFilterDrawer()">
+          <i class="fas fa-sliders-h"></i> Filters
+          <span class="active-count" id="mobileFilterCount" style="display:none;">0</span>
+        </button>
+      </div>
+
+      <!-- Top bar: count + sort + view -->
+      <div class="results-topbar">
+        <div class="results-count" id="resultsCount">
+          Showing <strong>0</strong> properties
+        </div>
+        <div class="results-controls">
+          <select class="sort-select" id="sortSelect" onchange="handleSortChange(this.value)">
+            <option value="newest">Newest First</option>
+            <option value="price-low">Price: Low to High</option>
+            <option value="price-high">Price: High to Low</option>
+            <option value="popular">Most Popular</option>
+          </select>
+          <div class="view-toggle">
+            <button class="view-btn active" id="gridViewBtn" onclick="setView('grid')" title="Grid view">
+              <i class="fas fa-th"></i>
+            </button>
+            <button class="view-btn" id="listViewBtn" onclick="setView('list')" title="List view">
+              <i class="fas fa-list"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Grid -->
+      <div id="listingsGrid">
+        <!-- Populated by listings.js -->
+      </div>
+
+      <div class="load-more-wrap">
+        <button class="load-more-btn" id="loadMoreListingsBtn" onclick="loadMoreListings()" style="display:none;">
+          <i class="fas fa-plus"></i> Load More Properties
+        </button>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ===== FOOTER ===== -->
+<footer class="footer">
+  <div class="container">
+    <div class="footer-mini-grid">
+      <div class="footer-brand">
+        <div class="logo">
+          <div class="logo-icon">CP</div>
+          City <span>Property</span>
+        </div>
+        <p>Your trusted real estate partner in Greater Noida. RERA registered, GNA & YEA authority certified. Finding dream properties since 2009.</p>
+        <div class="social-links">
+          <a href="#" class="social-link"><i class="fab fa-facebook-f"></i></a>
+          <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
+          <a href="https://wa.me/919711733120" class="social-link"><i class="fab fa-whatsapp"></i></a>
+          <a href="#" class="social-link"><i class="fab fa-youtube"></i></a>
+        </div>
+      </div>
+      <div class="footer-col">
+        <h4>Quick Links</h4>
+        <div class="footer-links">
+          <a href="index.html">Home</a>
+          <a href="listings.html">All Properties</a>
+          <a href="index.html#about">About Us</a>
+          <a href="index.html#contact">Contact</a>
+        </div>
+      </div>
+      <div class="footer-col">
+        <h4>Contact</h4>
+        <div class="footer-links">
+          <a href="tel:9711733120">📞 97117 33120</a>
+          <a href="https://wa.me/919711733120">💬 WhatsApp</a>
+          <a href="mailto:info@cityproperty.in">✉️ info@cityproperty.in</a>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2025 City Property. All rights reserved. | RERA Registered | GNA & YEA Certified</span>
+      <div class="footer-bottom-links">
+        <a href="#">Privacy Policy</a>
+        <a href="#">Terms of Use</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<!-- ===== WHATSAPP MODAL ===== -->
+<div class="modal-overlay" id="waModal" onclick="closeWAModalL(event)">
+  <div class="modal">
+    <button class="modal-close" onclick="closeWAModalL(null)"><i class="fas fa-times"></i></button>
+    <div class="modal-wa-header">
+      <div class="modal-wa-icon"><i class="fab fa-whatsapp"></i></div>
+      <div>
+        <div class="modal-wa-title">Enquire on WhatsApp</div>
+        <div class="modal-wa-sub">Our team will respond within minutes</div>
+      </div>
+    </div>
+    <div class="modal-prop-name" id="modalPropNameL">Property Name</div>
+    <div class="modal-fields">
+      <div class="modal-field"><input type="text" id="modalNameL" placeholder="Your Full Name *" /></div>
+      <div class="modal-field"><input type="tel" id="modalPhoneL" placeholder="Mobile Number *" /></div>
+      <div class="modal-field">
+        <select id="modalInterestL">
+          <option value="Buy">I want to Buy</option>
+          <option value="Rent">I want to Rent</option>
+          <option value="Visit">Schedule a Site Visit</option>
+          <option value="Info">Need More Info</option>
+        </select>
+      </div>
+    </div>
+    <div class="modal-cid-row">
+      <span>Enquiry ID:</span>
+      <span class="cid-badge" id="modalCIDL">—</span>
+    </div>
+    <button class="wa-send-btn" onclick="sendToWhatsAppL()">
+      <i class="fab fa-whatsapp"></i> Send Enquiry on WhatsApp
+    </button>
+  </div>
+</div>
+
+<!-- ===== TOAST CONTAINER ===== -->
+<div class="toast-container" id="toastContainer"></div>
+
+<!-- ===== FLOATING BUTTONS ===== -->
+<div class="floating-btns">
+  <a href="tel:9711733120" class="float-btn float-call" title="Call Us"><i class="fas fa-phone"></i></a>
+  <a href="https://wa.me/919711733120" target="_blank" class="float-btn float-wa" title="WhatsApp"><i class="fab fa-whatsapp"></i></a>
+</div>
+
+<!-- ===== SCRIPTS ===== -->
+<script src="js/theme.js"></script>
+<script src="js/auth.js"></script>
+<script src="js/listings.js"></script>
+<script src="js/chatbot.js"></script>
+
+</body>
+</html>

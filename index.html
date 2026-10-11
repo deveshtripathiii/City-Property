@@ -1,128 +1,1329 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="light">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="City Property — Buy, Sell, Rent properties in your city. Flats, Plots, Houses, Hostels, Buildings available." />
-  <title>City Property — Your Trusted Real Estate Partner</title>
+  <title>City Property – Greater Noida Real Estate</title>
+  <meta name="description" content="Find your dream property in Greater Noida. GNA & YEA authority certified listings – Flats, Plots, Hostels, Commercial. RERA registered." />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
-  <link rel="stylesheet" href="css/style.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <style>
+    /* ===== CSS VARIABLES ===== */
+    :root {
+      --primary: #1a3c6e;
+      --primary-light: #2554a0;
+      --primary-dark: #0f2444;
+      --accent: #f5a623;
+      --accent-dark: #d4891a;
+      --success: #27ae60;
+      --danger: #e74c3c;
+      --warning: #f59e0b;
+      --purple: #8b5cf6;
+      --bg: #f4f6f9;
+      --bg2: #eef1f6;
+      --white: #ffffff;
+      --card-bg: #ffffff;
+      --text: #2d2d2d;
+      --text-light: #6b7280;
+      --border: #e0e6ef;
+      --shadow: 0 4px 24px rgba(26,60,110,0.10);
+      --shadow-hover: 0 8px 32px rgba(26,60,110,0.18);
+      --radius: 14px;
+      --radius-sm: 8px;
+      --font: 'Poppins', sans-serif;
+      --transition: all 0.3s cubic-bezier(0.4,0,0.2,1);
+    }
+    [data-theme="dark"] {
+      --bg: #0f1923;
+      --bg2: #1a2535;
+      --white: #1a2535;
+      --card-bg: #1e2d42;
+      --text: #e8edf5;
+      --text-light: #8b9dc0;
+      --border: #2a3d5a;
+      --primary: #4a7fd4;
+      --primary-light: #6b9ee8;
+      --shadow: 0 4px 24px rgba(0,0,0,0.3);
+      --shadow-hover: 0 8px 32px rgba(0,0,0,0.45);
+    }
+
+    /* ===== RESET & BASE ===== */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: var(--font);
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      transition: background 0.3s, color 0.3s;
+    }
+    a { color: inherit; text-decoration: none; }
+    img { max-width: 100%; display: block; }
+    button { cursor: pointer; border: none; font-family: var(--font); }
+    ul { list-style: none; }
+    .container { max-width: 1280px; margin: 0 auto; padding: 0 24px; }
+    .section-pad { padding: 80px 0; }
+    .section-title {
+      font-size: 2rem;
+      font-weight: 700;
+      color: var(--primary);
+      margin-bottom: 8px;
+    }
+    [data-theme="dark"] .section-title { color: var(--primary-light); }
+    .section-subtitle { color: var(--text-light); margin-bottom: 40px; font-size: 1rem; }
+    .text-center { text-align: center; }
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 12px 28px;
+      border-radius: var(--radius-sm);
+      font-weight: 600;
+      font-size: 0.95rem;
+      transition: var(--transition);
+      cursor: pointer;
+    }
+    .btn-primary {
+      background: var(--primary);
+      color: #fff;
+    }
+    .btn-primary:hover { background: var(--primary-light); transform: translateY(-2px); box-shadow: var(--shadow-hover); }
+    .btn-accent {
+      background: var(--accent);
+      color: #fff;
+    }
+    .btn-accent:hover { background: var(--accent-dark); transform: translateY(-2px); }
+    .btn-outline {
+      background: transparent;
+      border: 2px solid var(--primary);
+      color: var(--primary);
+    }
+    .btn-outline:hover { background: var(--primary); color: #fff; }
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 4px 12px;
+      border-radius: 20px;
+      font-size: 0.78rem;
+      font-weight: 600;
+    }
+    .badge-sale { background: #e8f5e9; color: var(--success); }
+    .badge-rent { background: #e3f2fd; color: #1976d2; }
+    .badge-land { background: #fff3e0; color: #e65100; }
+    .badge-hostel { background: #f3e5f5; color: var(--purple); }
+    .badge-rera { background: #fff8e1; color: #f57f17; border: 1px solid #ffe082; }
+    .badge-gna { background: #e8eaf6; color: #3949ab; }
+    .badge-yea { background: #e0f2f1; color: #00695c; }
+    [data-theme="dark"] .badge-sale { background: rgba(39,174,96,0.18); }
+    [data-theme="dark"] .badge-rent { background: rgba(25,118,210,0.18); }
+    [data-theme="dark"] .badge-land { background: rgba(230,81,0,0.18); }
+    [data-theme="dark"] .badge-hostel { background: rgba(139,92,246,0.18); }
+    [data-theme="dark"] .badge-rera { background: rgba(245,167,35,0.12); }
+    [data-theme="dark"] .badge-gna { background: rgba(57,73,171,0.18); }
+    [data-theme="dark"] .badge-yea { background: rgba(0,105,92,0.18); }
+
+    /* ===== NAVBAR ===== */
+    .navbar {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 1000;
+      background: rgba(255,255,255,0.95);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+      transition: var(--transition);
+    }
+    [data-theme="dark"] .navbar { background: rgba(15,25,35,0.95); }
+    .navbar.scrolled { box-shadow: 0 2px 20px rgba(26,60,110,0.12); }
+    .navbar-inner {
+      display: flex;
+      align-items: center;
+      height: 68px;
+      gap: 32px;
+    }
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-weight: 800;
+      font-size: 1.25rem;
+      color: var(--primary);
+      flex-shrink: 0;
+    }
+    .logo-icon {
+      width: 40px; height: 40px;
+      background: linear-gradient(135deg, var(--primary), var(--accent));
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #fff;
+      font-size: 1rem;
+      font-weight: 900;
+    }
+    .logo span { color: var(--accent); }
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      margin-left: auto;
+    }
+    .nav-links a {
+      padding: 8px 14px;
+      border-radius: var(--radius-sm);
+      font-size: 0.9rem;
+      font-weight: 500;
+      color: var(--text);
+      transition: var(--transition);
+    }
+    .nav-links a:hover, .nav-links a.active {
+      background: var(--bg2);
+      color: var(--primary);
+    }
+    .nav-right {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-shrink: 0;
+    }
+    .lang-toggle {
+      display: flex;
+      background: var(--bg2);
+      border-radius: 20px;
+      padding: 3px;
+      border: 1px solid var(--border);
+    }
+    .lang-toggle button {
+      padding: 4px 12px;
+      border-radius: 16px;
+      font-size: 0.78rem;
+      font-weight: 700;
+      background: transparent;
+      color: var(--text-light);
+      transition: var(--transition);
+      letter-spacing: 0.5px;
+    }
+    .lang-toggle button.active {
+      background: var(--primary);
+      color: #fff;
+    }
+    .theme-btn {
+      width: 38px; height: 38px;
+      border-radius: 50%;
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      color: var(--text);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1rem;
+      transition: var(--transition);
+    }
+    .theme-btn:hover { background: var(--primary); color: #fff; }
+    .login-btn {
+      padding: 8px 20px;
+      background: var(--primary);
+      color: #fff;
+      border-radius: var(--radius-sm);
+      font-size: 0.88rem;
+      font-weight: 600;
+      transition: var(--transition);
+    }
+    .login-btn:hover { background: var(--primary-light); }
+    .hamburger {
+      display: none;
+      flex-direction: column;
+      gap: 5px;
+      background: none;
+      padding: 6px;
+      border-radius: 6px;
+    }
+    .hamburger span {
+      display: block;
+      width: 22px;
+      height: 2px;
+      background: var(--text);
+      border-radius: 2px;
+      transition: var(--transition);
+    }
+    .mobile-menu {
+      display: none;
+      position: fixed;
+      top: 68px; left: 0; right: 0;
+      background: var(--white);
+      border-bottom: 1px solid var(--border);
+      padding: 16px 24px;
+      flex-direction: column;
+      gap: 4px;
+      z-index: 999;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.12);
+    }
+    .mobile-menu.open { display: flex; }
+    .mobile-menu a {
+      padding: 12px 16px;
+      border-radius: var(--radius-sm);
+      font-weight: 500;
+      color: var(--text);
+      transition: var(--transition);
+      font-size: 0.95rem;
+    }
+    .mobile-menu a:hover { background: var(--bg2); color: var(--primary); }
+    .mobile-menu-bottom {
+      display: flex;
+      gap: 10px;
+      margin-top: 8px;
+      padding-top: 12px;
+      border-top: 1px solid var(--border);
+      align-items: center;
+    }
+
+    /* ===== HERO ===== */
+    .hero {
+      background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary) 50%, var(--primary-light) 100%);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      padding-top: 68px;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.04'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+      pointer-events: none;
+    }
+    .hero-blob {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(80px);
+      opacity: 0.15;
+      pointer-events: none;
+    }
+    .hero-blob-1 { width: 400px; height: 400px; background: var(--accent); top: -100px; right: 10%; }
+    .hero-blob-2 { width: 300px; height: 300px; background: #60a5fa; bottom: 0; left: 5%; }
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 60px;
+      align-items: center;
+      width: 100%;
+      position: relative;
+      z-index: 1;
+    }
+    .hero-content { color: #fff; }
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(245,166,35,0.2);
+      border: 1px solid rgba(245,166,35,0.5);
+      color: var(--accent);
+      padding: 6px 16px;
+      border-radius: 20px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      margin-bottom: 20px;
+      animation: fadeInDown 0.6s ease;
+    }
+    .hero-title {
+      font-size: clamp(2rem, 4vw, 3.4rem);
+      font-weight: 800;
+      line-height: 1.15;
+      margin-bottom: 16px;
+      animation: fadeInUp 0.6s ease 0.1s both;
+    }
+    .hero-title span { color: var(--accent); }
+    .hero-subtitle {
+      font-size: 1.05rem;
+      opacity: 0.88;
+      margin-bottom: 32px;
+      max-width: 500px;
+      line-height: 1.7;
+      animation: fadeInUp 0.6s ease 0.2s both;
+    }
+    .hero-cta {
+      display: flex;
+      gap: 14px;
+      flex-wrap: wrap;
+      animation: fadeInUp 0.6s ease 0.3s both;
+      margin-bottom: 40px;
+    }
+    .hero-cta .btn { font-size: 1rem; padding: 14px 32px; }
+
+    /* Search Box */
+    .search-box {
+      background: var(--white);
+      border-radius: 18px;
+      padding: 24px;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.2);
+      animation: fadeInUp 0.6s ease 0.4s both;
+      margin-top: 8px;
+    }
+    .search-tabs {
+      display: flex;
+      gap: 4px;
+      margin-bottom: 20px;
+      background: var(--bg2);
+      border-radius: 10px;
+      padding: 4px;
+    }
+    .search-tab {
+      flex: 1;
+      padding: 9px;
+      border-radius: 8px;
+      background: transparent;
+      color: var(--text-light);
+      font-size: 0.88rem;
+      font-weight: 600;
+      transition: var(--transition);
+      text-align: center;
+    }
+    .search-tab.active {
+      background: var(--primary);
+      color: #fff;
+      box-shadow: 0 2px 8px rgba(26,60,110,0.2);
+    }
+    .search-fields {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-bottom: 14px;
+    }
+    .search-field {
+      position: relative;
+    }
+    .search-field i {
+      position: absolute;
+      left: 12px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--text-light);
+      font-size: 0.9rem;
+      pointer-events: none;
+    }
+    .search-field input,
+    .search-field select {
+      width: 100%;
+      padding: 11px 12px 11px 36px;
+      border: 1.5px solid var(--border);
+      border-radius: var(--radius-sm);
+      font-family: var(--font);
+      font-size: 0.88rem;
+      color: var(--text);
+      background: var(--bg);
+      transition: var(--transition);
+      outline: none;
+      -webkit-appearance: none;
+    }
+    .search-field input:focus,
+    .search-field select:focus { border-color: var(--primary); background: var(--white); }
+    .search-field.full { grid-column: 1 / -1; }
+    .search-btn {
+      width: 100%;
+      padding: 13px;
+      background: linear-gradient(135deg, var(--primary), var(--primary-light));
+      color: #fff;
+      border-radius: var(--radius-sm);
+      font-size: 1rem;
+      font-weight: 700;
+      letter-spacing: 0.3px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      transition: var(--transition);
+    }
+    .search-btn:hover { opacity: 0.92; transform: translateY(-1px); box-shadow: 0 6px 20px rgba(26,60,110,0.3); }
+
+    /* Hero Right — Floating Stats */
+    .hero-right {
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+      align-items: flex-end;
+      animation: fadeInRight 0.7s ease 0.3s both;
+    }
+    .stats-card {
+      background: rgba(255,255,255,0.12);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(255,255,255,0.2);
+      border-radius: 16px;
+      padding: 20px 28px;
+      color: #fff;
+      min-width: 200px;
+      transition: var(--transition);
+    }
+    .stats-card:hover { background: rgba(255,255,255,0.18); transform: translateY(-4px); }
+    .stats-card-num {
+      font-size: 2rem;
+      font-weight: 800;
+      color: var(--accent);
+      line-height: 1;
+    }
+    .stats-card-label { font-size: 0.85rem; opacity: 0.85; margin-top: 4px; }
+    .stats-card-icon { font-size: 1.5rem; margin-bottom: 10px; }
+    .stats-row { display: flex; gap: 18px; width: 100%; justify-content: flex-end; }
+
+    /* ===== TRUST BAR ===== */
+    .trust-bar {
+      background: var(--white);
+      border-bottom: 1px solid var(--border);
+      padding: 14px 0;
+      overflow: hidden;
+    }
+    .trust-bar-inner {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+    .trust-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 16px;
+      border-radius: 20px;
+      font-size: 0.82rem;
+      font-weight: 600;
+      color: var(--text);
+      background: var(--bg2);
+      white-space: nowrap;
+    }
+    .trust-divider { color: var(--border); font-size: 1.2rem; }
+
+    /* ===== CATEGORY SECTION ===== */
+    .cat-grid {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      gap: 16px;
+    }
+    .cat-card {
+      background: var(--card-bg);
+      border: 1.5px solid var(--border);
+      border-radius: var(--radius);
+      padding: 24px 12px;
+      text-align: center;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+    .cat-card:hover, .cat-card.active {
+      border-color: var(--primary);
+      background: var(--primary);
+      color: #fff;
+      transform: translateY(-4px);
+      box-shadow: var(--shadow-hover);
+    }
+    .cat-card:hover .cat-count, .cat-card.active .cat-count { color: rgba(255,255,255,0.8); }
+    .cat-icon { font-size: 2rem; margin-bottom: 10px; }
+    .cat-label { font-size: 0.85rem; font-weight: 600; color: var(--text); margin-bottom: 4px; }
+    .cat-card:hover .cat-label, .cat-card.active .cat-label { color: #fff; }
+    .cat-count { font-size: 0.75rem; color: var(--text-light); }
+
+    /* ===== FEATURED PROPERTIES ===== */
+    .filter-chips {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-bottom: 28px;
+    }
+    .chip {
+      padding: 8px 20px;
+      border-radius: 20px;
+      border: 1.5px solid var(--border);
+      background: var(--card-bg);
+      color: var(--text-light);
+      font-size: 0.85rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+    .chip.active, .chip:hover {
+      background: var(--primary);
+      color: #fff;
+      border-color: var(--primary);
+    }
+    .sort-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 24px;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+    .sort-select {
+      padding: 9px 16px;
+      border: 1.5px solid var(--border);
+      border-radius: var(--radius-sm);
+      font-family: var(--font);
+      font-size: 0.88rem;
+      color: var(--text);
+      background: var(--card-bg);
+      outline: none;
+      cursor: pointer;
+    }
+    .props-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+    }
+    .prop-card {
+      background: var(--card-bg);
+      border-radius: var(--radius);
+      overflow: hidden;
+      border: 1px solid var(--border);
+      box-shadow: var(--shadow);
+      transition: var(--transition);
+      position: relative;
+    }
+    .prop-card:hover { transform: translateY(-6px); box-shadow: var(--shadow-hover); }
+    .prop-img-wrap {
+      position: relative;
+      height: 200px;
+      overflow: hidden;
+      background: linear-gradient(135deg, #e8edf5, #c8d5e8);
+    }
+    .prop-img-wrap img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.4s ease; }
+    .prop-card:hover .prop-img-wrap img { transform: scale(1.06); }
+    .prop-img-placeholder {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 3.5rem;
+      background: linear-gradient(135deg, var(--bg2), var(--border));
+    }
+    .prop-badges {
+      position: absolute;
+      top: 12px;
+      left: 12px;
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+    }
+    .wishlist-btn {
+      position: absolute;
+      top: 12px;
+      right: 12px;
+      width: 34px; height: 34px;
+      background: rgba(255,255,255,0.9);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--text-light);
+      font-size: 0.95rem;
+      transition: var(--transition);
+      border: none;
+      cursor: pointer;
+      backdrop-filter: blur(4px);
+    }
+    .wishlist-btn:hover, .wishlist-btn.active { color: var(--danger); background: #fff; }
+    .prop-body { padding: 16px; }
+    .prop-type { font-size: 0.75rem; color: var(--text-light); text-transform: uppercase; letter-spacing: 0.8px; font-weight: 600; margin-bottom: 4px; }
+    .prop-title { font-size: 1rem; font-weight: 700; color: var(--text); margin-bottom: 6px; line-height: 1.4; }
+    .prop-location { display: flex; align-items: center; gap: 5px; color: var(--text-light); font-size: 0.82rem; margin-bottom: 10px; }
+    .prop-price { font-size: 1.2rem; font-weight: 800; color: var(--primary); margin-bottom: 12px; }
+    [data-theme="dark"] .prop-price { color: var(--primary-light); }
+    .prop-price span { font-size: 0.8rem; font-weight: 400; color: var(--text-light); }
+    .prop-features {
+      display: flex;
+      gap: 14px;
+      flex-wrap: wrap;
+      margin-bottom: 14px;
+      padding-bottom: 14px;
+      border-bottom: 1px solid var(--border);
+    }
+    .prop-feat {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      font-size: 0.8rem;
+      color: var(--text-light);
+    }
+    .prop-feat i { color: var(--primary); font-size: 0.85rem; }
+    [data-theme="dark"] .prop-feat i { color: var(--primary-light); }
+    .prop-badges-row {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+      margin-bottom: 12px;
+    }
+    .prop-actions {
+      display: flex;
+      gap: 8px;
+    }
+    .prop-actions .btn {
+      flex: 1;
+      justify-content: center;
+      padding: 9px 12px;
+      font-size: 0.82rem;
+    }
+    .btn-wa {
+      background: #25d366;
+      color: #fff;
+    }
+    .btn-wa:hover { background: #1ebe59; transform: translateY(-1px); }
+    .load-more-wrap { text-align: center; margin-top: 40px; }
+
+    /* ===== STATS COUNTER ===== */
+    .stats-section {
+      background: linear-gradient(135deg, var(--primary-dark), var(--primary));
+      padding: 60px 0;
+    }
+    .stats-counters {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 32px;
+      text-align: center;
+    }
+    .stat-item { color: #fff; }
+    .stat-num {
+      font-size: 3rem;
+      font-weight: 800;
+      color: var(--accent);
+      line-height: 1;
+      margin-bottom: 8px;
+    }
+    .stat-label { font-size: 0.9rem; opacity: 0.85; font-weight: 500; }
+    .stat-icon { font-size: 1.8rem; margin-bottom: 10px; opacity: 0.7; }
+
+    /* ===== TESTIMONIALS ===== */
+    .testimonials-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+    }
+    .testimonial-card {
+      background: var(--card-bg);
+      border-radius: var(--radius);
+      padding: 28px;
+      border: 1px solid var(--border);
+      box-shadow: var(--shadow);
+      transition: var(--transition);
+    }
+    .testimonial-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-hover); }
+    .stars { color: var(--accent); font-size: 1rem; margin-bottom: 14px; }
+    .testimonial-text { color: var(--text-light); font-size: 0.9rem; line-height: 1.7; margin-bottom: 20px; font-style: italic; }
+    .testimonial-author { display: flex; align-items: center; gap: 12px; }
+    .avatar {
+      width: 46px; height: 46px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--primary), var(--accent));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #fff;
+      font-weight: 700;
+      font-size: 1rem;
+      flex-shrink: 0;
+    }
+    .author-name { font-weight: 700; font-size: 0.9rem; color: var(--text); }
+    .author-loc { font-size: 0.78rem; color: var(--text-light); }
+
+    /* ===== WHY CHOOSE US ===== */
+    .why-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+    }
+    .why-card {
+      background: var(--card-bg);
+      border-radius: var(--radius);
+      padding: 28px;
+      border: 1px solid var(--border);
+      box-shadow: var(--shadow);
+      transition: var(--transition);
+    }
+    .why-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-hover); border-color: var(--primary); }
+    .why-icon {
+      width: 58px; height: 58px;
+      border-radius: 14px;
+      background: linear-gradient(135deg, var(--primary), var(--primary-light));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+      color: #fff;
+      margin-bottom: 16px;
+    }
+    .why-title { font-size: 1rem; font-weight: 700; color: var(--text); margin-bottom: 8px; }
+    .why-text { font-size: 0.85rem; color: var(--text-light); line-height: 1.6; }
+
+    /* ===== AUTHORITY INFO ===== */
+    .authority-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 28px;
+    }
+    .authority-card {
+      background: var(--card-bg);
+      border-radius: var(--radius);
+      padding: 32px;
+      border: 1px solid var(--border);
+      box-shadow: var(--shadow);
+      position: relative;
+      overflow: hidden;
+    }
+    .authority-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 4px;
+    }
+    .authority-card.gna::before { background: linear-gradient(90deg, #3949ab, #7986cb); }
+    .authority-card.yea::before { background: linear-gradient(90deg, #00695c, #26a69a); }
+    .authority-logo {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 20px;
+    }
+    .authority-icon {
+      width: 52px; height: 52px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+      color: #fff;
+    }
+    .authority-card.gna .authority-icon { background: linear-gradient(135deg, #3949ab, #7986cb); }
+    .authority-card.yea .authority-icon { background: linear-gradient(135deg, #00695c, #26a69a); }
+    .authority-name { font-size: 1.05rem; font-weight: 700; color: var(--text); }
+    .authority-abbr { font-size: 0.8rem; color: var(--text-light); }
+    .authority-desc { color: var(--text-light); font-size: 0.88rem; line-height: 1.7; margin-bottom: 20px; }
+    .authority-facts {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+    .fact-item {
+      background: var(--bg2);
+      border-radius: var(--radius-sm);
+      padding: 12px;
+    }
+    .fact-val { font-size: 1.1rem; font-weight: 800; color: var(--primary); }
+    [data-theme="dark"] .fact-val { color: var(--primary-light); }
+    .fact-key { font-size: 0.75rem; color: var(--text-light); }
+
+    /* ===== CONTACT SECTION ===== */
+    .contact-section { background: var(--bg2); }
+    .contact-layout {
+      display: grid;
+      grid-template-columns: 1fr 1.4fr;
+      gap: 40px;
+      align-items: start;
+    }
+    .contact-cards { display: flex; flex-direction: column; gap: 16px; }
+    .contact-card {
+      background: var(--card-bg);
+      border-radius: var(--radius);
+      padding: 20px;
+      border: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      transition: var(--transition);
+      box-shadow: var(--shadow);
+    }
+    .contact-card:hover { transform: translateX(4px); box-shadow: var(--shadow-hover); }
+    .contact-card-icon {
+      width: 48px; height: 48px;
+      border-radius: 12px;
+      background: linear-gradient(135deg, var(--primary), var(--primary-light));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.2rem;
+      color: #fff;
+      flex-shrink: 0;
+    }
+    .contact-card.wa .contact-card-icon { background: linear-gradient(135deg, #25d366, #1ebe59); }
+    .contact-card.email .contact-card-icon { background: linear-gradient(135deg, var(--accent), var(--accent-dark)); }
+    .contact-card-label { font-size: 0.78rem; color: var(--text-light); margin-bottom: 2px; }
+    .contact-card-val { font-size: 0.95rem; font-weight: 700; color: var(--text); }
+    .contact-form {
+      background: var(--card-bg);
+      border-radius: var(--radius);
+      padding: 32px;
+      border: 1px solid var(--border);
+      box-shadow: var(--shadow);
+    }
+    .contact-form h3 { font-size: 1.2rem; font-weight: 700; color: var(--text); margin-bottom: 20px; }
+    .form-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      margin-bottom: 16px;
+    }
+    .form-group { display: flex; flex-direction: column; gap: 6px; }
+    .form-group.full { grid-column: 1 / -1; }
+    .form-group label { font-size: 0.82rem; font-weight: 600; color: var(--text-light); }
+    .form-group input,
+    .form-group select,
+    .form-group textarea {
+      padding: 11px 14px;
+      border: 1.5px solid var(--border);
+      border-radius: var(--radius-sm);
+      font-family: var(--font);
+      font-size: 0.88rem;
+      color: var(--text);
+      background: var(--bg);
+      outline: none;
+      transition: var(--transition);
+      resize: none;
+    }
+    .form-group input:focus,
+    .form-group select:focus,
+    .form-group textarea:focus { border-color: var(--primary); background: var(--white); }
+    .form-submit {
+      width: 100%;
+      padding: 13px;
+      background: linear-gradient(135deg, var(--primary), var(--primary-light));
+      color: #fff;
+      border-radius: var(--radius-sm);
+      font-size: 0.95rem;
+      font-weight: 700;
+      letter-spacing: 0.3px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      transition: var(--transition);
+    }
+    .form-submit:hover { opacity: 0.9; transform: translateY(-1px); }
+
+    /* ===== FOOTER ===== */
+    .footer {
+      background: var(--primary-dark);
+      color: rgba(255,255,255,0.8);
+      padding: 60px 0 0;
+    }
+    .footer-grid {
+      display: grid;
+      grid-template-columns: 1.5fr 1fr 1fr 1.2fr;
+      gap: 40px;
+      margin-bottom: 40px;
+    }
+    .footer-brand .logo { color: #fff; margin-bottom: 14px; }
+    .footer-brand .logo span { color: var(--accent); }
+    .footer-brand p { font-size: 0.85rem; line-height: 1.7; opacity: 0.75; margin-bottom: 18px; }
+    .social-links { display: flex; gap: 10px; }
+    .social-link {
+      width: 36px; height: 36px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.1);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: rgba(255,255,255,0.8);
+      font-size: 0.9rem;
+      transition: var(--transition);
+      border: 1px solid rgba(255,255,255,0.15);
+    }
+    .social-link:hover { background: var(--accent); color: #fff; border-color: var(--accent); }
+    .footer-col h4 { font-size: 0.95rem; font-weight: 700; color: #fff; margin-bottom: 16px; }
+    .footer-links { display: flex; flex-direction: column; gap: 8px; }
+    .footer-links a { font-size: 0.84rem; color: rgba(255,255,255,0.65); transition: var(--transition); }
+    .footer-links a:hover { color: var(--accent); padding-left: 4px; }
+    .footer-contact-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      margin-bottom: 12px;
+      font-size: 0.84rem;
+    }
+    .footer-contact-item i { color: var(--accent); margin-top: 2px; flex-shrink: 0; }
+    .footer-bottom {
+      border-top: 1px solid rgba(255,255,255,0.1);
+      padding: 20px 0;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 0.8rem;
+      color: rgba(255,255,255,0.5);
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+    .footer-bottom-links { display: flex; gap: 20px; }
+    .footer-bottom-links a { color: rgba(255,255,255,0.5); transition: var(--transition); }
+    .footer-bottom-links a:hover { color: var(--accent); }
+
+    /* ===== WHATSAPP MODAL ===== */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.6);
+      backdrop-filter: blur(4px);
+      z-index: 2000;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+    .modal-overlay.open { display: flex; }
+    .modal {
+      background: var(--card-bg);
+      border-radius: 20px;
+      padding: 32px;
+      max-width: 460px;
+      width: 100%;
+      box-shadow: 0 24px 80px rgba(0,0,0,0.3);
+      position: relative;
+      animation: modalIn 0.3s ease;
+    }
+    @keyframes modalIn { from { opacity: 0; transform: scale(0.92) translateY(20px); } to { opacity: 1; transform: scale(1) translateY(0); } }
+    .modal-close {
+      position: absolute;
+      top: 16px; right: 16px;
+      width: 32px; height: 32px;
+      border-radius: 50%;
+      background: var(--bg2);
+      border: none;
+      font-size: 0.9rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--text-light);
+      transition: var(--transition);
+    }
+    .modal-close:hover { background: var(--danger); color: #fff; }
+    .modal-wa-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 20px;
+    }
+    .modal-wa-icon {
+      width: 52px; height: 52px;
+      border-radius: 50%;
+      background: #25d366;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+      color: #fff;
+    }
+    .modal-wa-title { font-size: 1.1rem; font-weight: 700; color: var(--text); }
+    .modal-wa-sub { font-size: 0.82rem; color: var(--text-light); }
+    .modal-prop-name {
+      background: var(--bg2);
+      border-radius: var(--radius-sm);
+      padding: 10px 14px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--text);
+      margin-bottom: 16px;
+      border: 1px solid var(--border);
+    }
+    .modal-fields { display: flex; flex-direction: column; gap: 12px; margin-bottom: 16px; }
+    .modal-field input, .modal-field select {
+      width: 100%;
+      padding: 11px 14px;
+      border: 1.5px solid var(--border);
+      border-radius: var(--radius-sm);
+      font-family: var(--font);
+      font-size: 0.88rem;
+      color: var(--text);
+      background: var(--bg);
+      outline: none;
+      transition: var(--transition);
+    }
+    .modal-field input:focus, .modal-field select:focus { border-color: #25d366; }
+    .modal-cid-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 16px;
+      font-size: 0.8rem;
+      color: var(--text-light);
+    }
+    .cid-badge {
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 3px 10px;
+      font-family: monospace;
+      font-size: 0.82rem;
+      font-weight: 700;
+      color: var(--primary);
+      letter-spacing: 0.5px;
+    }
+    [data-theme="dark"] .cid-badge { color: var(--primary-light); }
+    .wa-send-btn {
+      width: 100%;
+      padding: 13px;
+      background: #25d366;
+      color: #fff;
+      border-radius: var(--radius-sm);
+      font-size: 0.95rem;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      transition: var(--transition);
+    }
+    .wa-send-btn:hover { background: #1ebe59; transform: translateY(-1px); }
+
+    /* ===== FLOATING BUTTONS ===== */
+    .floating-btns {
+      position: fixed;
+      bottom: 28px;
+      right: 28px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      z-index: 900;
+    }
+    .float-btn {
+      width: 54px; height: 54px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.3rem;
+      color: #fff;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.25);
+      transition: var(--transition);
+      text-decoration: none;
+    }
+    .float-btn:hover { transform: scale(1.12); box-shadow: 0 8px 28px rgba(0,0,0,0.3); }
+    .float-call { background: var(--primary); }
+    .float-wa { background: #25d366; }
+
+    /* ===== TOAST ===== */
+    .toast-container {
+      position: fixed;
+      bottom: 28px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 3000;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      align-items: center;
+      pointer-events: none;
+    }
+    .toast {
+      padding: 12px 24px;
+      border-radius: 30px;
+      font-size: 0.88rem;
+      font-weight: 600;
+      color: #fff;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+      animation: toastIn 0.3s ease, toastOut 0.3s ease 2.7s both;
+    }
+    .toast.success { background: var(--success); }
+    .toast.error { background: var(--danger); }
+    .toast.info { background: var(--primary); }
+    @keyframes toastIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+    @keyframes toastOut { from { opacity: 1; } to { opacity: 0; } }
+
+    /* ===== ANIMATIONS ===== */
+    @keyframes fadeInDown { from { opacity: 0; transform: translateY(-20px); } to { opacity: 1; transform: translateY(0); } }
+    @keyframes fadeInUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+    @keyframes fadeInRight { from { opacity: 0; transform: translateX(40px); } to { opacity: 1; transform: translateX(0); } }
+
+    /* ===== RESPONSIVE ===== */
+    @media (max-width: 1100px) {
+      .cat-grid { grid-template-columns: repeat(4, 1fr); }
+      .hero-grid { gap: 32px; }
+    }
+    @media (max-width: 900px) {
+      .nav-links { display: none; }
+      .hamburger { display: flex; }
+      .hero-grid { grid-template-columns: 1fr; }
+      .hero-right { display: none; }
+      .props-grid { grid-template-columns: repeat(2, 1fr); }
+      .stats-counters { grid-template-columns: repeat(2, 1fr); }
+      .testimonials-grid { grid-template-columns: 1fr; }
+      .why-grid { grid-template-columns: 1fr 1fr; }
+      .authority-grid { grid-template-columns: 1fr; }
+      .contact-layout { grid-template-columns: 1fr; }
+      .footer-grid { grid-template-columns: 1fr 1fr; }
+    }
+    @media (max-width: 600px) {
+      .cat-grid { grid-template-columns: repeat(3, 1fr); }
+      .props-grid { grid-template-columns: 1fr; }
+      .search-fields { grid-template-columns: 1fr; }
+      .search-field.full { grid-column: 1; }
+      .stats-counters { grid-template-columns: repeat(2, 1fr); }
+      .why-grid { grid-template-columns: 1fr; }
+      .footer-grid { grid-template-columns: 1fr; }
+      .form-grid { grid-template-columns: 1fr; }
+      .trust-bar-inner { gap: 6px; }
+      .section-pad { padding: 50px 0; }
+      .section-title { font-size: 1.5rem; }
+    }
+  </style>
 </head>
 <body>
 
-<!-- ========== TOAST CONTAINER ========== -->
-<div class="toast-container" id="toastContainer"></div>
-
-<!-- ========== NAVBAR ========== -->
+<!-- ===== NAVBAR ===== -->
 <nav class="navbar" id="navbar">
-  <div class="nav-container">
-    <a href="index.html" class="nav-logo">
-      <div class="logo-icon">CP</div>
-      <div class="logo-text">
-        <div class="brand">City Property</div>
-        <div class="tagline">Your Trusted Real Estate Partner</div>
+  <div class="container">
+    <div class="navbar-inner">
+      <a href="index.html" class="logo">
+        <div class="logo-icon">CP</div>
+        City <span>Property</span>
+      </a>
+      <div class="nav-links">
+        <a href="index.html" class="active" data-i18n="nav.home">Home</a>
+        <a href="listings.html" data-i18n="nav.properties">Properties</a>
+        <a href="#sell" style="color:var(--accent); font-weight:700;"><i class="fas fa-bullhorn"></i> Sell Property</a>
+        <a href="#about" data-i18n="nav.about">About</a>
+        <a href="#contact" data-i18n="nav.contact">Contact</a>
       </div>
-    </a>
-    <div class="nav-links">
-      <a href="index.html" class="active">Home</a>
-      <a href="#properties">Properties</a>
-      <a href="#types">Categories</a>
-      <a href="#contact">Contact</a>
-      <a href="admin.html">Admin</a>
+      <div class="nav-right">
+        <div class="lang-toggle">
+          <button id="langHi" onclick="setLang('hi')" data-i18n="lang.hi">HI</button>
+          <button id="langEn" onclick="setLang('en')" class="active" data-i18n="lang.en">EN</button>
+        </div>
+        <button class="theme-btn" id="themeBtn" onclick="toggleTheme()" title="Toggle dark mode">
+          <i class="fas fa-moon" id="themeIcon"></i>
+        </button>
+        <a href="login.html" class="login-btn" data-i18n="nav.login">
+          <i class="fas fa-user"></i> Login
+        </a>
+        <button class="hamburger" onclick="toggleMenu()" aria-label="Menu">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
     </div>
-    <div class="nav-cta">
-      <a href="tel:9711733120" class="btn btn-outline btn-sm"><i class="fas fa-phone"></i> Call Now</a>
-      <button class="btn btn-whatsapp btn-sm" onclick="openWAModal()"><i class="fab fa-whatsapp"></i> WhatsApp</button>
-    </div>
-    <button class="hamburger" id="hamburger" onclick="toggleMenu()" aria-label="Menu">
-      <span></span><span></span><span></span>
-    </button>
   </div>
 </nav>
 
 <!-- Mobile Menu -->
 <div class="mobile-menu" id="mobileMenu">
-  <a href="index.html" onclick="toggleMenu()"><i class="fas fa-home"></i> Home</a>
-  <a href="#properties" onclick="toggleMenu()"><i class="fas fa-building"></i> Properties</a>
-  <a href="#types" onclick="toggleMenu()"><i class="fas fa-th-large"></i> Categories</a>
-  <a href="#contact" onclick="toggleMenu()"><i class="fas fa-envelope"></i> Contact</a>
-  <a href="admin.html"><i class="fas fa-lock"></i> Admin Panel</a>
-  <div class="mobile-cta">
-    <a href="tel:9711733120" class="btn btn-primary btn-sm"><i class="fas fa-phone"></i> 97117 33120</a>
-    <button class="btn btn-whatsapp btn-sm" onclick="openWAModal(); toggleMenu();"><i class="fab fa-whatsapp"></i> WhatsApp</button>
+  <a href="index.html" data-i18n="nav.home">🏠 Home</a>
+  <a href="listings.html" data-i18n="nav.properties">🏢 Properties</a>
+  <a href="#about" onclick="toggleMenu()" data-i18n="nav.about">ℹ️ About</a>
+  <a href="#contact" onclick="toggleMenu()" data-i18n="nav.contact">📞 Contact</a>
+  <div class="mobile-menu-bottom">
+    <div class="lang-toggle">
+      <button onclick="setLang('hi');toggleMenu()">HI</button>
+      <button onclick="setLang('en');toggleMenu()" class="active">EN</button>
+    </div>
+    <a href="login.html" class="login-btn" style="margin-left:auto">Login</a>
   </div>
 </div>
 
-<!-- ========== HERO SECTION ========== -->
+<!-- ===== HERO ===== -->
 <section class="hero" id="home">
-  <div class="hero-particles">
-    <div class="particle"></div>
-    <div class="particle"></div>
-    <div class="particle"></div>
-    <div class="particle"></div>
-  </div>
+  <div class="hero-blob hero-blob-1"></div>
+  <div class="hero-blob hero-blob-2"></div>
   <div class="container">
     <div class="hero-grid">
-      <!-- Left Content -->
+      <!-- Left: Content + Search -->
       <div class="hero-content">
-        <div class="hero-badge">
-          <i class="fas fa-star"></i> #1 Trusted Real Estate
-        </div>
-        <h1 class="hero-title">
-          Find Your <span>Dream</span><br>Property Today
-        </h1>
-        <p class="hero-subtitle">
-          Buy, Sell, Rent — Flats, Plots, Rooms, Hostels &amp; Buildings in<br>
-          <strong style="color:var(--accent);">Greater Noida Authority (GNA)</strong> &amp; <strong style="color:var(--accent);">Yamuna Expressway Authority (YEA)</strong>
+        <div class="hero-badge">🏆 <span data-i18n="hero.badge">#1 in Greater Noida</span></div>
+        <h1 class="hero-title" data-i18n="hero.title">Find Your <span>Dream Property</span> in Greater Noida</h1>
+        <p class="hero-subtitle" data-i18n="hero.subtitle">
+          Explore verified properties in <strong>GNA (Greater Noida Authority)</strong> and <strong>YEA (Yamuna Expressway Authority)</strong> sectors. RERA registered. 100% secure.
         </p>
-        <div class="d-flex gap-16" style="flex-wrap:wrap;">
-          <a href="#properties" class="btn btn-accent btn-lg"><i class="fas fa-search"></i> Browse Properties</a>
-          <a href="tel:9711733120" class="btn btn-lg" style="background:rgba(255,255,255,0.15); color:#fff; border:1.5px solid rgba(255,255,255,0.4); backdrop-filter:blur(4px);">
-            <i class="fas fa-phone-alt"></i> 97117 33120
+        <div class="hero-cta">
+          <a href="listings.html" class="btn btn-accent">
+            <i class="fas fa-search"></i> <span data-i18n="hero.cta1">Explore Properties</span>
+          </a>
+          <a href="#contact" class="btn" style="background:rgba(255,255,255,0.15);color:#fff;border:2px solid rgba(255,255,255,0.4);">
+            <i class="fas fa-phone"></i> <span data-i18n="hero.cta2">Talk to Expert</span>
           </a>
         </div>
-        <div class="hero-stats">
-          <div class="hero-stat"><div class="num" id="heroSaleCount">0</div><div class="lbl">Properties for Sale</div></div>
-          <div class="hero-stat"><div class="num" id="heroRentCount">0</div><div class="lbl">For Rent</div></div>
-          <div class="hero-stat"><div class="num" id="heroLandCount">0</div><div class="lbl">Land / Plots</div></div>
+
+        <!-- Search Box -->
+        <div class="search-box">
+          <div class="search-tabs">
+            <button class="search-tab active" onclick="setTab(this,'buy')" data-i18n="search.buy">🏠 Buy</button>
+            <button class="search-tab" onclick="setTab(this,'rent')" data-i18n="search.rent">🔑 Rent</button>
+            <button class="search-tab" onclick="setTab(this,'land')" data-i18n="search.land">🌍 Land / Plot</button>
+          </div>
+          <div class="search-fields">
+            <div class="search-field full">
+              <i class="fas fa-map-marker-alt"></i>
+              <input type="text" id="searchLocation" placeholder="Enter sector, locality or project..." data-i18n-ph="search.location_ph" />
+            </div>
+            <div class="search-field">
+              <i class="fas fa-building"></i>
+              <select id="searchType">
+                <option value="" data-i18n="search.type_all">All Types</option>
+                <option value="flat" data-i18n="search.flat">Flat / Apartment</option>
+                <option value="room" data-i18n="search.room">Room</option>
+                <option value="hostel" data-i18n="search.hostel">Hostel / PG</option>
+                <option value="plot" data-i18n="search.plot">Plot / Land</option>
+                <option value="building" data-i18n="search.building">Building</option>
+                <option value="house" data-i18n="search.house">House / Villa</option>
+              </select>
+            </div>
+            <div class="search-field">
+              <i class="fas fa-rupee-sign"></i>
+              <select id="searchBudget">
+                <option value="" data-i18n="search.budget_all">Any Budget</option>
+                <option value="0-3000000">Under ₹30 Lakh</option>
+                <option value="3000000-6000000">₹30L – ₹60L</option>
+                <option value="6000000-10000000">₹60L – ₹1 Cr</option>
+                <option value="10000000-20000000">₹1 Cr – ₹2 Cr</option>
+                <option value="20000000+">Above ₹2 Cr</option>
+              </select>
+            </div>
+            <div class="search-field full">
+              <i class="fas fa-bed"></i>
+              <select id="searchBHK">
+                <option value="" data-i18n="search.bhk_all">Any BHK</option>
+                <option value="1">1 BHK</option>
+                <option value="2">2 BHK</option>
+                <option value="3">3 BHK</option>
+                <option value="4">4 BHK+</option>
+                <option value="studio">Studio</option>
+              </select>
+            </div>
+          </div>
+          <button class="search-btn" onclick="doSearch()">
+            <i class="fas fa-search"></i> <span data-i18n="search.btn">Search Properties</span>
+          </button>
         </div>
       </div>
-      <!-- Search Box -->
-      <div class="search-box" id="searchBox">
-        <div class="search-tabs">
-          <button class="search-tab active" data-tab="buy" onclick="setTab(this,'buy')">🏠 Buy</button>
-          <button class="search-tab" data-tab="rent" onclick="setTab(this,'rent')">🔑 Rent</button>
-          <button class="search-tab" data-tab="land" onclick="setTab(this,'land')">🌿 Land</button>
-        </div>
-        <div class="search-fields">
-          <input type="text" id="searchLocation" placeholder="📍 Enter location, city, area..." />
-          <div class="field-row">
-            <select id="searchType">
-              <option value="">All Property Types</option>
-              <option value="flat">Flat / Apartment</option>
-              <option value="room">Room</option>
-              <option value="hostel">Hostel</option>
-              <option value="building">Building</option>
-              <option value="plot">Plot / Land</option>
-              <option value="house">House</option>
-            </select>
-            <select id="searchBudget">
-              <option value="">Any Budget</option>
-              <option value="5">Under ₹5 Lakh</option>
-              <option value="10">₹5–10 Lakh</option>
-              <option value="25">₹10–25 Lakh</option>
-              <option value="50">₹25–50 Lakh</option>
-              <option value="100">₹50L–1Cr</option>
-              <option value="999">Above ₹1 Cr</option>
-            </select>
+
+      <!-- Right: Floating Stats Cards -->
+      <div class="hero-right">
+        <div class="stats-row">
+          <div class="stats-card">
+            <div class="stats-card-icon">🏢</div>
+            <div class="stats-card-num" id="heroProps">500+</div>
+            <div class="stats-card-label" data-i18n="hero.stat1">Listed Properties</div>
           </div>
-          <div class="search-btn-row">
-            <button class="btn btn-primary btn-lg" onclick="doSearch()">
-              <i class="fas fa-search"></i> Search Properties
-            </button>
+          <div class="stats-card">
+            <div class="stats-card-icon">👥</div>
+            <div class="stats-card-num">1200+</div>
+            <div class="stats-card-label" data-i18n="hero.stat2">Happy Clients</div>
+          </div>
+        </div>
+        <div class="stats-row">
+          <div class="stats-card">
+            <div class="stats-card-icon">✅</div>
+            <div class="stats-card-num">100%</div>
+            <div class="stats-card-label" data-i18n="hero.stat3">RERA Verified</div>
+          </div>
+          <div class="stats-card">
+            <div class="stats-card-icon">⭐</div>
+            <div class="stats-card-num">4.9/5</div>
+            <div class="stats-card-label" data-i18n="hero.stat4">Customer Rating</div>
+          </div>
+        </div>
+        <div class="stats-row">
+          <div class="stats-card" style="width:100%;text-align:center;">
+            <div class="stats-card-icon">🏛️</div>
+            <div style="display:flex;gap:12px;justify-content:center;margin-top:8px;">
+              <span style="background:rgba(57,73,171,0.25);color:#9fa8da;padding:4px 14px;border-radius:12px;font-size:0.82rem;font-weight:700;">GNA Certified</span>
+              <span style="background:rgba(0,105,92,0.25);color:#80cbc4;padding:4px 14px;border-radius:12px;font-size:0.82rem;font-weight:700;">YEA Certified</span>
+            </div>
+            <div class="stats-card-label" style="margin-top:8px;" data-i18n="hero.stat5">Authority Approved</div>
           </div>
         </div>
       </div>
@@ -130,328 +1331,622 @@
   </div>
 </section>
 
-<!-- ========== PROPERTY TYPES ========== -->
-<section class="section types-section" id="types">
+<!-- ===== TRUST BAR ===== -->
+<div class="trust-bar">
   <div class="container">
-    <div class="text-center">
-      <h2 class="section-title">Property Categories</h2>
-      <p class="section-subtitle">Find exactly what you're looking for</p>
+    <div class="trust-bar-inner">
+      <div class="trust-item">✅ <span data-i18n="trust.rera">RERA Registered</span></div>
+      <span class="trust-divider">|</span>
+      <div class="trust-item">🏛️ <span data-i18n="trust.gna">GNA Authority Certified</span></div>
+      <span class="trust-divider">|</span>
+      <div class="trust-item">🏛️ <span data-i18n="trust.yea">YEA Authority Certified</span></div>
+      <span class="trust-divider">|</span>
+      <div class="trust-item">🔒 <span data-i18n="trust.secure">Secure &amp; Verified</span></div>
+      <span class="trust-divider">|</span>
+      <div class="trust-item">⭐ <span data-i18n="trust.rating">4.9/5 Rating</span></div>
+      <span class="trust-divider">|</span>
+      <div class="trust-item">🏢 <span data-i18n="trust.count">500+ Properties</span></div>
     </div>
-    <div class="types-grid" id="typesGrid">
-      <div class="type-card" data-filter="all" onclick="filterByType('all', this)">
-        <div class="icon">🏘️</div>
-        <div class="label">All Properties</div>
-        <div class="count" id="typeCountAll">0 listings</div>
+  </div>
+</div>
+
+<!-- ===== PROPERTY CATEGORIES ===== -->
+<section class="section-pad" id="categories">
+  <div class="container">
+    <div class="text-center" style="margin-bottom:36px;">
+      <h2 class="section-title" data-i18n="cat.title">Browse by Category</h2>
+      <p class="section-subtitle" data-i18n="cat.subtitle">Find the perfect property type for your needs</p>
+    </div>
+    <div class="cat-grid" id="catGrid">
+      <div class="cat-card active" onclick="filterByCategory('all', this)">
+        <div class="cat-icon">🏘️</div>
+        <div class="cat-label" data-i18n="cat.all">All</div>
+        <div class="cat-count" id="catCountAll">9 listings</div>
       </div>
-      <div class="type-card" data-filter="flat" onclick="filterByType('flat', this)">
-        <div class="icon">🏢</div>
-        <div class="label">Flat / Apartment</div>
-        <div class="count" id="typeCountFlat">0 listings</div>
+      <div class="cat-card" onclick="filterByCategory('flat', this)">
+        <div class="cat-icon">🏢</div>
+        <div class="cat-label" data-i18n="cat.flat">Flats</div>
+        <div class="cat-count" id="catCountFlat">— listings</div>
       </div>
-      <div class="type-card" data-filter="room" onclick="filterByType('room', this)">
-        <div class="icon">🛏️</div>
-        <div class="label">Room</div>
-        <div class="count" id="typeCountRoom">0 listings</div>
+      <div class="cat-card" onclick="filterByCategory('room', this)">
+        <div class="cat-icon">🛏️</div>
+        <div class="cat-label" data-i18n="cat.room">Rooms</div>
+        <div class="cat-count" id="catCountRoom">— listings</div>
       </div>
-      <div class="type-card" data-filter="hostel" onclick="filterByType('hostel', this)">
-        <div class="icon">🏨</div>
-        <div class="label">Hostel</div>
-        <div class="count" id="typeCountHostel">0 listings</div>
+      <div class="cat-card" onclick="filterByCategory('hostel', this)">
+        <div class="cat-icon">🏨</div>
+        <div class="cat-label" data-i18n="cat.hostel">Hostel/PG</div>
+        <div class="cat-count" id="catCountHostel">— listings</div>
       </div>
-      <div class="type-card" data-filter="building" onclick="filterByType('building', this)">
-        <div class="icon">🏗️</div>
-        <div class="label">Building</div>
-        <div class="count" id="typeCountBuilding">0 listings</div>
+      <div class="cat-card" onclick="filterByCategory('building', this)">
+        <div class="cat-icon">🏗️</div>
+        <div class="cat-label" data-i18n="cat.building">Buildings</div>
+        <div class="cat-count" id="catCountBuilding">— listings</div>
       </div>
-      <div class="type-card" data-filter="plot" onclick="filterByType('plot', this)">
-        <div class="icon">🌿</div>
-        <div class="label">Plot / Land</div>
-        <div class="count" id="typeCountPlot">0 listings</div>
+      <div class="cat-card" onclick="filterByCategory('plot', this)">
+        <div class="cat-icon">🌍</div>
+        <div class="cat-label" data-i18n="cat.plot">Plots</div>
+        <div class="cat-count" id="catCountPlot">— listings</div>
       </div>
-      <div class="type-card" data-filter="house" onclick="filterByType('house', this)">
-        <div class="icon">🏠</div>
-        <div class="label">House / Villa</div>
-        <div class="count" id="typeCountHouse">0 listings</div>
+      <div class="cat-card" onclick="filterByCategory('house', this)">
+        <div class="cat-icon">🏠</div>
+        <div class="cat-label" data-i18n="cat.house">Houses</div>
+        <div class="cat-count" id="catCountHouse">— listings</div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- ========== PROPERTIES SECTION ========== -->
-<section class="section properties-section" id="properties">
+<!-- ===== FEATURED PROPERTIES ===== -->
+<section class="section-pad" id="properties" style="padding-top:0;">
   <div class="container">
-    <div class="properties-header">
+    <div style="display:flex;align-items:flex-end;justify-content:space-between;margin-bottom:24px;flex-wrap:wrap;gap:16px;">
       <div>
-        <h2 class="section-title">Featured Properties</h2>
-        <p class="section-subtitle">Handpicked properties just for you</p>
+        <h2 class="section-title" data-i18n="feat.title">Featured Properties</h2>
+        <p class="section-subtitle" style="margin-bottom:0;" data-i18n="feat.subtitle">Handpicked listings in Greater Noida</p>
       </div>
-      <select class="sort-select" id="sortSelect" onchange="sortProperties(this.value)">
-        <option value="newest">Newest First</option>
-        <option value="price-low">Price: Low to High</option>
-        <option value="price-high">Price: High to Low</option>
+      <a href="listings.html" class="btn btn-outline" style="flex-shrink:0;" data-i18n="feat.viewall">View All →</a>
+    </div>
+    <div class="filter-chips" id="filterChips">
+      <button class="chip active" onclick="filterByType('all', this)" data-i18n="chip.all">All</button>
+      <button class="chip" onclick="filterByType('sale', this)" data-i18n="chip.sale">For Sale</button>
+      <button class="chip" onclick="filterByType('rent', this)" data-i18n="chip.rent">For Rent</button>
+      <button class="chip" onclick="filterByType('land', this)" data-i18n="chip.land">Land / Plot</button>
+    </div>
+    <div class="sort-row">
+      <p id="propCount" style="color:var(--text-light);font-size:0.88rem;"></p>
+      <select class="sort-select" onchange="sortProperties(this.value)">
+        <option value="default" data-i18n="sort.default">Sort: Default</option>
+        <option value="price-low" data-i18n="sort.price_low">Price: Low to High</option>
+        <option value="price-high" data-i18n="sort.price_high">Price: High to Low</option>
+        <option value="newest" data-i18n="sort.newest">Newest First</option>
       </select>
     </div>
-    <div class="filter-bar" id="filterBar">
-      <button class="filter-chip active" data-cat="all" onclick="filterByCategory('all', this)">All</button>
-      <button class="filter-chip" data-cat="sale" onclick="filterByCategory('sale', this)">For Sale</button>
-      <button class="filter-chip" data-cat="rent" onclick="filterByCategory('rent', this)">For Rent</button>
-      <button class="filter-chip" data-cat="land" onclick="filterByCategory('land', this)">Land / Plot</button>
-      <button class="filter-chip" data-cat="construction" onclick="filterByCategory('construction', this)">Construction</button>
+    <div class="props-grid" id="propsGrid">
+      <!-- Populated by JS -->
     </div>
-    <div id="propertiesGrid" class="properties-grid" style="margin-top:28px;"></div>
-    <div id="emptyState" class="empty-state hidden">
-      <i class="fas fa-home"></i>
-      <p>No properties found. Try different filters.</p>
-    </div>
-    <div class="load-more-wrap" id="loadMoreWrap">
-      <button class="btn btn-outline" id="loadMoreBtn" onclick="loadMore()">Load More Properties <i class="fas fa-chevron-down"></i></button>
+    <div class="load-more-wrap">
+      <button class="btn btn-outline" onclick="loadMore()" id="loadMoreBtn" data-i18n="feat.loadmore">Load More Properties</button>
     </div>
   </div>
 </section>
 
-<!-- ========== STATS SECTION ========== -->
-<section class="section stats-section">
+<!-- ===== STATS COUNTER ===== -->
+<section class="stats-section" id="stats">
   <div class="container">
-    <div class="stats-grid">
+    <div class="stats-counters">
       <div class="stat-item">
-        <div class="stat-icon"><i class="fas fa-home"></i></div>
-        <div class="stat-num" data-target="500">0</div>
-        <div class="stat-label">Properties Listed</div>
+        <div class="stat-icon">🏢</div>
+        <div class="stat-num" data-target="500" id="statProps">0+</div>
+        <div class="stat-label" data-i18n="stats.props">Properties Listed</div>
       </div>
       <div class="stat-item">
-        <div class="stat-icon"><i class="fas fa-users"></i></div>
-        <div class="stat-num" data-target="1200">0</div>
-        <div class="stat-label">Happy Clients</div>
+        <div class="stat-icon">👥</div>
+        <div class="stat-num" data-target="1200" id="statClients">0+</div>
+        <div class="stat-label" data-i18n="stats.clients">Happy Clients</div>
       </div>
       <div class="stat-item">
-        <div class="stat-icon"><i class="fas fa-city"></i></div>
-        <div class="stat-num" data-target="15">0</div>
-        <div class="stat-label">Cities Covered</div>
+        <div class="stat-icon">🏆</div>
+        <div class="stat-num" data-target="15" id="statYears">0+</div>
+        <div class="stat-label" data-i18n="stats.years">Years Experience</div>
       </div>
       <div class="stat-item">
-        <div class="stat-icon"><i class="fas fa-handshake"></i></div>
-        <div class="stat-num" data-target="800">0</div>
-        <div class="stat-label">Deals Closed</div>
+        <div class="stat-icon">🤝</div>
+        <div class="stat-num" data-target="800" id="statDeals">0+</div>
+        <div class="stat-label" data-i18n="stats.deals">Deals Closed</div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- ========== WHY US SECTION ========== -->
-<section class="section whyus-section">
+<!-- ===== TESTIMONIALS ===== -->
+<section class="section-pad" id="testimonials">
   <div class="container">
-    <div class="text-center">
-      <h2 class="section-title">Why Choose City Property?</h2>
-      <p class="section-subtitle">We make property buying simple, safe and seamless</p>
+    <div class="text-center" style="margin-bottom:40px;">
+      <h2 class="section-title" data-i18n="test.title">What Our Clients Say</h2>
+      <p class="section-subtitle" data-i18n="test.subtitle">Trusted by 1200+ families across Greater Noida</p>
     </div>
-    <div class="whyus-grid">
-      <div class="whyus-card fade-in">
-        <div class="icon-wrap"><i class="fas fa-shield-alt"></i></div>
-        <h3>Verified Properties</h3>
-        <p>Every property on our platform is personally verified by our team for authenticity and legal clarity.</p>
+    <div class="testimonials-grid">
+      <div class="testimonial-card">
+        <div class="stars">★★★★★</div>
+        <p class="testimonial-text" data-i18n="test.t1">"Found my dream 3BHK flat in Sector Gamma II through City Property. The team was extremely professional and guided us through the entire RERA verification process. Highly recommended!"</p>
+        <div class="testimonial-author">
+          <div class="avatar">RK</div>
+          <div>
+            <div class="author-name">Rajesh Kumar</div>
+            <div class="author-loc">📍 Sector Gamma II, Greater Noida</div>
+          </div>
+        </div>
       </div>
-      <div class="whyus-card fade-in">
-        <div class="icon-wrap"><i class="fas fa-headset"></i></div>
-        <h3>24/7 Expert Support</h3>
-        <p>Our dedicated team is always available via call or WhatsApp to assist you at every step of the process.</p>
+      <div class="testimonial-card">
+        <div class="stars">★★★★★</div>
+        <p class="testimonial-text" data-i18n="test.t2">"Bought a plot in the Yamuna Expressway zone at a great price. City Property verified all YEA authority documents before finalizing. Complete peace of mind for our family."</p>
+        <div class="testimonial-author">
+          <div class="avatar">PM</div>
+          <div>
+            <div class="author-name">Priya Mehta</div>
+            <div class="author-loc">📍 Yamuna Expressway, Sector 18</div>
+          </div>
+        </div>
       </div>
-      <div class="whyus-card fade-in">
-        <div class="icon-wrap"><i class="fas fa-rupee-sign"></i></div>
-        <h3>Best Price Guarantee</h3>
-        <p>We negotiate the best deals for you. No hidden fees, no surprises — complete price transparency.</p>
-      </div>
-      <div class="whyus-card fade-in">
-        <div class="icon-wrap"><i class="fas fa-map-marker-alt"></i></div>
-        <h3>Prime Locations</h3>
-        <p>Access properties in top localities with proximity to schools, hospitals, markets and transport links.</p>
-      </div>
-      <div class="whyus-card fade-in">
-        <div class="icon-wrap"><i class="fas fa-file-contract"></i></div>
-        <h3>Legal Assistance</h3>
-        <p>Full documentation support including sale deed, registration and legal paperwork handled by our experts.</p>
-      </div>
-      <div class="whyus-card fade-in">
-        <div class="icon-wrap"><i class="fas fa-bolt"></i></div>
-        <h3>Quick Process</h3>
-        <p>From inquiry to final deal — our streamlined process ensures you get your property in record time.</p>
+      <div class="testimonial-card">
+        <div class="stars">★★★★★</div>
+        <p class="testimonial-text" data-i18n="test.t3">"Rented a fully furnished hostel accommodation near my college in Knowledge Park. Fast process, no brokerage hassle, and clear documentation. City Property is the best!"</p>
+        <div class="testimonial-author">
+          <div class="avatar">AS</div>
+          <div>
+            <div class="author-name">Amit Sharma</div>
+            <div class="author-loc">📍 Knowledge Park III, Greater Noida</div>
+          </div>
+        </div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- ========== CONTACT SECTION ========== -->
-<section class="section contact-section" id="contact">
+<!-- ===== WHY CHOOSE US ===== -->
+<section class="section-pad" id="about" style="background:var(--bg2);">
   <div class="container">
-    <div class="text-center">
-      <h2 class="section-title">Get In Touch</h2>
-      <p class="section-subtitle">We're just a call or message away</p>
+    <div class="text-center" style="margin-bottom:40px;">
+      <h2 class="section-title" data-i18n="why.title">Why Choose City Property?</h2>
+      <p class="section-subtitle" data-i18n="why.subtitle">Your trusted real estate partner in Greater Noida</p>
     </div>
-    <div class="contact-grid">
-      <!-- Contact Info -->
-      <div class="contact-info">
+    <div class="why-grid">
+      <div class="why-card">
+        <div class="why-icon"><i class="fas fa-shield-alt"></i></div>
+        <div class="why-title" data-i18n="why.w1.title">RERA Registered</div>
+        <div class="why-text" data-i18n="why.w1.text">All listings are RERA compliant and verified by authority. Complete transparency and legal safety for every transaction.</div>
+      </div>
+      <div class="why-card">
+        <div class="why-icon"><i class="fas fa-landmark"></i></div>
+        <div class="why-title" data-i18n="why.w2.title">GNA &amp; YEA Certified</div>
+        <div class="why-text" data-i18n="why.w2.text">Official partner for properties in Greater Noida Authority (GNA) and Yamuna Expressway Authority (YEA) zones.</div>
+      </div>
+      <div class="why-card">
+        <div class="why-icon"><i class="fas fa-check-double"></i></div>
+        <div class="why-title" data-i18n="why.w3.title">100% Verified Listings</div>
+        <div class="why-text" data-i18n="why.w3.text">Every property is physically verified by our team. No fake listings, no hidden charges, no surprises.</div>
+      </div>
+      <div class="why-card">
+        <div class="why-icon"><i class="fas fa-headset"></i></div>
+        <div class="why-title" data-i18n="why.w4.title">24/7 Expert Support</div>
+        <div class="why-text" data-i18n="why.w4.text">Our experienced advisors are available around the clock to guide you through your property journey.</div>
+      </div>
+      <div class="why-card">
+        <div class="why-icon"><i class="fas fa-file-contract"></i></div>
+        <div class="why-title" data-i18n="why.w5.title">Legal Assistance</div>
+        <div class="why-text" data-i18n="why.w5.text">Free legal document review, registry support, loan assistance, and agreement preparation for all deals.</div>
+      </div>
+      <div class="why-card">
+        <div class="why-icon"><i class="fas fa-tags"></i></div>
+        <div class="why-title" data-i18n="why.w6.title">Best Price Guarantee</div>
+        <div class="why-text" data-i18n="why.w6.text">We negotiate on your behalf to ensure you get the best market price. Zero brokerage on select listings.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== AUTHORITY INFO ===== -->
+<section class="section-pad" id="authority">
+  <div class="container">
+    <div class="text-center" style="margin-bottom:40px;">
+      <h2 class="section-title" data-i18n="auth.title">Serving Both Authority Areas</h2>
+      <p class="section-subtitle" data-i18n="auth.subtitle">Expert knowledge of both GNA and YEA governed sectors</p>
+    </div>
+    <div class="authority-grid">
+      <!-- GNA Card -->
+      <div class="authority-card gna">
+        <div class="authority-logo">
+          <div class="authority-icon">🏛️</div>
+          <div>
+            <div class="authority-name" data-i18n="auth.gna.name">Greater Noida Authority</div>
+            <div class="authority-abbr">GNA — Greater Noida Industrial Development Authority</div>
+          </div>
+        </div>
+        <p class="authority-desc" data-i18n="auth.gna.desc">Greater Noida Authority (GNA) governs the planned development of Greater Noida city. Known for wide roads, green zones, and organized sector planning. Popular sectors include Alpha, Beta, Gamma, Delta, Omicron, Mu, Pi, Chi, and Knowledge Park areas.</p>
+        <div class="authority-facts">
+          <div class="fact-item">
+            <div class="fact-val">200+</div>
+            <div class="fact-key" data-i18n="auth.gna.f1">GNA Properties</div>
+          </div>
+          <div class="fact-item">
+            <div class="fact-val">25+</div>
+            <div class="fact-key" data-i18n="auth.gna.f2">Sectors Covered</div>
+          </div>
+          <div class="fact-item">
+            <div class="fact-val">RERA</div>
+            <div class="fact-key" data-i18n="auth.gna.f3">Compliant</div>
+          </div>
+          <div class="fact-item">
+            <div class="fact-val">Metro</div>
+            <div class="fact-key" data-i18n="auth.gna.f4">Connected Areas</div>
+          </div>
+        </div>
+      </div>
+      <!-- YEA Card -->
+      <div class="authority-card yea">
+        <div class="authority-logo">
+          <div class="authority-icon">🛣️</div>
+          <div>
+            <div class="authority-name" data-i18n="auth.yea.name">Yamuna Expressway Authority</div>
+            <div class="authority-abbr">YEA — Yamuna Expressway Industrial Development Authority</div>
+          </div>
+        </div>
+        <p class="authority-desc" data-i18n="auth.yea.desc">YEA manages the development corridor along the 165km Yamuna Expressway from Greater Noida to Agra. Sectors 16 to 22 (Jewar area) are seeing explosive growth with Noida International Airport (Jewar Airport) upcoming nearby.</p>
+        <div class="authority-facts">
+          <div class="fact-item">
+            <div class="fact-val">300+</div>
+            <div class="fact-key" data-i18n="auth.yea.f1">YEA Properties</div>
+          </div>
+          <div class="fact-item">
+            <div class="fact-val">Sec 16–22</div>
+            <div class="fact-key" data-i18n="auth.yea.f2">Key Sectors</div>
+          </div>
+          <div class="fact-item">
+            <div class="fact-val">Airport</div>
+            <div class="fact-key" data-i18n="auth.yea.f3">Jewar Near</div>
+          </div>
+          <div class="fact-item">
+            <div class="fact-val">165 km</div>
+            <div class="fact-key" data-i18n="auth.yea.f4">Expressway</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== SELL PROPERTY WITH US / BUYERS PROVIDED ===== -->
+<section class="section-pad" id="sell" style="background: linear-gradient(135deg, rgba(26,60,110,0.06), rgba(245,166,35,0.08)); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border);">
+  <div class="container">
+    <div class="text-center" style="margin-bottom: 40px;">
+      <span class="badge-badge" style="background:var(--accent); color:#fff; padding:6px 16px; border-radius:50px; font-size:0.8rem; font-weight:800; text-transform:uppercase; letter-spacing:1px; display:inline-block; margin-bottom:12px;">
+        <i class="fas fa-handshake"></i> Guaranteed Buyer Network
+      </span>
+      <h2 class="section-title">Want to Sell Your Property? <span style="color:var(--accent);">We Provide Genuine Buyers!</span></h2>
+      <p class="section-subtitle" style="max-width:760px; margin:0 auto;">
+        List your flat, plot, house, or commercial building with City Property. We have <strong>1,200+ active verified buyers</strong> ready for Greater Noida Authority (GNA) and Yamuna Expressway Authority (YEA) sectors. Fast deal closing & direct WhatsApp connection!
+      </p>
+    </div>
+
+    <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(300px, 1fr)); gap:24px; margin-bottom:40px;">
+      <!-- Feature 1 -->
+      <div style="background:var(--card-bg, #fff); border:1px solid var(--border); border-radius:14px; padding:28px 24px; box-shadow:var(--shadow); display:flex; gap:16px; align-items:flex-start;">
+        <div style="width:52px; height:52px; border-radius:12px; background:rgba(39,174,96,0.12); color:#27ae60; display:flex; align-items:center; justify-content:center; font-size:1.4rem; flex-shrink:0;">
+          <i class="fas fa-users"></i>
+        </div>
+        <div>
+          <h4 style="margin:0 0 6px 0; font-size:1.05rem; font-weight:700;">Direct Genuine Buyers</h4>
+          <p style="margin:0; font-size:0.88rem; color:var(--text-light); line-height:1.5;">
+            We directly connect your listing with pre-screened buyers looking for property in your exact sector. No endless time-wasters.
+          </p>
+        </div>
+      </div>
+
+      <!-- Feature 2 -->
+      <div style="background:var(--card-bg, #fff); border:1px solid var(--border); border-radius:14px; padding:28px 24px; box-shadow:var(--shadow); display:flex; gap:16px; align-items:flex-start;">
+        <div style="width:52px; height:52px; border-radius:12px; background:rgba(26,60,110,0.12); color:var(--primary); display:flex; align-items:center; justify-content:center; font-size:1.4rem; flex-shrink:0;">
+          <i class="fas fa-bolt"></i>
+        </div>
+        <div>
+          <h4 style="margin:0 0 6px 0; font-size:1.05rem; font-weight:700;">Fastest Deal Closure</h4>
+          <p style="margin:0; font-size:0.88rem; color:var(--text-light); line-height:1.5;">
+            From property valuation to legal verification and final registry, our team handles complete paperwork support smoothly.
+          </p>
+        </div>
+      </div>
+
+      <!-- Feature 3 -->
+      <div style="background:var(--card-bg, #fff); border:1px solid var(--border); border-radius:14px; padding:28px 24px; box-shadow:var(--shadow); display:flex; gap:16px; align-items:flex-start;">
+        <div style="width:52px; height:52px; border-radius:12px; background:rgba(37,211,102,0.15); color:#25d366; display:flex; align-items:center; justify-content:center; font-size:1.4rem; flex-shrink:0;">
+          <i class="fab fa-whatsapp"></i>
+        </div>
+        <div>
+          <h4 style="margin:0 0 6px 0; font-size:1.05rem; font-weight:700;">Instant WhatsApp Connect</h4>
+          <p style="margin:0; font-size:0.88rem; color:var(--text-light); line-height:1.5;">
+            Connect immediately on WhatsApp at <strong>97117 33120</strong>. Share your property photos and details for quick review.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Quick Seller Connect Box -->
+    <div style="background:var(--card-bg, #fff); border:2px solid var(--accent); border-radius:16px; padding:32px; box-shadow:var(--shadow-hover); max-width:880px; margin:0 auto;">
+      <div style="text-align:center; margin-bottom:24px;">
+        <h3 style="margin:0 0 8px 0; font-size:1.3rem; color:var(--primary);">Post Your Property to Sell / Connect with Buyers</h3>
+        <p style="margin:0; font-size:0.9rem; color:var(--text-light);">Fill your details below or send directly via WhatsApp with your Customer ID.</p>
+      </div>
+
+      <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(220px, 1fr)); gap:16px; margin-bottom:16px;">
+        <div>
+          <label style="display:block; font-size:0.85rem; font-weight:600; margin-bottom:6px;">Your Name</label>
+          <input type="text" id="sellerName" placeholder="Full Name" style="width:100%; padding:12px 14px; border:1.5px solid var(--border); border-radius:8px; background:var(--bg); color:var(--text); box-sizing:border-box; outline:none; font-family:inherit;" />
+        </div>
+        <div>
+          <label style="display:block; font-size:0.85rem; font-weight:600; margin-bottom:6px;">Phone Number (10 Digits)</label>
+          <input type="tel" id="sellerPhone" placeholder="Your Mobile" maxlength="10" oninput="updateSellerCID()" style="width:100%; padding:12px 14px; border:1.5px solid var(--border); border-radius:8px; background:var(--bg); color:var(--text); box-sizing:border-box; outline:none; font-family:inherit;" />
+        </div>
+        <div>
+          <label style="display:block; font-size:0.85rem; font-weight:600; margin-bottom:6px;">Property Type</label>
+          <select id="sellerPropType" style="width:100%; padding:12px 14px; border:1.5px solid var(--border); border-radius:8px; background:var(--bg); color:var(--text); box-sizing:border-box; outline:none; font-family:inherit;">
+            <option value="Flat / Apartment">Flat / Apartment</option>
+            <option value="Plot / Land">Plot / Land (GNA / YEA)</option>
+            <option value="Independent House / Villa">House / Villa</option>
+            <option value="Commercial Building / Shop">Commercial Space</option>
+            <option value="Hostel / PG Building">Hostel / PG</option>
+          </select>
+        </div>
+        <div>
+          <label style="display:block; font-size:0.85rem; font-weight:600; margin-bottom:6px;">Expected Price</label>
+          <input type="text" id="sellerPrice" placeholder="e.g. ₹55 Lakh" style="width:100%; padding:12px 14px; border:1.5px solid var(--border); border-radius:8px; background:var(--bg); color:var(--text); box-sizing:border-box; outline:none; font-family:inherit;" />
+        </div>
+      </div>
+
+      <div style="margin-bottom:16px;">
+        <label style="display:block; font-size:0.85rem; font-weight:600; margin-bottom:6px;">Location / Sector in Greater Noida / Yamuna Expressway</label>
+        <input type="text" id="sellerLocation" placeholder="e.g. Sector Beta-2, Greater Noida OR Sector 22D, Yamuna Expressway" style="width:100%; padding:12px 14px; border:1.5px solid var(--border); border-radius:8px; background:var(--bg); color:var(--text); box-sizing:border-box; outline:none; font-family:inherit;" />
+      </div>
+
+      <div id="sellerCIDBox" style="display:none; background:rgba(37,211,102,0.1); border:1.5px dashed #25d366; border-radius:8px; padding:10px 14px; margin-bottom:16px; color:#128c7e; font-size:0.88rem; font-weight:700;">
+        <i class="fas fa-id-badge"></i> Your Seller Customer ID: <span id="sellerCIDVal">CID-</span>
+      </div>
+
+      <div style="display:flex; gap:12px; flex-wrap:wrap;">
+        <button onclick="connectSellerWhatsApp()" style="flex:1; min-width:240px; padding:14px; background:#25d366; color:#fff; border:none; border-radius:8px; font-weight:700; font-size:1rem; cursor:pointer; display:flex; align-items:center; justify-content:center; gap:8px; box-shadow:0 4px 14px rgba(37,211,102,0.3);">
+          <i class="fab fa-whatsapp" style="font-size:1.2rem;"></i> Connect on WhatsApp with Buyers
+        </button>
+        <a href="tel:9711733120" style="padding:14px 24px; background:var(--primary); color:#fff; border:none; border-radius:8px; font-weight:700; font-size:1rem; cursor:pointer; text-decoration:none; display:inline-flex; align-items:center; gap:8px;">
+          <i class="fas fa-phone"></i> Call 97117 33120
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== CONTACT SECTION ===== -->
+<section class="section-pad contact-section" id="contact">
+  <div class="container">
+    <div class="text-center" style="margin-bottom:40px;">
+      <h2 class="section-title" data-i18n="contact.title">Get In Touch</h2>
+      <p class="section-subtitle" data-i18n="contact.subtitle">We're here to help you find the perfect property</p>
+    </div>
+    <div class="contact-layout">
+      <!-- Contact Cards -->
+      <div class="contact-cards">
         <a href="tel:9711733120" class="contact-card">
-          <div class="icon icon-call"><i class="fas fa-phone-alt"></i></div>
-          <div class="info">
-            <h4>Call Us Directly</h4>
-            <p>97117 33120</p>
+          <div class="contact-card-icon"><i class="fas fa-phone"></i></div>
+          <div>
+            <div class="contact-card-label" data-i18n="contact.phone_label">Call Us</div>
+            <div class="contact-card-val">97117 33120</div>
           </div>
         </a>
-        <div class="contact-card" onclick="openWAModal()" style="cursor:pointer;">
-          <div class="icon icon-wa"><i class="fab fa-whatsapp"></i></div>
-          <div class="info">
-            <h4>WhatsApp Chat</h4>
-            <p>97117 33120</p>
+        <a href="https://wa.me/919711733120" target="_blank" class="contact-card wa">
+          <div class="contact-card-icon"><i class="fab fa-whatsapp"></i></div>
+          <div>
+            <div class="contact-card-label" data-i18n="contact.wa_label">WhatsApp</div>
+            <div class="contact-card-val">+91 97117 33120</div>
+          </div>
+        </a>
+        <a href="mailto:info@cityproperty.in" class="contact-card email">
+          <div class="contact-card-icon"><i class="fas fa-envelope"></i></div>
+          <div>
+            <div class="contact-card-label" data-i18n="contact.email_label">Email</div>
+            <div class="contact-card-val">info@cityproperty.in</div>
+          </div>
+        </a>
+        <div class="contact-card">
+          <div class="contact-card-icon"><i class="fas fa-map-marker-alt"></i></div>
+          <div>
+            <div class="contact-card-label" data-i18n="contact.addr_label">Office</div>
+            <div class="contact-card-val" data-i18n="contact.addr_val">Greater Noida, UP 201308</div>
           </div>
         </div>
         <div class="contact-card">
-          <div class="icon icon-loc"><i class="fas fa-map-marker-alt"></i></div>
-          <div class="info">
-            <h4>Our Location</h4>
-            <p>Greater Noida (GNA &amp; YEA)</p>
+          <div class="contact-card-icon" style="background:linear-gradient(135deg,var(--success),#2ecc71);"><i class="fas fa-clock"></i></div>
+          <div>
+            <div class="contact-card-label" data-i18n="contact.hours_label">Working Hours</div>
+            <div class="contact-card-val" data-i18n="contact.hours_val">Mon–Sun: 9 AM – 8 PM</div>
           </div>
-        </div>
-        <!-- Quick Actions -->
-        <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px;">
-          <a href="tel:9711733120" class="btn btn-primary"><i class="fas fa-phone"></i> Call Now</a>
-          <button class="btn btn-whatsapp" onclick="openWAModal()"><i class="fab fa-whatsapp"></i> WhatsApp</button>
         </div>
       </div>
+
       <!-- Inquiry Form -->
-      <div class="inquiry-form">
-        <h3><i class="fas fa-paper-plane" style="color:var(--accent)"></i> Send an Inquiry</h3>
-        <div class="form-row">
+      <div class="contact-form">
+        <h3 data-i18n="contact.form_title">Send Inquiry</h3>
+        <div class="form-grid">
           <div class="form-group">
-            <label>Your Name</label>
-            <input type="text" id="inqName" placeholder="Full Name" />
+            <label data-i18n="contact.name">Full Name</label>
+            <input type="text" id="inqName" placeholder="Your name" data-i18n-ph="contact.name_ph" />
           </div>
           <div class="form-group">
-            <label>Phone Number</label>
-            <input type="tel" id="inqPhone" placeholder="10-digit mobile" maxlength="10" oninput="genCIDFromInquiry()" />
+            <label data-i18n="contact.phone">Phone Number</label>
+            <input type="tel" id="inqPhone" placeholder="10-digit mobile" data-i18n-ph="contact.phone_ph" />
+          </div>
+          <div class="form-group">
+            <label data-i18n="contact.interest">Interested In</label>
+            <select id="inqInterest">
+              <option value="buy">Buy Property</option>
+              <option value="rent">Rent Property</option>
+              <option value="plot">Plot / Land</option>
+              <option value="sell">Sell Property</option>
+              <option value="other">Other Inquiry</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label data-i18n="contact.budget">Budget</label>
+            <select id="inqBudget">
+              <option value="">Select Budget</option>
+              <option>Under ₹30 Lakh</option>
+              <option>₹30L – ₹60L</option>
+              <option>₹60L – ₹1 Cr</option>
+              <option>₹1 Cr – ₹2 Cr</option>
+              <option>Above ₹2 Cr</option>
+            </select>
+          </div>
+          <div class="form-group full">
+            <label data-i18n="contact.message">Message</label>
+            <textarea id="inqMsg" rows="4" placeholder="Tell us about your property requirements..." data-i18n-ph="contact.msg_ph"></textarea>
           </div>
         </div>
-        <div id="inqCIDDisplay" class="cid-display hidden">
-          <i class="fas fa-id-badge"></i>
-          Your Customer ID: <strong id="inqCIDVal">—</strong>
-        </div>
-        <div class="form-group mt-16">
-          <label>Interested In</label>
-          <select id="inqInterest">
-            <option>Select property type</option>
-            <option>Flat for Sale</option>
-            <option>Flat for Rent</option>
-            <option>Room for Rent</option>
-            <option>Hostel</option>
-            <option>Building / Commercial</option>
-            <option>Plot / Land</option>
-            <option>Construction</option>
-          </select>
-        </div>
-        <div class="form-group">
-          <label>Message</label>
-          <textarea id="inqMessage" rows="3" placeholder="Tell us about your requirements..."></textarea>
-        </div>
-        <button class="btn btn-whatsapp" style="width:100%; justify-content:center;" onclick="sendInquiryWhatsApp()">
-          <i class="fab fa-whatsapp"></i> Send via WhatsApp
+        <button class="form-submit" onclick="sendInquiryWhatsApp()">
+          <i class="fab fa-whatsapp"></i> <span data-i18n="contact.send_wa">Send via WhatsApp</span>
         </button>
       </div>
     </div>
   </div>
 </section>
 
-<!-- ========== FOOTER ========== -->
-<footer>
+<!-- ===== FOOTER ===== -->
+<footer class="footer">
   <div class="container">
     <div class="footer-grid">
       <div class="footer-brand">
-        <div class="brand-name"><i class="fas fa-building" style="color:var(--accent)"></i> City Property</div>
-        <p>Your trusted real estate partner for buying, selling, renting and construction of residential and commercial properties.</p>
-        <div class="footer-socials">
-          <button class="social-btn" onclick="openWAModal()"><i class="fab fa-whatsapp"></i></button>
-          <a href="tel:9711733120" class="social-btn"><i class="fas fa-phone"></i></a>
-          <div class="social-btn"><i class="fab fa-facebook-f"></i></div>
-          <div class="social-btn"><i class="fab fa-instagram"></i></div>
+        <div class="logo">
+          <div class="logo-icon">CP</div>
+          City <span>Property</span>
+        </div>
+        <p data-i18n="footer.about">Your trusted real estate partner in Greater Noida. RERA registered, GNA & YEA authority certified. Finding dream properties since 2009.</p>
+        <div class="social-links">
+          <a href="#" class="social-link" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+          <a href="#" class="social-link" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+          <a href="https://wa.me/919711733120" class="social-link" aria-label="WhatsApp"><i class="fab fa-whatsapp"></i></a>
+          <a href="#" class="social-link" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
+          <a href="#" class="social-link" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
         </div>
       </div>
       <div class="footer-col">
-        <h4>Quick Links</h4>
-        <ul>
-          <li><a href="#home">Home</a></li>
-          <li><a href="#properties">Properties</a></li>
-          <li><a href="#types">Categories</a></li>
-          <li><a href="#contact">Contact Us</a></li>
-          <li><a href="admin.html">Admin Panel</a></li>
-        </ul>
+        <h4 data-i18n="footer.quick">Quick Links</h4>
+        <div class="footer-links">
+          <a href="index.html" data-i18n="nav.home">Home</a>
+          <a href="listings.html" data-i18n="nav.properties">Properties</a>
+          <a href="#about" data-i18n="nav.about">About Us</a>
+          <a href="#contact" data-i18n="nav.contact">Contact</a>
+          <a href="login.html" data-i18n="footer.login">Login / Register</a>
+          <a href="#" data-i18n="footer.blog">Blog</a>
+        </div>
       </div>
       <div class="footer-col">
-        <h4>Property Types</h4>
-        <ul>
-          <li><a href="#" onclick="filterByType('flat',null)">Flats & Apartments</a></li>
-          <li><a href="#" onclick="filterByType('room',null)">Rooms</a></li>
-          <li><a href="#" onclick="filterByType('hostel',null)">Hostels</a></li>
-          <li><a href="#" onclick="filterByType('building',null)">Buildings</a></li>
-          <li><a href="#" onclick="filterByType('plot',null)">Plots & Land</a></li>
-        </ul>
+        <h4 data-i18n="footer.property_types">Property Types</h4>
+        <div class="footer-links">
+          <a href="listings.html?type=flat" data-i18n="footer.flats">Flats &amp; Apartments</a>
+          <a href="listings.html?type=plot" data-i18n="footer.plots">Plots &amp; Land</a>
+          <a href="listings.html?type=hostel" data-i18n="footer.hostels">Hostels &amp; PG</a>
+          <a href="listings.html?type=room" data-i18n="footer.rooms">Rooms</a>
+          <a href="listings.html?type=building" data-i18n="footer.buildings">Buildings</a>
+          <a href="listings.html?type=house" data-i18n="footer.houses">Houses &amp; Villas</a>
+        </div>
       </div>
       <div class="footer-col">
-        <h4>Contact</h4>
-        <ul>
-          <li><a href="tel:9711733120"><i class="fas fa-phone"></i> 97117 33120</a></li>
-          <li><a href="#" onclick="openWAModal()"><i class="fab fa-whatsapp"></i> WhatsApp Us</a></li>
-        </ul>
+        <h4 data-i18n="footer.contact_us">Contact Us</h4>
+        <div class="footer-contact-item">
+          <i class="fas fa-phone"></i>
+          <span>97117 33120</span>
+        </div>
+        <div class="footer-contact-item">
+          <i class="fab fa-whatsapp"></i>
+          <span>+91 91711 33120</span>
+        </div>
+        <div class="footer-contact-item">
+          <i class="fas fa-envelope"></i>
+          <span>info@cityproperty.in</span>
+        </div>
+        <div class="footer-contact-item">
+          <i class="fas fa-map-marker-alt"></i>
+          <span data-i18n="footer.addr">Greater Noida, Uttar Pradesh 201308</span>
+        </div>
+        <div class="footer-contact-item">
+          <i class="fas fa-clock"></i>
+          <span data-i18n="footer.hours">Mon–Sun: 9 AM – 8 PM</span>
+        </div>
       </div>
     </div>
     <div class="footer-bottom">
-      <p>&copy; 2024 City Property. All rights reserved.</p>
-      <p>Designed with <i class="fas fa-heart" style="color:#ef4444"></i> for your property needs</p>
+      <span data-i18n="footer.copy">© 2025 City Property. All rights reserved. | RERA Registered | GNA &amp; YEA Certified</span>
+      <div class="footer-bottom-links">
+        <a href="#" data-i18n="footer.privacy">Privacy Policy</a>
+        <a href="#" data-i18n="footer.terms">Terms of Use</a>
+        <a href="#" data-i18n="footer.disclaimer">Disclaimer</a>
+      </div>
     </div>
   </div>
 </footer>
 
-<!-- ========== WHATSAPP MODAL ========== -->
-<div class="overlay" id="waOverlay" onclick="closeWAModal(event)">
+<!-- ===== WHATSAPP MODAL ===== -->
+<div class="modal-overlay" id="waModal" onclick="closeWAModal(event)">
   <div class="modal">
-    <button class="modal-close" onclick="closeWAModal()"><i class="fas fa-times"></i></button>
-    <div class="modal-wa-icon"><i class="fab fa-whatsapp"></i></div>
-    <h3>Chat on WhatsApp</h3>
-    <p>Enter your phone number to get your unique Customer ID and connect with us instantly.</p>
-    <div class="form-group">
-      <label>Your Mobile Number</label>
-      <input type="tel" id="waPhone" placeholder="Enter 10-digit mobile number" maxlength="10" oninput="generateCID()" />
+    <button class="modal-close" onclick="closeWAModal(null)"><i class="fas fa-times"></i></button>
+    <div class="modal-wa-header">
+      <div class="modal-wa-icon"><i class="fab fa-whatsapp"></i></div>
+      <div>
+        <div class="modal-wa-title" data-i18n="modal.title">Enquire on WhatsApp</div>
+        <div class="modal-wa-sub" data-i18n="modal.sub">Our team will respond within minutes</div>
+      </div>
     </div>
-    <div id="cidResult" class="cid-result hidden">
-      <div class="cid-label">Your Customer ID</div>
-      <div class="cid-value" id="cidValue">—</div>
+    <div class="modal-prop-name" id="modalPropName">Property Name</div>
+    <div class="modal-fields">
+      <div class="modal-field">
+        <input type="text" id="modalName" placeholder="Your Full Name *" data-i18n-ph="modal.name_ph" />
+      </div>
+      <div class="modal-field">
+        <input type="tel" id="modalPhone" placeholder="Mobile Number *" data-i18n-ph="modal.phone_ph" />
+      </div>
+      <div class="modal-field">
+        <select id="modalInterest">
+          <option value="Buy">I want to Buy</option>
+          <option value="Rent">I want to Rent</option>
+          <option value="Visit">Schedule a Site Visit</option>
+          <option value="Info">Need More Info</option>
+        </select>
+      </div>
     </div>
-    <div class="form-group mt-16">
-      <label>Property Interest (optional)</label>
-      <input type="text" id="waPropertyInterest" placeholder="e.g. 2BHK flat for rent in Sector 15" />
+    <div class="modal-cid-row">
+      <span data-i18n="modal.cid">Enquiry ID:</span>
+      <span class="cid-badge" id="modalCID">—</span>
     </div>
-    <button class="btn btn-whatsapp pulse" style="width:100%; justify-content:center; margin-top:12px; padding:14px;" onclick="sendToWhatsApp()">
-      <i class="fab fa-whatsapp"></i> Open WhatsApp Chat
+    <button class="wa-send-btn" onclick="sendToWhatsApp()">
+      <i class="fab fa-whatsapp"></i> <span data-i18n="modal.send">Send Enquiry on WhatsApp</span>
     </button>
-    <p style="font-size:0.75rem; color:var(--text-light); text-align:center; margin-top:10px;">
-      You'll be redirected to WhatsApp with your details pre-filled.
-    </p>
   </div>
 </div>
 
-<!-- ========== FLOATING BUTTONS ========== -->
+<!-- ===== TOAST CONTAINER ===== -->
+<div class="toast-container" id="toastContainer"></div>
+
+<!-- ===== FLOATING BUTTONS ===== -->
 <div class="floating-btns">
-  <div class="float-btn-wrap">
-    <span class="float-label">Call Us</span>
-    <a href="tel:9711733120" class="float-btn float-call" title="Call Now">
-      <i class="fas fa-phone"></i>
-    </a>
-  </div>
-  <div class="float-btn-wrap">
-    <span class="float-label">WhatsApp</span>
-    <button class="float-btn float-wa" onclick="openWAModal()" title="WhatsApp">
-      <i class="fab fa-whatsapp"></i>
-    </button>
-  </div>
+  <a href="tel:9711733120" class="float-btn float-call" title="Call Us">
+    <i class="fas fa-phone"></i>
+  </a>
+  <a href="https://wa.me/919711733120" target="_blank" class="float-btn float-wa" title="WhatsApp">
+    <i class="fab fa-whatsapp"></i>
+  </a>
 </div>
 
+<!-- ===== SCRIPTS ===== -->
+<script src="js/theme.js"></script>
+<script src="js/auth.js"></script>
 <script src="js/main.js"></script>
 <script src="js/chatbot.js"></script>
+
 </body>
 </html>

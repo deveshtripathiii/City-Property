@@ -1,437 +1,806 @@
-// ============================================================
-// CITY PROPERTY — Main JavaScript
-// ============================================================
+/* =========================================================
+   City Property – main.js  (Homepage)
+   Phone: 9711733120 | WhatsApp: 919711733120
+   ========================================================= */
 
-const PHONE = '919711733120';
-let allProperties = [];
-let filteredProperties = [];
-let displayedCount = 6;
-let activeCategory = 'all';
-let activeType = 'all';
-let activeSortTab = 'buy';
+'use strict';
 
-// ── Default Sample Properties — Greater Noida ──
-const defaultProperties = [
+/* ─── LANGUAGE DATA ─── */
+const I18N = {
+  en: {
+    'nav.home': 'Home', 'nav.properties': 'Properties', 'nav.about': 'About', 'nav.contact': 'Contact', 'nav.login': 'Login',
+    'lang.hi': 'HI', 'lang.en': 'EN',
+    'hero.badge': '#1 in Greater Noida',
+    'hero.title': 'Find Your Dream Property in Greater Noida',
+    'hero.subtitle': 'Explore verified properties in <strong>GNA (Greater Noida Authority)</strong> and <strong>YEA (Yamuna Expressway Authority)</strong> sectors. RERA registered. 100% secure.',
+    'hero.cta1': 'Explore Properties', 'hero.cta2': 'Talk to Expert',
+    'hero.stat1': 'Listed Properties', 'hero.stat2': 'Happy Clients', 'hero.stat3': 'RERA Verified', 'hero.stat4': 'Customer Rating', 'hero.stat5': 'Authority Approved',
+    'search.buy': '🏠 Buy', 'search.rent': '🔑 Rent', 'search.land': '🌍 Land / Plot',
+    'search.btn': 'Search Properties', 'search.location_ph': 'Enter sector, locality or project...',
+    'trust.rera': 'RERA Registered', 'trust.gna': 'GNA Authority Certified', 'trust.yea': 'YEA Authority Certified',
+    'trust.secure': 'Secure & Verified', 'trust.rating': '4.9/5 Rating', 'trust.count': '500+ Properties',
+    'cat.title': 'Browse by Category', 'cat.subtitle': 'Find the perfect property type for your needs',
+    'cat.all': 'All', 'cat.flat': 'Flats', 'cat.room': 'Rooms', 'cat.hostel': 'Hostel/PG', 'cat.building': 'Buildings', 'cat.plot': 'Plots', 'cat.house': 'Houses',
+    'feat.title': 'Featured Properties', 'feat.subtitle': 'Handpicked listings in Greater Noida',
+    'feat.viewall': 'View All →', 'feat.loadmore': 'Load More Properties',
+    'chip.all': 'All', 'chip.sale': 'For Sale', 'chip.rent': 'For Rent', 'chip.land': 'Land / Plot',
+    'sort.default': 'Sort: Default', 'sort.price_low': 'Price: Low to High', 'sort.price_high': 'Price: High to Low', 'sort.newest': 'Newest First',
+    'stats.props': 'Properties Listed', 'stats.clients': 'Happy Clients', 'stats.years': 'Years Experience', 'stats.deals': 'Deals Closed',
+    'test.title': 'What Our Clients Say', 'test.subtitle': 'Trusted by 1200+ families across Greater Noida',
+    'why.title': 'Why Choose City Property?', 'why.subtitle': 'Your trusted real estate partner in Greater Noida',
+    'auth.title': 'Serving Both Authority Areas', 'auth.subtitle': 'Expert knowledge of both GNA and YEA governed sectors',
+    'contact.title': 'Get In Touch', 'contact.subtitle': "We're here to help you find the perfect property",
+    'modal.title': 'Enquire on WhatsApp', 'modal.sub': 'Our team will respond within minutes',
+    'modal.send': 'Send Enquiry on WhatsApp', 'modal.cid': 'Enquiry ID:',
+    'footer.copy': '© 2025 City Property. All rights reserved. | RERA Registered | GNA & YEA Certified',
+  },
+  hi: {
+    'nav.home': 'होम', 'nav.properties': 'प्रॉपर्टी', 'nav.about': 'हमारे बारे में', 'nav.contact': 'संपर्क', 'nav.login': 'लॉगिन',
+    'lang.hi': 'HI', 'lang.en': 'EN',
+    'hero.badge': 'ग्रेटर नोएडा में #1',
+    'hero.title': 'ग्रेटर नोएडा में अपना सपनों का घर ढूंढें',
+    'hero.subtitle': '<strong>GNA (ग्रेटर नोएडा अथॉरिटी)</strong> और <strong>YEA (यमुना एक्सप्रेसवे अथॉरिटी)</strong> में वेरिफाइड प्रॉपर्टी देखें। RERA रजिस्टर्ड। 100% सुरक्षित।',
+    'hero.cta1': 'प्रॉपर्टी देखें', 'hero.cta2': 'विशेषज्ञ से बात करें',
+    'hero.stat1': 'लिस्टेड प्रॉपर्टी', 'hero.stat2': 'खुश ग्राहक', 'hero.stat3': 'RERA वेरिफाइड', 'hero.stat4': 'ग्राहक रेटिंग', 'hero.stat5': 'अथॉरिटी अप्रूव्ड',
+    'search.buy': '🏠 खरीदें', 'search.rent': '🔑 किराया', 'search.land': '🌍 जमीन/प्लॉट',
+    'search.btn': 'प्रॉपर्टी खोजें', 'search.location_ph': 'सेक्टर, इलाका या प्रोजेक्ट दर्ज करें...',
+    'trust.rera': 'RERA रजिस्टर्ड', 'trust.gna': 'GNA अथॉरिटी प्रमाणित', 'trust.yea': 'YEA अथॉरिटी प्रमाणित',
+    'trust.secure': 'सुरक्षित और वेरिफाइड', 'trust.rating': '4.9/5 रेटिंग', 'trust.count': '500+ प्रॉपर्टी',
+    'cat.title': 'श्रेणी के अनुसार खोजें', 'cat.subtitle': 'अपनी जरूरत के अनुसार प्रॉपर्टी टाइप चुनें',
+    'cat.all': 'सभी', 'cat.flat': 'फ्लैट', 'cat.room': 'कमरे', 'cat.hostel': 'हॉस्टल/PG', 'cat.building': 'बिल्डिंग', 'cat.plot': 'प्लॉट', 'cat.house': 'मकान',
+    'feat.title': 'फीचर्ड प्रॉपर्टी', 'feat.subtitle': 'ग्रेटर नोएडा में चुनिंदा लिस्टिंग',
+    'feat.viewall': 'सभी देखें →', 'feat.loadmore': 'और प्रॉपर्टी लोड करें',
+    'chip.all': 'सभी', 'chip.sale': 'बिक्री के लिए', 'chip.rent': 'किराए के लिए', 'chip.land': 'जमीन/प्लॉट',
+    'sort.default': 'क्रम: डिफ़ॉल्ट', 'sort.price_low': 'कीमत: कम से ज्यादा', 'sort.price_high': 'कीमत: ज्यादा से कम', 'sort.newest': 'सबसे नया पहले',
+    'stats.props': 'लिस्टेड प्रॉपर्टी', 'stats.clients': 'खुश ग्राहक', 'stats.years': 'साल का अनुभव', 'stats.deals': 'सौदे बंद',
+    'test.title': 'हमारे ग्राहक क्या कहते हैं', 'test.subtitle': 'ग्रेटर नोएडा में 1200+ परिवारों का विश्वास',
+    'why.title': 'City Property क्यों चुनें?', 'why.subtitle': 'ग्रेटर नोएडा में आपका विश्वसनीय रियल एस्टेट पार्टनर',
+    'auth.title': 'दोनों अथॉरिटी क्षेत्रों में सेवा', 'auth.subtitle': 'GNA और YEA दोनों क्षेत्रों का विशेषज्ञ ज्ञान',
+    'contact.title': 'संपर्क करें', 'contact.subtitle': 'हम आपकी सही प्रॉपर्टी ढूंढने में मदद करने के लिए यहाँ हैं',
+    'modal.title': 'WhatsApp पर पूछताछ करें', 'modal.sub': 'हमारी टीम कुछ ही मिनटों में जवाब देगी',
+    'modal.send': 'WhatsApp पर पूछताछ भेजें', 'modal.cid': 'पूछताछ ID:',
+    'footer.copy': '© 2025 City Property. सर्वाधिकार सुरक्षित। | RERA रजिस्टर्ड | GNA & YEA प्रमाणित',
+  }
+};
+
+/* ─── SAMPLE PROPERTIES (9 – Greater Noida GNA/YEA) ─── */
+const ALL_PROPERTIES = [
   {
-    id: 'p1', title: '2 BHK Ready to Move Flat', category: 'sale', type: 'flat',
-    price: 4500000, priceDisplay: '₹45 Lakh', location: 'Sector Alpha-1, Greater Noida (GNA)',
-    size: '950 sqft', bedrooms: 2, bathrooms: 2,
-    description: 'Beautiful 2 BHK flat fully furnished with modular kitchen, wardrobes and 24/7 security. Allotted under Greater Noida Authority (GNA). Registry done.',
-    image: 'https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?w=600&q=80',
-    featured: true, status: 'active', createdAt: Date.now() - 86400000 * 2
+    id: 1,
+    title: '3 BHK Premium Flat in Sector Alpha-I',
+    type: 'flat',
+    listingType: 'sale',
+    price: 7500000,
+    priceLabel: '₹75 Lakh',
+    priceNote: 'onwards',
+    location: 'Sector Alpha-I, Greater Noida',
+    authority: 'gna',
+    beds: 3, baths: 2, size: '1450 sq ft',
+    rera: true,
+    verified: true,
+    furnishing: 'semi',
+    possession: 'ready',
+    amenities: ['parking', 'lift', 'power-backup', 'security'],
+    emoji: '🏢',
+    badge: 'sale',
+    isNew: false,
+    addedDays: 5,
+    popular: true,
   },
   {
-    id: 'p2', title: 'Spacious Room for Rent', category: 'rent', type: 'room',
-    price: 8000, priceDisplay: '₹8,000/mo', location: 'Sector Beta-2, Greater Noida (GNA)',
-    size: '200 sqft', bedrooms: 1, bathrooms: 1,
-    description: 'Fully furnished single room with attached bathroom, WiFi included. Ideal for working professionals near Expo Mart and Knowledge Park.',
-    image: 'https://images.unsplash.com/photo-1631049307264-da0ec9d70304?w=600&q=80',
-    featured: false, status: 'active', createdAt: Date.now() - 86400000 * 1
+    id: 2,
+    title: 'Furnished 2 BHK Flat — Gamma II',
+    type: 'flat',
+    listingType: 'rent',
+    price: 18000,
+    priceLabel: '₹18,000',
+    priceNote: '/month',
+    location: 'Sector Gamma-II, Greater Noida',
+    authority: 'gna',
+    beds: 2, baths: 2, size: '1100 sq ft',
+    rera: true,
+    verified: true,
+    furnishing: 'furnished',
+    possession: 'ready',
+    amenities: ['parking', 'gym', 'lift', 'wifi', 'security'],
+    emoji: '🏠',
+    badge: 'rent',
+    isNew: true,
+    addedDays: 1,
+    popular: true,
   },
   {
-    id: 'p3', title: 'Commercial Plot for Sale', category: 'land', type: 'plot',
-    price: 12000000, priceDisplay: '₹1.2 Cr', location: 'Sector 22D, Yamuna Expressway (YEA)',
-    size: '2400 sqft', bedrooms: 0, bathrooms: 0,
-    description: 'Prime commercial plot in Yamuna Expressway Industrial Development Authority (YEIDA) zone. Ideal for showroom or office. Clear freehold title.',
-    image: 'https://images.unsplash.com/photo-1500382017468-9049fed747ef?w=600&q=80',
-    featured: true, status: 'active', createdAt: Date.now() - 86400000 * 3
+    id: 3,
+    title: '200 Sq Yd Residential Plot — YEA Sector 18',
+    type: 'plot',
+    listingType: 'sale',
+    price: 3200000,
+    priceLabel: '₹32 Lakh',
+    priceNote: 'total',
+    location: 'YEA Sector 18, Yamuna Expressway',
+    authority: 'yea',
+    beds: null, baths: null, size: '200 sq yd',
+    rera: true,
+    verified: true,
+    furnishing: null,
+    possession: 'ready',
+    amenities: ['security'],
+    emoji: '🌍',
+    badge: 'land',
+    isNew: false,
+    addedDays: 10,
+    popular: false,
   },
   {
-    id: 'p4', title: '3 BHK Builder Floor', category: 'sale', type: 'flat',
-    price: 7800000, priceDisplay: '₹78 Lakh', location: 'Sector Omega-1, Greater Noida (GNA)',
-    size: '1450 sqft', bedrooms: 3, bathrooms: 2,
-    description: 'Spacious 3 BHK on 2nd floor with terrace access. Vastu compliant, GNA registry done. Near Pari Chowk metro and shopping mall.',
-    image: 'https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?w=600&q=80',
-    featured: false, status: 'active', createdAt: Date.now() - 86400000 * 5
+    id: 4,
+    title: 'Boys Hostel / PG — Knowledge Park III',
+    type: 'hostel',
+    listingType: 'rent',
+    price: 6000,
+    priceLabel: '₹6,000',
+    priceNote: '/month',
+    location: 'Knowledge Park III, Greater Noida',
+    authority: 'gna',
+    beds: 1, baths: 1, size: 'Shared Room',
+    rera: false,
+    verified: true,
+    furnishing: 'furnished',
+    possession: 'ready',
+    amenities: ['wifi', 'security', 'power-backup'],
+    emoji: '🏨',
+    badge: 'hostel',
+    isNew: true,
+    addedDays: 2,
+    popular: true,
   },
   {
-    id: 'p5', title: 'Boys Hostel — AC Rooms', category: 'rent', type: 'hostel',
-    price: 5500, priceDisplay: '₹5,500/mo', location: 'Knowledge Park-3, Greater Noida (GNA)',
-    size: '150 sqft', bedrooms: 1, bathrooms: 0,
-    description: 'Boys hostel with AC rooms, mess, WiFi, 24-hr security. Walking distance from Sharda University and GL Bajaj Institute.',
-    image: 'https://images.unsplash.com/photo-1555854877-bab0e564b8d5?w=600&q=80',
-    featured: false, status: 'active', createdAt: Date.now() - 86400000 * 4
+    id: 5,
+    title: '4 BHK Builder Floor — Sector Beta II',
+    type: 'house',
+    listingType: 'sale',
+    price: 12500000,
+    priceLabel: '₹1.25 Cr',
+    priceNote: 'onwards',
+    location: 'Sector Beta-II, Greater Noida',
+    authority: 'gna',
+    beds: 4, baths: 3, size: '2200 sq ft',
+    rera: true,
+    verified: true,
+    furnishing: 'unfurnished',
+    possession: 'ready',
+    amenities: ['parking', 'security', 'power-backup'],
+    emoji: '🏠',
+    badge: 'sale',
+    isNew: false,
+    addedDays: 20,
+    popular: true,
   },
   {
-    id: 'p6', title: '4-Storey Commercial Building', category: 'sale', type: 'building',
-    price: 35000000, priceDisplay: '₹3.5 Cr', location: 'Sector MU, Greater Noida (GNA)',
-    size: '5000 sqft', bedrooms: 0, bathrooms: 6,
-    description: 'Prime commercial building on GNA main road. Ground floor shop + 3 floors offices. Near Surajpur and Expo Mart.',
-    image: 'https://images.unsplash.com/photo-1486325212027-8081e485255e?w=600&q=80',
-    featured: true, status: 'active', createdAt: Date.now() - 86400000 * 6
+    id: 6,
+    title: 'Commercial Building — Omicron I',
+    type: 'building',
+    listingType: 'sale',
+    price: 35000000,
+    priceLabel: '₹3.5 Cr',
+    priceNote: 'negotiable',
+    location: 'Omicron-I, Greater Noida',
+    authority: 'gna',
+    beds: null, baths: 4, size: '4500 sq ft',
+    rera: true,
+    verified: true,
+    furnishing: 'semi',
+    possession: 'ready',
+    amenities: ['parking', 'lift', 'security', 'power-backup'],
+    emoji: '🏗️',
+    badge: 'sale',
+    isNew: false,
+    addedDays: 8,
+    popular: false,
   },
   {
-    id: 'p7', title: 'Residential Plot — Corner', category: 'land', type: 'plot',
-    price: 3200000, priceDisplay: '₹32 Lakh', location: 'Sector 18, Yamuna Expressway (YEA)',
-    size: '100 sqgyd', bedrooms: 0, bathrooms: 0,
-    description: 'Corner plot in YEIDA approved residential scheme. Near Jewar International Airport — best investment opportunity.',
-    image: 'https://images.unsplash.com/photo-1448630360428-65456885c650?w=600&q=80',
-    featured: false, status: 'active', createdAt: Date.now() - 86400000 * 7
+    id: 7,
+    title: '1 BHK Flat for Rent — Delta I',
+    type: 'flat',
+    listingType: 'rent',
+    price: 9500,
+    priceLabel: '₹9,500',
+    priceNote: '/month',
+    location: 'Sector Delta-I, Greater Noida',
+    authority: 'gna',
+    beds: 1, baths: 1, size: '650 sq ft',
+    rera: false,
+    verified: true,
+    furnishing: 'semi',
+    possession: 'ready',
+    amenities: ['parking', 'security'],
+    emoji: '🏢',
+    badge: 'rent',
+    isNew: true,
+    addedDays: 3,
+    popular: false,
   },
   {
-    id: 'p8', title: '1 BHK Flat for Rent', category: 'rent', type: 'flat',
-    price: 12000, priceDisplay: '₹12,000/mo', location: 'Sector Gamma-2, Greater Noida (GNA)',
-    size: '550 sqft', bedrooms: 1, bathrooms: 1,
-    description: 'Semi-furnished 1 BHK with parking in GNA society. Near Aqua Line metro station and Hypercity Mall.',
-    image: 'https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?w=600&q=80',
-    featured: false, status: 'active', createdAt: Date.now() - 86400000 * 8
+    id: 8,
+    title: '500 Sq Yd Plot — YEA Sector 22 (Near Jewar)',
+    type: 'plot',
+    listingType: 'sale',
+    price: 7000000,
+    priceLabel: '₹70 Lakh',
+    priceNote: 'total',
+    location: 'YEA Sector 22, Yamuna Expressway',
+    authority: 'yea',
+    beds: null, baths: null, size: '500 sq yd',
+    rera: true,
+    verified: true,
+    furnishing: null,
+    possession: 'ready',
+    amenities: [],
+    emoji: '🌍',
+    badge: 'land',
+    isNew: false,
+    addedDays: 15,
+    popular: true,
   },
   {
-    id: 'p9', title: 'Girls PG / Hostel', category: 'rent', type: 'hostel',
-    price: 7000, priceDisplay: '₹7,000/mo', location: 'Knowledge Park-2, Greater Noida (GNA)',
-    size: '120 sqft', bedrooms: 1, bathrooms: 0,
-    description: 'Safe and secure girls PG with CCTV, tiffin, WiFi. Ideal for students of Galgotias, Bennett and other Knowledge Park universities.',
-    image: 'https://images.unsplash.com/photo-1536376072261-38c75010e6c9?w=600&q=80',
-    featured: false, status: 'active', createdAt: Date.now() - 86400000 * 9
+    id: 9,
+    title: 'Girls PG / Hostel — Knowledge Park V',
+    type: 'hostel',
+    listingType: 'rent',
+    price: 7500,
+    priceLabel: '₹7,500',
+    priceNote: '/month',
+    location: 'Knowledge Park V, Greater Noida',
+    authority: 'gna',
+    beds: 1, baths: 1, size: 'Single / Double Room',
+    rera: false,
+    verified: true,
+    furnishing: 'furnished',
+    possession: 'ready',
+    amenities: ['wifi', 'security', 'power-backup'],
+    emoji: '🏨',
+    badge: 'hostel',
+    isNew: true,
+    addedDays: 1,
+    popular: false,
   },
 ];
 
+/* ─── STATE ─── */
+let currentLang = 'en';
+let activeCategory = 'all';
+let activeType = 'all';
+let activeSearchTab = 'buy';
+let currentSort = 'default';
+let shownCount = 6;
+let wishlistIds = JSON.parse(localStorage.getItem('cp_wishlist') || '[]');
+let currentModalProp = '';
 
-// ── Initialize ──
-document.addEventListener('DOMContentLoaded', () => {
-  loadProperties();
-  renderProperties();
-  updateTypeCounts();
-  updateHeroCounts();
-  animateStats();
-  setupScrollEvents();
-});
-
-// ── Load Properties from localStorage or defaults ──
-function loadProperties() {
-  try {
-    const stored = localStorage.getItem('cp_properties');
-    if (stored) {
-      const parsed = JSON.parse(stored);
-      allProperties = [...defaultProperties, ...parsed.filter(p => !defaultProperties.find(d => d.id === p.id))];
-    } else {
-      allProperties = [...defaultProperties];
+/* ─── LANGUAGE TOGGLE ─── */
+function setLang(lang) {
+  currentLang = lang;
+  localStorage.setItem('cp_lang', lang);
+  const dict = I18N[lang];
+  // Update all data-i18n elements
+  document.querySelectorAll('[data-i18n]').forEach(el => {
+    const key = el.getAttribute('data-i18n');
+    if (dict[key] !== undefined) {
+      if (el.tagName === 'INPUT' || el.tagName === 'TEXTAREA') {
+        el.placeholder = dict[key];
+      } else {
+        el.innerHTML = dict[key];
+      }
     }
-  } catch (e) {
-    allProperties = [...defaultProperties];
-  }
-  filteredProperties = [...allProperties];
+  });
+  // Update placeholders
+  document.querySelectorAll('[data-i18n-ph]').forEach(el => {
+    const key = el.getAttribute('data-i18n-ph');
+    if (dict[key] !== undefined) el.placeholder = dict[key];
+  });
+  // Toggle active button
+  document.getElementById('langEn').classList.toggle('active', lang === 'en');
+  document.getElementById('langHi').classList.toggle('active', lang === 'hi');
+  // Re-render with current state
+  applyFilters();
 }
 
-// ── Render Properties ──
-function renderProperties() {
-  const grid = document.getElementById('propertiesGrid');
-  const emptyState = document.getElementById('emptyState');
-  const loadMoreWrap = document.getElementById('loadMoreWrap');
-  const toShow = filteredProperties.slice(0, displayedCount);
+/* ─── THEME ─── */
+function toggleTheme() {
+  const html = document.documentElement;
+  const isDark = html.getAttribute('data-theme') === 'dark';
+  html.setAttribute('data-theme', isDark ? 'light' : 'dark');
+  localStorage.setItem('cp_theme', isDark ? 'light' : 'dark');
+  const icon = document.getElementById('themeIcon');
+  if (icon) {
+    icon.className = isDark ? 'fas fa-moon' : 'fas fa-sun';
+  }
+}
 
-  if (filteredProperties.length === 0) {
-    grid.innerHTML = '';
-    emptyState.classList.remove('hidden');
-    loadMoreWrap.style.display = 'none';
+function initTheme() {
+  const saved = localStorage.getItem('cp_theme') || 'light';
+  document.documentElement.setAttribute('data-theme', saved);
+  const icon = document.getElementById('themeIcon');
+  if (icon) icon.className = saved === 'dark' ? 'fas fa-sun' : 'fas fa-moon';
+}
+
+/* ─── NAVBAR SCROLL ─── */
+function initNavbarScroll() {
+  const navbar = document.getElementById('navbar');
+  if (!navbar) return;
+  window.addEventListener('scroll', () => {
+    navbar.classList.toggle('scrolled', window.scrollY > 20);
+  }, { passive: true });
+}
+
+/* ─── HAMBURGER MENU ─── */
+function toggleMenu() {
+  const menu = document.getElementById('mobileMenu');
+  if (menu) menu.classList.toggle('open');
+}
+
+/* ─── SEARCH TAB ─── */
+function setTab(el, tab) {
+  activeSearchTab = tab;
+  document.querySelectorAll('.search-tab').forEach(t => t.classList.remove('active'));
+  el.classList.add('active');
+  // Update placeholder based on tab
+  const locInput = document.getElementById('searchLocation');
+  if (locInput) {
+    const ph = {
+      buy: 'Enter sector or locality to buy...',
+      rent: 'Enter sector or locality to rent...',
+      land: 'Enter area or expressway sector...'
+    };
+    locInput.placeholder = ph[tab] || locInput.placeholder;
+  }
+}
+
+/* ─── SEARCH ─── */
+function doSearch() {
+  const location = (document.getElementById('searchLocation')?.value || '').toLowerCase().trim();
+  const type = document.getElementById('searchType')?.value || '';
+  const budgetRaw = document.getElementById('searchBudget')?.value || '';
+  const bhk = document.getElementById('searchBHK')?.value || '';
+
+  let results = [...ALL_PROPERTIES];
+
+  // Filter by listing tab
+  if (activeSearchTab === 'buy') results = results.filter(p => p.listingType === 'sale');
+  else if (activeSearchTab === 'rent') results = results.filter(p => p.listingType === 'rent');
+  else if (activeSearchTab === 'land') results = results.filter(p => p.type === 'plot');
+
+  // Location keyword
+  if (location) {
+    results = results.filter(p =>
+      p.location.toLowerCase().includes(location) ||
+      p.title.toLowerCase().includes(location)
+    );
+  }
+  // Type
+  if (type) results = results.filter(p => p.type === type);
+  // Budget
+  if (budgetRaw && budgetRaw !== '20000000+') {
+    const [min, max] = budgetRaw.split('-').map(Number);
+    results = results.filter(p => p.price >= min && p.price <= max);
+  } else if (budgetRaw === '20000000+') {
+    results = results.filter(p => p.price >= 20000000);
+  }
+  // BHK
+  if (bhk === 'studio') {
+    results = results.filter(p => p.type === 'hostel' || (p.beds && p.beds === 1));
+  } else if (bhk === '4') {
+    results = results.filter(p => p.beds && p.beds >= 4);
+  } else if (bhk) {
+    results = results.filter(p => p.beds && p.beds === parseInt(bhk));
+  }
+
+  // Render results
+  activeCategory = 'all';
+  activeType = 'all';
+  shownCount = results.length || 6;
+  renderProperties(results.slice(0, 9));
+  // Scroll to properties
+  document.getElementById('properties')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  showToast(`Found ${results.length} propert${results.length === 1 ? 'y' : 'ies'} matching your search`, 'info');
+}
+
+/* ─── LOAD / RENDER PROPERTIES ─── */
+function loadProperties() {
+  updateTypeCounts();
+  applyFilters();
+}
+
+function applyFilters() {
+  let filtered = [...ALL_PROPERTIES];
+  if (activeCategory !== 'all') filtered = filtered.filter(p => p.type === activeCategory);
+  if (activeType !== 'all') {
+    if (activeType === 'land') filtered = filtered.filter(p => p.type === 'plot');
+    else filtered = filtered.filter(p => p.listingType === activeType);
+  }
+  // Sort
+  if (currentSort === 'price-low') filtered.sort((a, b) => a.price - b.price);
+  else if (currentSort === 'price-high') filtered.sort((a, b) => b.price - a.price);
+  else if (currentSort === 'newest') filtered.sort((a, b) => a.addedDays - b.addedDays);
+
+  const displayed = filtered.slice(0, shownCount);
+  renderProperties(displayed);
+
+  const countEl = document.getElementById('propCount');
+  if (countEl) countEl.textContent = `Showing ${displayed.length} of ${filtered.length} properties`;
+
+  const loadMoreBtn = document.getElementById('loadMoreBtn');
+  if (loadMoreBtn) loadMoreBtn.style.display = filtered.length > shownCount ? 'inline-flex' : 'none';
+}
+
+function renderProperties(props) {
+  const grid = document.getElementById('propsGrid');
+  if (!grid) return;
+  if (props.length === 0) {
+    grid.innerHTML = `
+      <div style="grid-column:1/-1;text-align:center;padding:60px 20px;">
+        <div style="font-size:3rem;margin-bottom:16px;">🔍</div>
+        <h3 style="color:var(--text);margin-bottom:8px;">No properties found</h3>
+        <p style="color:var(--text-light);">Try changing your search filters or <a href="listings.html" style="color:var(--primary);">view all listings</a></p>
+      </div>`;
     return;
   }
-  emptyState.classList.add('hidden');
-  grid.innerHTML = toShow.map(createPropertyCard).join('');
-  loadMoreWrap.style.display = filteredProperties.length > displayedCount ? 'block' : 'none';
+  grid.innerHTML = props.map(createPropertyCard).join('');
 }
 
 function createPropertyCard(prop) {
-  const badgeMap = { sale: 'badge-sale', rent: 'badge-rent', land: 'badge-land', construction: 'badge-land', hostel: 'badge-hostel' };
-  const badgeLabelMap = { sale: 'For Sale', rent: 'For Rent', land: 'Land', construction: 'Construction', hostel: 'Hostel' };
-  const typeIconMap = { flat:'🏢', room:'🛏️', hostel:'🏨', building:'🏗️', plot:'🌿', house:'🏠' };
-  const badgeCls = badgeMap[prop.category] || 'badge-sale';
-  const badgeLbl = badgeLabelMap[prop.category] || prop.category;
-  const typeIcon = typeIconMap[prop.type] || '🏠';
+  const isWishlisted = wishlistIds.includes(prop.id);
+  const bedsInfo = prop.beds ? `<div class="prop-feat"><i class="fas fa-bed"></i> ${prop.beds} Bed</div>` : '';
+  const bathInfo = prop.baths ? `<div class="prop-feat"><i class="fas fa-bath"></i> ${prop.baths} Bath</div>` : '';
+  const sizeInfo = `<div class="prop-feat"><i class="fas fa-expand-arrows-alt"></i> ${prop.size}</div>`;
 
-  const imgHtml = prop.image
-    ? `<img src="${prop.image}" alt="${prop.title}" loading="lazy" onerror="this.parentElement.innerHTML='<div class=\\'placeholder-img\\'>${typeIcon}</div>'" />`
-    : `<div class="placeholder-img">${typeIcon}</div>`;
+  const reraBadge = prop.rera
+    ? `<span class="badge badge-rera"><i class="fas fa-certificate"></i> RERA</span>`
+    : '';
+  const authorityBadge = prop.authority === 'gna'
+    ? `<span class="badge badge-gna"><i class="fas fa-landmark"></i> GNA</span>`
+    : `<span class="badge badge-yea"><i class="fas fa-road"></i> YEA</span>`;
 
-  const bedsHtml = prop.bedrooms > 0
-    ? `<div class="card-feature"><i class="fas fa-bed"></i> ${prop.bedrooms} Bed</div>` : '';
-  const bathHtml = prop.bathrooms > 0
-    ? `<div class="card-feature"><i class="fas fa-bath"></i> ${prop.bathrooms} Bath</div>` : '';
+  const newBadge = prop.isNew
+    ? `<span style="position:absolute;top:12px;right:50px;background:var(--accent);color:#fff;font-size:0.7rem;font-weight:700;padding:3px 10px;border-radius:12px;">NEW</span>`
+    : '';
+
+  const badgeClass = {
+    sale: 'badge-sale', rent: 'badge-rent', land: 'badge-land', hostel: 'badge-hostel'
+  }[prop.badge] || 'badge-sale';
+
+  const badgeLabel = {
+    sale: 'For Sale', rent: 'For Rent', land: 'Land / Plot', hostel: 'Hostel / PG'
+  }[prop.badge] || prop.badge;
 
   return `
-  <div class="property-card fade-in" onclick="openProperty('${prop.id}')">
-    <div class="card-image">
-      ${imgHtml}
-      <span class="card-badge ${badgeCls}">${badgeLbl}</span>
-      <button class="card-wishlist" onclick="event.stopPropagation(); toggleWishlist(this)" title="Save">
-        <i class="far fa-heart"></i>
+<div class="prop-card" data-id="${prop.id}">
+  <div class="prop-img-wrap">
+    <div class="prop-img-placeholder">${prop.emoji}</div>
+    <div class="prop-badges">
+      <span class="badge ${badgeClass}">${badgeLabel}</span>
+    </div>
+    ${newBadge}
+    <button class="wishlist-btn ${isWishlisted ? 'active' : ''}"
+      onclick="toggleWishlist(${prop.id}, this)"
+      title="${isWishlisted ? 'Remove from wishlist' : 'Add to wishlist'}">
+      <i class="${isWishlisted ? 'fas' : 'far'} fa-heart"></i>
+    </button>
+  </div>
+  <div class="prop-body">
+    <div class="prop-type">${prop.type.toUpperCase()} · ${prop.authority.toUpperCase()}</div>
+    <h3 class="prop-title">${prop.title}</h3>
+    <div class="prop-location"><i class="fas fa-map-marker-alt"></i> ${prop.location}</div>
+    <div class="prop-price">${prop.priceLabel} <span>${prop.priceNote}</span></div>
+    <div class="prop-features">
+      ${bedsInfo}${bathInfo}${sizeInfo}
+    </div>
+    <div class="prop-badges-row">
+      ${reraBadge}${authorityBadge}
+      ${prop.verified ? '<span class="badge" style="background:#e8f5e9;color:var(--success);"><i class="fas fa-check-circle"></i> Verified</span>' : ''}
+    </div>
+    <div class="prop-actions">
+      <a href="property-detail.html?id=${prop.id}" class="btn btn-outline">
+        <i class="fas fa-eye"></i> Details
+      </a>
+      <button class="btn btn-wa" onclick="openWAModal('${escHtml(prop.title)}')">
+        <i class="fab fa-whatsapp"></i> WhatsApp
       </button>
     </div>
-    <div class="card-body">
-      <div class="card-type">${typeIcon} ${prop.type.charAt(0).toUpperCase() + prop.type.slice(1)}</div>
-      <div class="card-title">${prop.title}</div>
-      <div class="card-location"><i class="fas fa-map-marker-alt"></i> ${prop.location}</div>
-      <div class="card-price">${prop.priceDisplay} <span>${prop.category === 'rent' ? 'per month' : ''}</span></div>
-      <div class="card-features">
-        ${bedsHtml}${bathHtml}
-        ${prop.size ? `<div class="card-feature"><i class="fas fa-ruler-combined"></i> ${prop.size}</div>` : ''}
-      </div>
-      <div class="card-actions" onclick="event.stopPropagation()">
-        <button class="btn btn-outline btn-sm" onclick="openProperty('${prop.id}')"><i class="fas fa-eye"></i> Details</button>
-        <button class="btn btn-whatsapp btn-sm" onclick="openWAModal('${prop.title}')"><i class="fab fa-whatsapp"></i> Enquire</button>
-      </div>
-    </div>
-  </div>`;
+  </div>
+</div>`;
 }
 
-// ── Open Property Detail ──
-function openProperty(id) {
-  localStorage.setItem('cp_view_property', id);
-  window.location.href = 'property.html';
+function escHtml(str) {
+  return str.replace(/'/g, "\\'").replace(/"/g, '&quot;');
 }
 
-// ── Toggle Wishlist ──
-function toggleWishlist(btn) {
-  btn.classList.toggle('liked');
-  const icon = btn.querySelector('i');
-  icon.className = btn.classList.contains('liked') ? 'fas fa-heart' : 'far fa-heart';
-  showToast(btn.classList.contains('liked') ? 'Added to wishlist ❤️' : 'Removed from wishlist', btn.classList.contains('liked') ? 'success' : '');
-}
-
-// ── Filter by Category ──
+/* ─── FILTER BY CATEGORY ─── */
 function filterByCategory(cat, el) {
   activeCategory = cat;
-  activeType = 'all';
-  displayedCount = 6;
-  document.querySelectorAll('.filter-chip').forEach(c => c.classList.remove('active'));
-  document.querySelectorAll('.type-card').forEach(c => c.classList.remove('active'));
+  shownCount = 6;
+  document.querySelectorAll('.cat-card').forEach(c => c.classList.remove('active'));
   if (el) el.classList.add('active');
   applyFilters();
-  document.getElementById('properties').scrollIntoView({ behavior: 'smooth' });
 }
 
-// ── Filter by Type ──
+/* ─── FILTER BY TYPE (chips) ─── */
 function filterByType(type, el) {
   activeType = type;
-  activeCategory = 'all';
-  displayedCount = 6;
-  document.querySelectorAll('.filter-chip').forEach(c => c.classList.remove('active'));
-  document.querySelectorAll('.type-card').forEach(c => c.classList.remove('active'));
+  shownCount = 6;
+  document.querySelectorAll('.chip').forEach(c => c.classList.remove('active'));
   if (el) el.classList.add('active');
-  else {
-    const tc = document.querySelector(`.type-card[data-filter="${type}"]`);
-    if (tc) tc.classList.add('active');
-  }
   applyFilters();
-  document.getElementById('properties').scrollIntoView({ behavior: 'smooth' });
 }
 
-// ── Apply All Filters ──
-function applyFilters() {
-  let result = [...allProperties];
-  if (activeCategory !== 'all') result = result.filter(p => p.category === activeCategory);
-  if (activeType !== 'all') result = result.filter(p => p.type === activeType);
-  filteredProperties = result;
-  sortProperties(document.getElementById('sortSelect').value, false);
+/* ─── SORT ─── */
+function sortProperties(val) {
+  currentSort = val;
+  applyFilters();
 }
 
-// ── Sort Properties ──
-function sortProperties(val, doRender = true) {
-  const sortFns = {
-    'newest': (a,b) => b.createdAt - a.createdAt,
-    'price-low': (a,b) => a.price - b.price,
-    'price-high': (a,b) => b.price - a.price
-  };
-  filteredProperties.sort(sortFns[val] || sortFns['newest']);
-  if (doRender) renderProperties();
-  else renderProperties();
-}
-
-// ── Search ──
-function doSearch() {
-  const loc = document.getElementById('searchLocation').value.toLowerCase();
-  const type = document.getElementById('searchType').value;
-  const catMap = { buy: 'sale', rent: 'rent', land: 'land' };
-  const cat = catMap[activeSortTab] || 'all';
-
-  let result = [...allProperties];
-  if (cat !== 'all') result = result.filter(p => p.category === cat);
-  if (type) result = result.filter(p => p.type === type);
-  if (loc) result = result.filter(p => p.location.toLowerCase().includes(loc) || p.title.toLowerCase().includes(loc));
-
-  filteredProperties = result;
-  displayedCount = 6;
-  renderProperties();
-  document.getElementById('properties').scrollIntoView({ behavior: 'smooth' });
-  if (result.length === 0) showToast('No properties found for your search. Try different filters.', 'error');
-  else showToast(`Found ${result.length} propert${result.length === 1 ? 'y' : 'ies'}!`, 'success');
-}
-
-// ── Search Tab ──
-function setTab(el, tab) {
-  activeSortTab = tab;
-  document.querySelectorAll('.search-tab').forEach(t => t.classList.remove('active'));
-  el.classList.add('active');
-}
-
-// ── Load More ──
+/* ─── LOAD MORE ─── */
 function loadMore() {
-  displayedCount += 6;
-  renderProperties();
+  shownCount += 3;
+  applyFilters();
+  showToast('More properties loaded!', 'success');
 }
 
-// ── Update Type Counts ──
+/* ─── UPDATE TYPE COUNTS ─── */
 function updateTypeCounts() {
-  const types = ['flat','room','hostel','building','plot','house'];
-  const total = allProperties.length;
-  document.getElementById('typeCountAll').textContent = `${total} listings`;
+  const types = ['flat', 'room', 'hostel', 'building', 'plot', 'house'];
+  const idMap = {
+    flat: 'catCountFlat', room: 'catCountRoom', hostel: 'catCountHostel',
+    building: 'catCountBuilding', plot: 'catCountPlot', house: 'catCountHouse'
+  };
   types.forEach(t => {
-    const el = document.getElementById(`typeCount${t.charAt(0).toUpperCase() + t.slice(1)}`);
-    if (el) el.textContent = `${allProperties.filter(p => p.type === t).length} listings`;
+    const count = ALL_PROPERTIES.filter(p => p.type === t).length;
+    const el = document.getElementById(idMap[t]);
+    if (el) el.textContent = `${count} listing${count !== 1 ? 's' : ''}`;
   });
+  const allEl = document.getElementById('catCountAll');
+  if (allEl) allEl.textContent = `${ALL_PROPERTIES.length} listings`;
 }
 
-// ── Update Hero Counts ──
 function updateHeroCounts() {
-  document.getElementById('heroSaleCount').textContent = allProperties.filter(p => p.category === 'sale').length + '+';
-  document.getElementById('heroRentCount').textContent = allProperties.filter(p => p.category === 'rent').length + '+';
-  document.getElementById('heroLandCount').textContent = allProperties.filter(p => p.category === 'land').length + '+';
+  const el = document.getElementById('heroProps');
+  if (el) el.textContent = `${ALL_PROPERTIES.length * 10}+`;
 }
 
-// ── Animate Counter Stats ──
+/* ─── STATS COUNTER ANIMATION ─── */
 function animateStats() {
-  const counters = document.querySelectorAll('.stat-num[data-target]');
-  const observer = new IntersectionObserver(entries => {
+  const statEls = document.querySelectorAll('.stat-num[data-target]');
+  if (!statEls.length) return;
+
+  const observer = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
       if (entry.isIntersecting) {
         const el = entry.target;
-        const target = parseInt(el.dataset.target);
-        let count = 0;
+        const target = parseInt(el.getAttribute('data-target'), 10);
+        let current = 0;
         const step = Math.ceil(target / 60);
-        const interval = setInterval(() => {
-          count = Math.min(count + step, target);
-          el.textContent = count.toLocaleString() + '+';
-          if (count >= target) clearInterval(interval);
-        }, 25);
+        const timer = setInterval(() => {
+          current = Math.min(current + step, target);
+          el.textContent = current + '+';
+          if (current >= target) clearInterval(timer);
+        }, 20);
         observer.unobserve(el);
       }
     });
   }, { threshold: 0.5 });
-  counters.forEach(el => observer.observe(el));
+
+  statEls.forEach(el => observer.observe(el));
 }
 
-// ── Scroll Events ──
-function setupScrollEvents() {
-  window.addEventListener('scroll', () => {
-    const navbar = document.getElementById('navbar');
-    navbar.classList.toggle('scrolled', window.scrollY > 50);
-  });
-}
-
-// ── Navbar Toggle ──
-function toggleMenu() {
-  const hamburger = document.getElementById('hamburger');
-  const menu = document.getElementById('mobileMenu');
-  hamburger.classList.toggle('open');
-  menu.classList.toggle('open');
-}
-
-// ── Generate Customer ID ──
-function generateCIDFromPhone(phone) {
-  const digits = phone.replace(/\D/g, '');
-  if (digits.length >= 5) return 'CID-' + digits.substring(0, 5);
-  return null;
-}
-
-// ── WhatsApp Modal ──
-let waPropertyName = '';
-function openWAModal(propertyName = '') {
-  waPropertyName = propertyName;
-  document.getElementById('waOverlay').classList.add('show');
-  document.body.style.overflow = 'hidden';
-  if (propertyName) {
-    document.getElementById('waPropertyInterest').value = propertyName;
+/* ─── WISHLIST ─── */
+function toggleWishlist(id, btn) {
+  const idx = wishlistIds.indexOf(id);
+  if (idx === -1) {
+    wishlistIds.push(id);
+    btn.classList.add('active');
+    btn.innerHTML = '<i class="fas fa-heart"></i>';
+    showToast('Added to wishlist ❤️', 'success');
+  } else {
+    wishlistIds.splice(idx, 1);
+    btn.classList.remove('active');
+    btn.innerHTML = '<i class="far fa-heart"></i>';
+    showToast('Removed from wishlist', 'info');
   }
-  setTimeout(() => document.getElementById('waPhone').focus(), 300);
+  localStorage.setItem('cp_wishlist', JSON.stringify(wishlistIds));
+}
+
+/* ─── WHATSAPP MODAL ─── */
+function openWAModal(propName) {
+  currentModalProp = propName;
+  const overlay = document.getElementById('waModal');
+  const propNameEl = document.getElementById('modalPropName');
+  const cidEl = document.getElementById('modalCID');
+  if (!overlay) return;
+  if (propNameEl) propNameEl.textContent = propName;
+  if (cidEl) cidEl.textContent = generateCID();
+  overlay.classList.add('open');
+  document.body.style.overflow = 'hidden';
 }
 
 function closeWAModal(e) {
-  if (e && e.target !== document.getElementById('waOverlay')) return;
-  document.getElementById('waOverlay').classList.remove('show');
+  if (e && e.target !== document.getElementById('waModal')) return;
+  const overlay = document.getElementById('waModal');
+  if (overlay) overlay.classList.remove('open');
   document.body.style.overflow = '';
-  document.getElementById('waPhone').value = '';
-  document.getElementById('cidResult').classList.add('hidden');
-  document.getElementById('cidValue').textContent = '—';
-  document.getElementById('waPropertyInterest').value = '';
 }
 
 function generateCID() {
-  const phone = document.getElementById('waPhone').value;
-  const cid = generateCIDFromPhone(phone);
-  const cidResult = document.getElementById('cidResult');
-  const cidValue = document.getElementById('cidValue');
-  if (cid) {
-    cidValue.textContent = cid;
-    cidResult.classList.remove('hidden');
-  } else {
-    cidResult.classList.add('hidden');
-  }
+  const ts = Date.now().toString(36).toUpperCase();
+  const rand = Math.random().toString(36).substring(2, 5).toUpperCase();
+  return `CP-${ts}-${rand}`;
 }
 
 function sendToWhatsApp() {
-  const phone = document.getElementById('waPhone').value.trim();
-  const interest = document.getElementById('waPropertyInterest').value.trim();
-  if (!phone || phone.replace(/\D/g,'').length < 5) {
-    showToast('Please enter at least 5 digits of your phone number.', 'error');
-    return;
-  }
-  const cid = generateCIDFromPhone(phone);
-  let message = `Hi City Property! 👋\n\nI'm Customer *${cid}*.\n`;
-  if (interest) message += `I'm interested in: *${interest}*.\n`;
-  message += `\nPlease contact me. My number: ${phone}`;
-  const url = `https://wa.me/${PHONE}?text=${encodeURIComponent(message)}`;
-  window.open(url, '_blank');
-  closeWAModal();
-  showToast('Opening WhatsApp...', 'success');
+  const name = document.getElementById('modalName')?.value.trim() || '';
+  const phone = document.getElementById('modalPhone')?.value.trim() || '';
+  const interest = document.getElementById('modalInterest')?.value || 'Info';
+  const cid = document.getElementById('modalCID')?.textContent || generateCID();
+
+  if (!name) { showToast('Please enter your name', 'error'); return; }
+  if (!phone || phone.length < 10) { showToast('Please enter a valid phone number', 'error'); return; }
+
+  const msg = encodeURIComponent(
+    `🏡 *City Property Enquiry*\n` +
+    `━━━━━━━━━━━━━━━━━━━\n` +
+    `📋 *Enquiry ID:* ${cid}\n` +
+    `👤 *Name:* ${name}\n` +
+    `📞 *Phone:* ${phone}\n` +
+    `🔍 *Interest:* ${interest}\n` +
+    `🏠 *Property:* ${currentModalProp}\n` +
+    `━━━━━━━━━━━━━━━━━━━\n` +
+    `Please contact me regarding this property. Thank you!`
+  );
+  window.open(`https://wa.me/919711733120?text=${msg}`, '_blank');
+  closeWAModal(null);
+  showToast('Opening WhatsApp... 📱', 'success');
 }
 
-// ── Inquiry Form WhatsApp ──
+/* ─── INQUIRY FORM (CONTACT SECTION) ─── */
 function genCIDFromInquiry() {
-  const phone = document.getElementById('inqPhone').value;
-  const cid = generateCIDFromPhone(phone);
-  const display = document.getElementById('inqCIDDisplay');
-  const val = document.getElementById('inqCIDVal');
-  if (cid) {
-    val.textContent = cid;
-    display.classList.remove('hidden');
-  } else {
-    display.classList.add('hidden');
-  }
+  const ts = Date.now().toString(36).toUpperCase();
+  return `CPQ-${ts}`;
 }
 
 function sendInquiryWhatsApp() {
-  const name = document.getElementById('inqName').value.trim();
-  const phone = document.getElementById('inqPhone').value.trim();
-  const interest = document.getElementById('inqInterest').value;
-  const message = document.getElementById('inqMessage').value.trim();
+  const name = document.getElementById('inqName')?.value.trim() || '';
+  const phone = document.getElementById('inqPhone')?.value.trim() || '';
+  const interest = document.getElementById('inqInterest')?.value || '';
+  const budget = document.getElementById('inqBudget')?.value || 'Not specified';
+  const msg_text = document.getElementById('inqMsg')?.value.trim() || '';
+  const cid = genCIDFromInquiry();
 
-  if (!phone || phone.replace(/\D/g,'').length < 5) {
-    showToast('Please enter your phone number.', 'error');
-    return;
-  }
-  const cid = generateCIDFromPhone(phone);
-  let msg = `Hi City Property! 👋\n\n`;
-  msg += `*Customer ID:* ${cid}\n`;
-  if (name) msg += `*Name:* ${name}\n`;
-  msg += `*Phone:* ${phone}\n`;
-  if (interest && interest !== 'Select property type') msg += `*Interested In:* ${interest}\n`;
-  if (message) msg += `*Message:* ${message}\n`;
-  const url = `https://wa.me/${PHONE}?text=${encodeURIComponent(msg)}`;
-  window.open(url, '_blank');
-  showToast('Opening WhatsApp with your inquiry!', 'success');
+  if (!name) { showToast('Please enter your name', 'error'); return; }
+  if (!phone || phone.length < 10) { showToast('Please enter a valid mobile number', 'error'); return; }
+
+  const text = encodeURIComponent(
+    `🏡 *City Property Inquiry*\n` +
+    `━━━━━━━━━━━━━━━━━━━\n` +
+    `📋 *Inquiry ID:* ${cid}\n` +
+    `👤 *Name:* ${name}\n` +
+    `📞 *Phone:* ${phone}\n` +
+    `🔍 *Interested In:* ${interest}\n` +
+    `💰 *Budget:* ${budget}\n` +
+    `📝 *Message:* ${msg_text || 'No message'}\n` +
+    `━━━━━━━━━━━━━━━━━━━\n` +
+    `Please assist with my property inquiry. Thank you!`
+  );
+  window.open(`https://wa.me/919711733120?text=${text}`, '_blank');
+  showToast('Opening WhatsApp! We\'ll respond soon 📱', 'success');
 }
 
-// ── Toast Notification ──
-function showToast(msg, type = '') {
+/* ─── TOAST ─── */
+function showToast(msg, type = 'info') {
   const container = document.getElementById('toastContainer');
+  if (!container) return;
   const toast = document.createElement('div');
   toast.className = `toast ${type}`;
-  const iconMap = { success: 'fa-check-circle', error: 'fa-exclamation-circle', '': 'fa-info-circle' };
-  const colorMap = { success: '#27ae60', error: '#e74c3c', '': '#1a3c6e' };
-  toast.innerHTML = `<i class="fas ${iconMap[type] || iconMap['']}" style="color:${colorMap[type] || colorMap['']}"></i> ${msg}`;
+  toast.textContent = msg;
   container.appendChild(toast);
-  setTimeout(() => { toast.style.opacity = '0'; toast.style.transform = 'translateX(20px)'; setTimeout(() => toast.remove(), 300); }, 3000);
+  setTimeout(() => toast.remove(), 3200);
 }
 
-// Close modal on Escape key
-document.addEventListener('keydown', e => { if (e.key === 'Escape') closeWAModal(); });
+/* ─── SCROLL ANIMATIONS ─── */
+function initScrollAnimations() {
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.style.opacity = '1';
+        entry.target.style.transform = 'translateY(0)';
+      }
+    });
+  }, { threshold: 0.1 });
+
+  document.querySelectorAll('.prop-card, .why-card, .testimonial-card, .cat-card, .authority-card').forEach(el => {
+    el.style.opacity = '0';
+    el.style.transform = 'translateY(20px)';
+    el.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+    observer.observe(el);
+  });
+}
+
+/* ─── INIT ─── */
+document.addEventListener('DOMContentLoaded', () => {
+  // Init theme
+  initTheme();
+  // Init language
+  const savedLang = localStorage.getItem('cp_lang') || 'en';
+  if (savedLang !== 'en') setLang(savedLang);
+  // Load properties
+  loadProperties();
+  updateHeroCounts();
+  // Navbar scroll
+  initNavbarScroll();
+  // Stats counter animation
+  animateStats();
+  // Close mobile menu on outside click
+  document.addEventListener('click', (e) => {
+    const menu = document.getElementById('mobileMenu');
+    const hamburger = document.querySelector('.hamburger');
+    if (menu && menu.classList.contains('open') &&
+        !menu.contains(e.target) && !hamburger.contains(e.target)) {
+      menu.classList.remove('open');
+    }
+  });
+  // Smooth scroll for anchor links
+  document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+    anchor.addEventListener('click', function(e) {
+      const target = document.querySelector(this.getAttribute('href'));
+      if (target) {
+        e.preventDefault();
+        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    });
+  });
+  // Scroll animations
+  setTimeout(initScrollAnimations, 300);
+  // Check auth if available
+  if (typeof checkAuthState === 'function') checkAuthState();
+});
+
+// ============================================================
+// SELLER CONNECT TO WHATSAPP FUNCTION
+// ============================================================
+function updateSellerCID() {
+  const phone = document.getElementById('sellerPhone').value.replace(/\D/g, '');
+  const box = document.getElementById('sellerCIDBox');
+  const val = document.getElementById('sellerCIDVal');
+  if (phone.length >= 5) {
+    const cid = 'CID-' + phone.substring(0, 5);
+    val.textContent = cid;
+    box.style.display = 'block';
+  } else {
+    box.style.display = 'none';
+  }
+}
+
+function connectSellerWhatsApp() {
+  const name = document.getElementById('sellerName').value.trim();
+  const phone = document.getElementById('sellerPhone').value.replace(/\D/g, '');
+  const propType = document.getElementById('sellerPropType').value;
+  const price = document.getElementById('sellerPrice').value.trim();
+  const location = document.getElementById('sellerLocation').value.trim();
+
+  if (phone.length < 5) {
+    alert('Please enter at least 5 digits of your phone number.');
+    return;
+  }
+
+  const cid = 'CID-' + phone.substring(0, 5);
+  let msg = `🏠 *SELLER INQUIRY — CITY PROPERTY*\n`;
+  msg += `━━━━━━━━━━━━━━━━━━\n`;
+  msg += `🆔 *Customer ID:* ${cid}\n`;
+  if (name) msg += `👤 *Seller Name:* ${name}\n`;
+  msg += `📱 *Phone:* ${phone}\n`;
+  msg += `🏷️ *Property Type:* ${propType}\n`;
+  if (price) msg += `💰 *Expected Price:* ${price}\n`;
+  if (location) msg += `📍 *Location:* ${location}\n`;
+  msg += `━━━━━━━━━━━━━━━━━━\n`;
+  msg += `🤝 *Request:* I want to sell this property through City Property. Please provide genuine buyers!\n`;
+  msg += `⏰ *Date:* ${new Date().toLocaleDateString('en-IN')}`;
+
+  const url = `https://wa.me/919711733120?text=${encodeURIComponent(msg)}`;
+  window.open(url, '_blank');
+}

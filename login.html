@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Login & Register — City Property</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <link rel="stylesheet" href="css/style.css" />
+  <style>
+    body {
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+    .auth-wrapper {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 40px 16px;
+    }
+    .auth-card {
+      background: var(--card-bg, #fff);
+      border: 1px solid var(--border);
+      border-radius: var(--radius, 16px);
+      box-shadow: var(--shadow);
+      width: 100%;
+      max-width: 460px;
+      padding: 32px 28px;
+    }
+    .auth-header {
+      text-align: center;
+      margin-bottom: 24px;
+    }
+    .auth-brand {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 1.3rem;
+      font-weight: 800;
+      color: var(--primary);
+      text-decoration: none;
+      margin-bottom: 8px;
+    }
+    .auth-brand span { color: var(--accent); }
+    .auth-tabs {
+      display: flex;
+      background: var(--bg2, #eef1f6);
+      border-radius: 50px;
+      padding: 4px;
+      margin-bottom: 24px;
+    }
+    .auth-tab {
+      flex: 1;
+      text-align: center;
+      padding: 10px;
+      border-radius: 50px;
+      font-weight: 600;
+      font-size: 0.9rem;
+      border: none;
+      background: transparent;
+      color: var(--text-light);
+      cursor: pointer;
+      transition: var(--transition);
+    }
+    .auth-tab.active {
+      background: var(--primary);
+      color: #fff;
+    }
+    .auth-form-group {
+      margin-bottom: 16px;
+    }
+    .auth-form-group label {
+      display: block;
+      font-size: 0.85rem;
+      font-weight: 600;
+      margin-bottom: 6px;
+      color: var(--text);
+    }
+    .auth-input {
+      width: 100%;
+      padding: 12px 14px;
+      border: 1.5px solid var(--border);
+      border-radius: var(--radius-sm, 8px);
+      background: var(--bg);
+      color: var(--text);
+      font-family: inherit;
+      font-size: 0.95rem;
+      box-sizing: border-box;
+      outline: none;
+      transition: var(--transition);
+    }
+    .auth-input:focus {
+      border-color: var(--primary);
+    }
+    .auth-role-select {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 16px;
+    }
+    .auth-role-opt {
+      flex: 1;
+      text-align: center;
+      padding: 10px 6px;
+      border: 1.5px solid var(--border);
+      border-radius: 8px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      cursor: pointer;
+      background: var(--bg);
+      color: var(--text);
+      transition: var(--transition);
+    }
+    .auth-role-opt.active {
+      border-color: var(--primary);
+      background: rgba(26,60,110,0.08);
+      color: var(--primary);
+    }
+    .auth-btn {
+      width: 100%;
+      padding: 13px;
+      border: none;
+      border-radius: var(--radius-sm, 8px);
+      background: var(--primary);
+      color: #fff;
+      font-size: 1rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: var(--transition);
+      margin-top: 8px;
+    }
+    .auth-btn:hover {
+      background: var(--primary-light);
+    }
+    .otp-banner {
+      background: #e8f5e9;
+      color: #2e7d32;
+      border: 1px dashed #81c784;
+      padding: 10px;
+      border-radius: 8px;
+      font-size: 0.85rem;
+      margin-bottom: 14px;
+      text-align: center;
+      display: none;
+    }
+    .auth-footer {
+      text-align: center;
+      margin-top: 20px;
+      font-size: 0.85rem;
+      color: var(--text-light);
+    }
+    .auth-footer a {
+      color: var(--primary);
+      text-decoration: none;
+      font-weight: 600;
+    }
+  </style>
+</head>
+<body>
+
+  <nav class="navbar" style="position:static; box-shadow:none; border-bottom:1px solid var(--border);">
+    <div class="nav-container" style="display:flex; justify-content:space-between; align-items:center; height:70px; max-width:1200px; margin:0 auto; padding:0 16px;">
+      <a href="index.html" class="nav-brand" style="text-decoration:none; font-size:1.2rem; font-weight:800; color:var(--primary)">
+        City <span>Property</span>
+      </a>
+      <div style="display:flex; align-items:center; gap:12px;">
+        <button class="theme-btn" onclick="toggleTheme()" title="Toggle Theme" style="border:none; background:transparent; font-size:1.1rem; cursor:pointer; color:var(--text)">
+          <i class="fas fa-moon" id="themeIcon"></i>
+        </button>
+        <a href="index.html" class="btn btn-outline btn-sm" style="text-decoration:none">Back to Home</a>
+      </div>
+    </div>
+  </nav>
+
+  <div class="auth-wrapper">
+    <div class="auth-card">
+      <div class="auth-header">
+        <div class="auth-brand">
+          <i class="fas fa-city"></i> City <span>Property</span>
+        </div>
+        <p style="color:var(--text-light); font-size:0.88rem; margin:0;">Greater Noida (GNA & YEA) Portal</p>
+      </div>
+
+      <div class="auth-tabs">
+        <button class="auth-tab active" id="tabLoginBtn" onclick="switchAuthTab('login')">Login</button>
+        <button class="auth-tab" id="tabRegisterBtn" onclick="switchAuthTab('register')">Register</button>
+      </div>
+
+      <div class="otp-banner" id="otpBanner">
+        <i class="fas fa-key"></i> Demo OTP: <strong id="demoOtpVal">123456</strong>
+      </div>
+
+      <!-- LOGIN FORM -->
+      <form id="loginForm" onsubmit="handleLoginSubmit(event)">
+        <div class="auth-form-group">
+          <label>Mobile Number</label>
+          <input type="tel" id="loginPhone" class="auth-input" placeholder="Enter 10-digit mobile" maxlength="10" required />
+        </div>
+        <div class="auth-form-group">
+          <label>Password</label>
+          <input type="password" id="loginPassword" class="auth-input" placeholder="Enter password" required />
+        </div>
+        <button type="submit" class="auth-btn">
+          <i class="fas fa-sign-in-alt"></i> Login
+        </button>
+        <div style="text-align:center; margin-top:14px;">
+          <a href="#" onclick="mockSendOTP(); return false;" style="font-size:0.82rem; color:var(--primary); text-decoration:none">Login via OTP instead</a>
+        </div>
+      </form>
+
+      <!-- REGISTER FORM -->
+      <form id="registerForm" style="display:none;" onsubmit="handleRegisterSubmit(event)">
+        <div class="auth-role-select">
+          <div class="auth-role-opt active" onclick="selectRole('buyer', this)">Buyer / Renter</div>
+          <div class="auth-role-opt" onclick="selectRole('seller', this)">Property Seller</div>
+          <div class="auth-role-opt" onclick="selectRole('builder', this)">Builder / Constr.</div>
+        </div>
+        <input type="hidden" id="regRole" value="buyer" />
+
+        <div class="auth-form-group">
+          <label>Full Name</label>
+          <input type="text" id="regName" class="auth-input" placeholder="Your name" required />
+        </div>
+        <div class="auth-form-group">
+          <label>Mobile Number</label>
+          <input type="tel" id="regPhone" class="auth-input" placeholder="10-digit mobile" maxlength="10" required />
+        </div>
+        <div class="auth-form-group">
+          <label>Password</label>
+          <input type="password" id="regPassword" class="auth-input" placeholder="Create password (min 6 chars)" minlength="6" required />
+        </div>
+        <button type="submit" class="auth-btn">
+          <i class="fas fa-user-plus"></i> Create Account
+        </button>
+      </form>
+
+      <div class="auth-footer">
+        Looking for Admin Panel? <a href="admin.html">Admin Login &rarr;</a>
+      </div>
+    </div>
+  </div>
+
+  <script src="js/theme.js"></script>
+  <script src="js/auth.js"></script>
+  <script>
+    let activeRole = 'buyer';
+    function switchAuthTab(tab) {
+      const isLogin = tab === 'login';
+      document.getElementById('tabLoginBtn').classList.toggle('active', isLogin);
+      document.getElementById('tabRegisterBtn').classList.toggle('active', !isLogin);
+      document.getElementById('loginForm').style.display = isLogin ? 'block' : 'none';
+      document.getElementById('registerForm').style.display = !isLogin ? 'block' : 'none';
+      document.getElementById('otpBanner').style.display = 'none';
+    }
+
+    function selectRole(role, el) {
+      activeRole = role;
+      document.getElementById('regRole').value = role;
+      document.querySelectorAll('.auth-role-opt').forEach(opt => opt.classList.remove('active'));
+      el.classList.add('active');
+    }
+
+    function mockSendOTP() {
+      const phone = document.getElementById('loginPhone').value.trim();
+      if (phone.length < 10) {
+        alert('Please enter a 10-digit phone number first.');
+        return;
+      }
+      const otp = Math.floor(100000 + Math.random() * 900000);
+      document.getElementById('demoOtpVal').textContent = otp;
+      document.getElementById('otpBanner').style.display = 'block';
+      const entered = prompt('Enter the 6-digit OTP received: (Demo: ' + otp + ')');
+      if (entered == otp) {
+        const user = { name: 'Customer ' + phone.substring(0, 5), phone: phone, role: 'buyer', id: 'CID-' + phone.substring(0, 5) };
+        localStorage.setItem('cp_user', JSON.stringify(user));
+        alert('Logged in successfully! Customer ID: ' + user.id);
+        window.location.href = 'index.html';
+      }
+    }
+
+    function handleLoginSubmit(e) {
+      e.preventDefault();
+      const phone = document.getElementById('loginPhone').value.trim();
+      const pass = document.getElementById('loginPassword').value;
+      const users = JSON.parse(localStorage.getItem('cp_users') || '[]');
+      const found = users.find(u => u.phone === phone && u.password === pass);
+
+      if (found) {
+        localStorage.setItem('cp_user', JSON.stringify(found));
+        alert('Welcome back, ' + found.name + '!');
+        window.location.href = 'index.html';
+      } else {
+        // Auto-allow or register demo user
+        const newUser = { name: 'User ' + phone.substring(0, 5), phone: phone, password: pass, role: 'buyer', id: 'CID-' + phone.substring(0, 5) };
+        users.push(newUser);
+        localStorage.setItem('cp_users', JSON.stringify(users));
+        localStorage.setItem('cp_user', JSON.stringify(newUser));
+        alert('Logged in successfully! Customer ID: ' + newUser.id);
+        window.location.href = 'index.html';
+      }
+    }
+
+    function handleRegisterSubmit(e) {
+      e.preventDefault();
+      const name = document.getElementById('regName').value.trim();
+      const phone = document.getElementById('regPhone').value.trim();
+      const pass = document.getElementById('regPassword').value;
+      const role = document.getElementById('regRole').value;
+
+      const users = JSON.parse(localStorage.getItem('cp_users') || '[]');
+      const user = { name: name, phone: phone, password: pass, role: role, id: 'CID-' + phone.substring(0, 5), createdAt: Date.now() };
+      users.push(user);
+      localStorage.setItem('cp_users', JSON.stringify(users));
+      localStorage.setItem('cp_user', JSON.stringify(user));
+      alert('Account created! Customer ID: ' + user.id);
+      window.location.href = 'index.html';
+    }
+  </script>
+</body>
+</html>

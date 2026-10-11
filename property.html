@@ -1,93 +1,566 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="light">
 <head>
-  <meta charset="UTF-8"/>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Property Details — City Property</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com"/>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
-  <link rel="stylesheet" href="css/style.css"/>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Property Detail — City Property Greater Noida</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <style>
+    :root {
+      --primary: #1a3c6e;
+      --primary-light: #2554a0;
+      --primary-dark: #0f2444;
+      --accent: #f5a623;
+      --accent-dark: #d4891a;
+      --success: #27ae60;
+      --danger: #e74c3c;
+      --warning: #f59e0b;
+      --purple: #8b5cf6;
+      --bg: #f4f6f9;
+      --bg2: #eef1f6;
+      --white: #ffffff;
+      --card-bg: #ffffff;
+      --text: #2d2d2d;
+      --text-light: #6b7280;
+      --border: #e0e6ef;
+      --shadow: 0 4px 24px rgba(26,60,110,0.10);
+      --shadow-hover: 0 8px 32px rgba(26,60,110,0.18);
+      --radius: 14px;
+      --radius-sm: 8px;
+      --font: 'Poppins', sans-serif;
+      --transition: all 0.3s cubic-bezier(0.4,0,0.2,1);
+    }
+    [data-theme="dark"] {
+      --bg: #0f1923;
+      --bg2: #1a2535;
+      --white: #1a2535;
+      --card-bg: #1e2d42;
+      --text: #e8edf5;
+      --text-light: #8b9dc0;
+      --border: #2a3d5a;
+      --primary: #4a7fd4;
+      --primary-light: #6b9ee8;
+      --shadow: 0 4px 24px rgba(0,0,0,0.3);
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: var(--font); background: var(--bg); color: var(--text); transition: var(--transition); }
+
+    /* ===== NAVBAR ===== */
+    .navbar {
+      position: sticky; top: 0; z-index: 999;
+      background: var(--white);
+      box-shadow: var(--shadow);
+      padding: 0 24px;
+      display: flex; align-items: center; justify-content: space-between;
+      height: 68px;
+    }
+    .nav-brand { display: flex; align-items: center; gap: 10px; text-decoration: none; }
+    .nav-logo { width: 40px; height: 40px; background: linear-gradient(135deg,var(--primary),var(--primary-light)); border-radius: 10px; display: flex; align-items: center; justify-content: center; color: #fff; font-weight: 800; font-size: 18px; }
+    .nav-brand-text { font-weight: 700; font-size: 1.2rem; color: var(--primary); }
+    .nav-links { display: flex; align-items: center; gap: 6px; }
+    .nav-links a { padding: 7px 14px; border-radius: var(--radius-sm); font-size: 0.88rem; font-weight: 500; color: var(--text); text-decoration: none; transition: var(--transition); }
+    .nav-links a:hover, .nav-links a.active { background: var(--primary); color: #fff; }
+    .nav-actions { display: flex; align-items: center; gap: 10px; }
+    .btn-theme { background: var(--bg2); border: none; width: 38px; height: 38px; border-radius: 50%; cursor: pointer; color: var(--text); font-size: 1rem; display: flex; align-items: center; justify-content: center; transition: var(--transition); }
+    .btn-theme:hover { background: var(--primary); color: #fff; }
+    .btn-nav-primary { background: var(--accent); color: #fff; border: none; padding: 8px 18px; border-radius: var(--radius-sm); font-weight: 600; font-size: 0.85rem; cursor: pointer; text-decoration: none; transition: var(--transition); }
+    .btn-nav-primary:hover { background: var(--accent-dark); }
+
+    /* ===== BREADCRUMB ===== */
+    .breadcrumb-bar { background: var(--bg2); padding: 12px 0; border-bottom: 1px solid var(--border); }
+    .container { max-width: 1280px; margin: 0 auto; padding: 0 24px; }
+    .breadcrumb { display: flex; align-items: center; gap: 6px; font-size: 0.83rem; flex-wrap: wrap; }
+    .breadcrumb a { color: var(--primary); text-decoration: none; }
+    .breadcrumb a:hover { text-decoration: underline; }
+    .breadcrumb .sep { color: var(--text-light); }
+    .breadcrumb .current { color: var(--text-light); }
+
+    /* ===== LAYOUT ===== */
+    .prop-layout { display: grid; grid-template-columns: 1fr 360px; gap: 28px; padding: 28px 0 60px; align-items: start; }
+    .prop-left { min-width: 0; }
+    .prop-right { position: sticky; top: 80px; }
+
+    /* ===== GALLERY ===== */
+    .gallery-wrap { background: var(--card-bg); border-radius: var(--radius); box-shadow: var(--shadow); overflow: hidden; margin-bottom: 24px; }
+    .gallery-main { position: relative; height: 380px; overflow: hidden; cursor: pointer; }
+    .gallery-main img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s ease; }
+    .gallery-main:hover img { transform: scale(1.03); }
+    .gallery-arrow { position: absolute; top: 50%; transform: translateY(-50%); background: rgba(0,0,0,0.5); color: #fff; border: none; width: 44px; height: 44px; border-radius: 50%; cursor: pointer; font-size: 1.1rem; display: flex; align-items: center; justify-content: center; transition: var(--transition); z-index: 2; }
+    .gallery-arrow:hover { background: var(--primary); }
+    .gallery-arrow.prev { left: 14px; }
+    .gallery-arrow.next { right: 14px; }
+    .gallery-counter { position: absolute; bottom: 14px; right: 14px; background: rgba(0,0,0,0.6); color: #fff; padding: 4px 12px; border-radius: 20px; font-size: 0.78rem; font-weight: 600; }
+    .gallery-label { position: absolute; top: 14px; left: 14px; display: flex; gap: 8px; }
+    .g-badge { padding: 4px 10px; border-radius: 20px; font-size: 0.72rem; font-weight: 700; }
+    .g-badge.featured { background: var(--accent); color: #fff; }
+    .g-badge.hot { background: var(--danger); color: #fff; }
+    .gallery-thumbs { display: grid; grid-template-columns: repeat(4,1fr); gap: 0; }
+    .gallery-thumb { height: 90px; overflow: hidden; cursor: pointer; border-top: 2px solid var(--bg2); position: relative; }
+    .gallery-thumb img { width: 100%; height: 100%; object-fit: cover; transition: var(--transition); }
+    .gallery-thumb:hover img { transform: scale(1.08); }
+    .gallery-thumb.active::after { content: ''; position: absolute; inset: 0; border: 3px solid var(--accent); pointer-events: none; }
+
+    /* ===== PROPERTY HEADER ===== */
+    .prop-header { background: var(--card-bg); border-radius: var(--radius); box-shadow: var(--shadow); padding: 24px; margin-bottom: 20px; }
+    .prop-badges { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 14px; }
+    .badge { display: inline-flex; align-items: center; gap: 5px; padding: 5px 12px; border-radius: 20px; font-size: 0.75rem; font-weight: 600; }
+    .badge-rera { background: #e8f5e9; color: #27ae60; border: 1px solid #c8e6c9; }
+    .badge-gna { background: #e3f2fd; color: #1565c0; border: 1px solid #bbdefb; }
+    .badge-yea { background: #f3e5f5; color: #7b1fa2; border: 1px solid #e1bee7; }
+    .badge-verified { background: #fff3e0; color: #e65100; border: 1px solid #ffe0b2; }
+    .badge-furnished { background: #e0f7fa; color: #00695c; border: 1px solid #b2dfdb; }
+    [data-theme="dark"] .badge-rera { background: #1a3d25; color: #66bb6a; border-color: #2e6b38; }
+    [data-theme="dark"] .badge-gna { background: #0d2a47; color: #64b5f6; border-color: #1a4a7a; }
+    [data-theme="dark"] .badge-yea { background: #2d1a42; color: #ce93d8; border-color: #5e2a7a; }
+    [data-theme="dark"] .badge-verified { background: #3d2800; color: #ffb74d; border-color: #7a5000; }
+    [data-theme="dark"] .badge-furnished { background: #003d42; color: #4dd0e1; border-color: #006064; }
+    .prop-title { font-size: 1.55rem; font-weight: 700; color: var(--text); margin-bottom: 10px; line-height: 1.3; }
+    .prop-location { display: flex; align-items: center; gap: 6px; color: var(--text-light); font-size: 0.9rem; margin-bottom: 18px; }
+    .prop-location i { color: var(--danger); }
+    .prop-price-row { display: flex; align-items: flex-end; gap: 18px; flex-wrap: wrap; padding-top: 16px; border-top: 1px solid var(--border); }
+    .prop-price { font-size: 2rem; font-weight: 800; color: var(--primary); }
+    .prop-price-sqft { font-size: 0.88rem; color: var(--text-light); background: var(--bg2); padding: 5px 12px; border-radius: 20px; margin-bottom: 4px; }
+    .prop-emi-hint { font-size: 0.8rem; color: var(--success); display: flex; align-items: center; gap: 4px; }
+
+    /* ===== FEATURES GRID ===== */
+    .features-section { background: var(--card-bg); border-radius: var(--radius); box-shadow: var(--shadow); padding: 20px 24px; margin-bottom: 20px; }
+    .section-title { font-size: 1rem; font-weight: 700; color: var(--text); margin-bottom: 16px; display: flex; align-items: center; gap: 8px; }
+    .section-title i { color: var(--primary); }
+    .features-grid { display: grid; grid-template-columns: repeat(5,1fr); gap: 12px; }
+    .feat-item { text-align: center; padding: 14px 10px; background: var(--bg2); border-radius: var(--radius-sm); transition: var(--transition); }
+    .feat-item:hover { background: var(--primary); color: #fff; transform: translateY(-2px); }
+    .feat-item:hover .feat-label { color: #fff; }
+    .feat-icon { font-size: 1.4rem; color: var(--primary); margin-bottom: 6px; transition: var(--transition); }
+    .feat-item:hover .feat-icon { color: #fff; }
+    .feat-val { font-size: 1rem; font-weight: 700; }
+    .feat-label { font-size: 0.72rem; color: var(--text-light); margin-top: 2px; transition: var(--transition); }
+
+    /* ===== AMENITIES STRIP ===== */
+    .amenities-strip { background: var(--card-bg); border-radius: var(--radius); box-shadow: var(--shadow); padding: 18px 24px; margin-bottom: 20px; }
+    .amenity-icons { display: flex; flex-wrap: wrap; gap: 14px; }
+    .amenity-icon { display: flex; flex-direction: column; align-items: center; gap: 6px; padding: 12px 16px; background: var(--bg2); border-radius: var(--radius-sm); min-width: 70px; transition: var(--transition); cursor: default; }
+    .amenity-icon:hover { background: linear-gradient(135deg,var(--primary),var(--primary-light)); color: #fff; transform: translateY(-3px); box-shadow: var(--shadow-hover); }
+    .amenity-icon i { font-size: 1.3rem; color: var(--primary); transition: var(--transition); }
+    .amenity-icon:hover i { color: #fff; }
+    .amenity-icon span { font-size: 0.68rem; font-weight: 600; text-align: center; }
+
+    /* ===== DESCRIPTION ===== */
+    .desc-section { background: var(--card-bg); border-radius: var(--radius); box-shadow: var(--shadow); padding: 24px; margin-bottom: 20px; }
+    .desc-text { color: var(--text-light); line-height: 1.8; font-size: 0.92rem; }
+    .desc-text.collapsed { max-height: 100px; overflow: hidden; position: relative; }
+    .desc-text.collapsed::after { content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 40px; background: linear-gradient(transparent, var(--card-bg)); }
+    .btn-read-more { margin-top: 10px; background: none; border: 1px solid var(--primary); color: var(--primary); padding: 6px 16px; border-radius: 20px; font-size: 0.82rem; cursor: pointer; transition: var(--transition); }
+    .btn-read-more:hover { background: var(--primary); color: #fff; }
+
+    /* ===== SPEC TABLE ===== */
+    .spec-section { background: var(--card-bg); border-radius: var(--radius); box-shadow: var(--shadow); padding: 24px; margin-bottom: 20px; }
+    .spec-table { width: 100%; border-collapse: collapse; }
+    .spec-table tr { border-bottom: 1px solid var(--border); }
+    .spec-table tr:last-child { border-bottom: none; }
+    .spec-table td { padding: 11px 14px; font-size: 0.88rem; }
+    .spec-table td:first-child { color: var(--text-light); width: 40%; font-weight: 500; }
+    .spec-table td:last-child { color: var(--text); font-weight: 600; }
+    .spec-table tr:hover { background: var(--bg2); }
+
+    /* ===== EMI CALCULATOR ===== */
+    .emi-section { background: var(--card-bg); border-radius: var(--radius); box-shadow: var(--shadow); padding: 24px; margin-bottom: 20px; }
+    .emi-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; margin-bottom: 20px; }
+    .emi-field { display: flex; flex-direction: column; gap: 6px; }
+    .emi-field label { font-size: 0.82rem; font-weight: 600; color: var(--text-light); }
+    .emi-field input, .emi-field select { padding: 10px 14px; border: 1.5px solid var(--border); border-radius: var(--radius-sm); background: var(--bg2); color: var(--text); font-family: var(--font); font-size: 0.9rem; transition: var(--transition); }
+    .emi-field input:focus, .emi-field select:focus { outline: none; border-color: var(--primary); box-shadow: 0 0 0 3px rgba(26,60,110,0.1); }
+    .emi-tenure-wrap { grid-column: 1/-1; }
+    .emi-slider { width: 100%; accent-color: var(--primary); cursor: pointer; margin-top: 8px; }
+    .emi-slider-labels { display: flex; justify-content: space-between; font-size: 0.72rem; color: var(--text-light); margin-top: 4px; }
+    .emi-result { background: linear-gradient(135deg,var(--primary),var(--primary-light)); border-radius: var(--radius); padding: 22px; text-align: center; color: #fff; }
+    .emi-monthly { font-size: 2.2rem; font-weight: 800; margin-bottom: 4px; letter-spacing: -0.5px; }
+    .emi-monthly-label { font-size: 0.85rem; opacity: 0.85; margin-bottom: 18px; }
+    .emi-breakdown { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+    .emi-breakdown-item { background: rgba(255,255,255,0.12); border-radius: var(--radius-sm); padding: 12px; }
+    .emi-breakdown-item .val { font-size: 1.05rem; font-weight: 700; }
+    .emi-breakdown-item .lbl { font-size: 0.72rem; opacity: 0.8; margin-top: 2px; }
+    .btn-loan { display: block; margin: 18px auto 0; background: var(--accent); color: #fff; border: none; padding: 12px 32px; border-radius: 30px; font-weight: 700; font-size: 0.95rem; cursor: pointer; transition: var(--transition); text-decoration: none; }
+    .btn-loan:hover { background: var(--accent-dark); transform: translateY(-2px); box-shadow: 0 6px 20px rgba(245,166,35,0.4); }
+
+    /* ===== NEARBY ===== */
+    .nearby-section { background: var(--card-bg); border-radius: var(--radius); box-shadow: var(--shadow); padding: 24px; margin-bottom: 20px; }
+    .nearby-tabs { display: flex; gap: 8px; margin-bottom: 18px; flex-wrap: wrap; }
+    .nearby-tab { padding: 7px 18px; border-radius: 20px; border: 1.5px solid var(--border); background: none; color: var(--text); font-size: 0.82rem; font-weight: 600; cursor: pointer; transition: var(--transition); display: flex; align-items: center; gap: 6px; }
+    .nearby-tab.active, .nearby-tab:hover { background: var(--primary); color: #fff; border-color: var(--primary); }
+    .nearby-list { display: flex; flex-direction: column; gap: 10px; }
+    .nearby-item { display: flex; align-items: center; justify-content: space-between; padding: 12px 16px; background: var(--bg2); border-radius: var(--radius-sm); transition: var(--transition); }
+    .nearby-item:hover { background: var(--primary); color: #fff; transform: translateX(4px); }
+    .nearby-item:hover .nearby-dist, .nearby-item:hover .nearby-rating { color: #fff; }
+    .nearby-name { font-weight: 600; font-size: 0.88rem; display: flex; align-items: center; gap: 8px; }
+    .nearby-name i { color: var(--primary); transition: var(--transition); }
+    .nearby-item:hover .nearby-name i { color: #fff; }
+    .nearby-meta { display: flex; align-items: center; gap: 14px; }
+    .nearby-dist { font-size: 0.78rem; color: var(--text-light); font-weight: 600; transition: var(--transition); }
+    .nearby-rating { font-size: 0.75rem; color: var(--warning); font-weight: 600; transition: var(--transition); }
+
+    /* ===== MAP ===== */
+    .map-section { background: var(--card-bg); border-radius: var(--radius); box-shadow: var(--shadow); padding: 24px; margin-bottom: 20px; }
+    .map-wrap { border-radius: var(--radius-sm); overflow: hidden; height: 280px; }
+    .map-wrap iframe { width: 100%; height: 100%; border: none; }
+
+    /* ===== SIMILAR ===== */
+    .similar-section { background: var(--card-bg); border-radius: var(--radius); box-shadow: var(--shadow); padding: 24px; margin-bottom: 20px; }
+    .similar-scroll { display: flex; gap: 16px; overflow-x: auto; padding-bottom: 8px; scroll-snap-type: x mandatory; }
+    .similar-scroll::-webkit-scrollbar { height: 5px; }
+    .similar-scroll::-webkit-scrollbar-track { background: var(--bg2); border-radius: 10px; }
+    .similar-scroll::-webkit-scrollbar-thumb { background: var(--primary); border-radius: 10px; }
+    .sim-card { min-width: 220px; background: var(--bg2); border-radius: var(--radius-sm); overflow: hidden; scroll-snap-align: start; transition: var(--transition); cursor: pointer; flex-shrink: 0; }
+    .sim-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-hover); }
+    .sim-card-img { height: 130px; overflow: hidden; }
+    .sim-card-img img { width: 100%; height: 100%; object-fit: cover; transition: var(--transition); }
+    .sim-card:hover img { transform: scale(1.08); }
+    .sim-card-body { padding: 12px; }
+    .sim-card-title { font-size: 0.82rem; font-weight: 700; margin-bottom: 4px; color: var(--text); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .sim-card-price { font-size: 0.9rem; font-weight: 800; color: var(--primary); }
+    .sim-card-loc { font-size: 0.72rem; color: var(--text-light); margin-top: 4px; }
+
+    /* ===== CONTACT CARD ===== */
+    .contact-card { background: var(--card-bg); border-radius: var(--radius); box-shadow: var(--shadow); overflow: hidden; }
+    .contact-card-header { background: linear-gradient(135deg,var(--primary-dark),var(--primary)); padding: 20px; text-align: center; color: #fff; }
+    .contact-avatar { width: 72px; height: 72px; border-radius: 50%; margin: 0 auto 10px; border: 3px solid rgba(255,255,255,0.4); overflow: hidden; background: rgba(255,255,255,0.1); display: flex; align-items: center; justify-content: center; font-size: 2rem; }
+    .contact-name { font-weight: 700; font-size: 1rem; }
+    .contact-verified { display: inline-flex; align-items: center; gap: 4px; font-size: 0.72rem; background: rgba(39,174,96,0.25); border: 1px solid rgba(39,174,96,0.5); color: #a8f5c4; padding: 3px 10px; border-radius: 20px; margin-top: 6px; }
+    .contact-phone { font-size: 0.88rem; margin-top: 8px; opacity: 0.9; }
+    .contact-card-body { padding: 18px; }
+    .contact-actions { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 16px; }
+    .btn-contact { display: flex; align-items: center; justify-content: center; gap: 7px; padding: 11px; border-radius: var(--radius-sm); font-weight: 600; font-size: 0.8rem; cursor: pointer; border: none; transition: var(--transition); text-decoration: none; }
+    .btn-contact:hover { transform: translateY(-2px); box-shadow: 0 4px 14px rgba(0,0,0,0.2); }
+    .btn-call { background: var(--primary); color: #fff; }
+    .btn-wa { background: #25d366; color: #fff; }
+    .btn-visit { background: var(--accent); color: #fff; }
+    .btn-callback { background: var(--purple); color: #fff; }
+    .enquiry-form { border-top: 1px solid var(--border); padding-top: 16px; }
+    .enquiry-title { font-size: 0.88rem; font-weight: 700; margin-bottom: 12px; }
+    .enq-field { width: 100%; padding: 9px 12px; border: 1.5px solid var(--border); border-radius: var(--radius-sm); background: var(--bg2); color: var(--text); font-family: var(--font); font-size: 0.85rem; margin-bottom: 8px; transition: var(--transition); }
+    .enq-field:focus { outline: none; border-color: var(--primary); }
+    textarea.enq-field { resize: vertical; min-height: 70px; }
+    .btn-enq-send { width: 100%; background: linear-gradient(135deg,var(--primary),var(--primary-light)); color: #fff; border: none; padding: 12px; border-radius: var(--radius-sm); font-weight: 700; font-size: 0.88rem; cursor: pointer; transition: var(--transition); display: flex; align-items: center; justify-content: center; gap: 8px; }
+    .btn-enq-send:hover { transform: translateY(-2px); box-shadow: var(--shadow-hover); }
+    .trust-strip { display: flex; align-items: center; justify-content: center; gap: 10px; padding: 12px; background: var(--bg2); font-size: 0.72rem; color: var(--text-light); border-top: 1px solid var(--border); }
+    .trust-strip i { color: var(--success); }
+
+    /* ===== FLOATING BUTTONS ===== */
+    .floating-btns { position: fixed; bottom: 28px; right: 28px; display: flex; flex-direction: column; gap: 12px; z-index: 998; }
+    .fab { width: 52px; height: 52px; border-radius: 50%; border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; color: #fff; transition: var(--transition); box-shadow: 0 4px 16px rgba(0,0,0,0.2); }
+    .fab:hover { transform: scale(1.12); }
+    .fab-wa { background: #25d366; }
+    .fab-call { background: var(--primary); }
+    .fab-top { background: var(--accent); font-size: 0.9rem; }
+
+    /* ===== WA MODAL ===== */
+    .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.55); z-index: 1100; display: none; align-items: center; justify-content: center; backdrop-filter: blur(4px); }
+    .modal-overlay.open { display: flex; }
+    .modal-box { background: var(--card-bg); border-radius: var(--radius); width: 100%; max-width: 440px; overflow: hidden; box-shadow: 0 20px 60px rgba(0,0,0,0.3); animation: modalIn 0.3s ease; }
+    @keyframes modalIn { from { opacity:0; transform:scale(0.92) translateY(20px); } to { opacity:1; transform:scale(1) translateY(0); } }
+    .modal-header { background: #25d366; padding: 18px 20px; display: flex; align-items: center; justify-content: space-between; color: #fff; }
+    .modal-header h3 { font-size: 1.05rem; font-weight: 700; display: flex; align-items: center; gap: 8px; }
+    .modal-close { background: rgba(255,255,255,0.2); border: none; color: #fff; width: 30px; height: 30px; border-radius: 50%; cursor: pointer; font-size: 1rem; display: flex; align-items: center; justify-content: center; }
+    .modal-body { padding: 22px; }
+    .modal-body .enq-field { width: 100%; }
+    .modal-cid { background: var(--bg2); border-radius: var(--radius-sm); padding: 12px; font-size: 0.82rem; color: var(--text-light); margin-bottom: 14px; }
+    .modal-cid strong { color: var(--primary); }
+    .btn-wa-send { width: 100%; background: #25d366; color: #fff; border: none; padding: 13px; border-radius: var(--radius-sm); font-weight: 700; font-size: 0.92rem; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; transition: var(--transition); }
+    .btn-wa-send:hover { background: #1da851; transform: translateY(-2px); }
+
+    /* ===== TOAST ===== */
+    .toast-container { position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); z-index: 9999; display: flex; flex-direction: column; gap: 10px; align-items: center; }
+    .toast { background: var(--card-bg); color: var(--text); padding: 12px 24px; border-radius: 30px; box-shadow: 0 8px 32px rgba(0,0,0,0.2); font-size: 0.88rem; font-weight: 600; display: flex; align-items: center; gap: 8px; animation: toastIn 0.3s ease; border-left: 4px solid var(--success); }
+    .toast.error { border-left-color: var(--danger); }
+    .toast.info { border-left-color: var(--primary); }
+    @keyframes toastIn { from { opacity:0; transform:translateY(20px); } to { opacity:1; transform:translateY(0); } }
+
+    /* ===== RESPONSIVE ===== */
+    @media(max-width:1024px) {
+      .prop-layout { grid-template-columns: 1fr; }
+      .prop-right { position: static; }
+    }
+    @media(max-width:768px) {
+      .features-grid { grid-template-columns: repeat(3,1fr); }
+      .emi-grid { grid-template-columns: 1fr; }
+      .contact-actions { grid-template-columns: 1fr 1fr; }
+      .nav-links { display: none; }
+      .gallery-main { height: 260px; }
+    }
+    @media(max-width:480px) {
+      .features-grid { grid-template-columns: repeat(2,1fr); }
+      .prop-price { font-size: 1.5rem; }
+      .prop-title { font-size: 1.2rem; }
+    }
+  </style>
 </head>
 <body>
 
-<!-- Toast -->
-<div class="toast-container" id="toastContainer"></div>
-
-<!-- ========== NAVBAR ========== -->
-<nav class="navbar scrolled" id="navbar">
-  <div class="nav-container">
-    <a href="index.html" class="nav-logo">
-      <div class="logo-icon">CP</div>
-      <div class="logo-text">
-        <div class="brand">City Property</div>
-        <div class="tagline">Your Trusted Real Estate Partner</div>
-      </div>
-    </a>
-    <div class="nav-links">
-      <a href="index.html">Home</a>
-      <a href="index.html#properties">Properties</a>
-      <a href="index.html#contact">Contact</a>
-    </div>
-    <div class="nav-cta">
-      <a href="tel:9711733120" class="btn btn-outline btn-sm"><i class="fas fa-phone"></i> Call</a>
-      <button class="btn btn-whatsapp btn-sm" onclick="openWAModal()"><i class="fab fa-whatsapp"></i> WhatsApp</button>
-    </div>
+<!-- NAVBAR -->
+<nav class="navbar">
+  <a href="index.html" class="nav-brand">
+    <div class="nav-logo">CP</div>
+    <span class="nav-brand-text">City Property</span>
+  </a>
+  <div class="nav-links">
+    <a href="index.html">Home</a>
+    <a href="properties.html">Properties</a>
+    <a href="property.html" class="active">Detail</a>
+    <a href="wishlist.html">Wishlist</a>
+    <a href="about.html">About</a>
+    <a href="contact.html">Contact</a>
+  </div>
+  <div class="nav-actions">
+    <button class="btn-theme" onclick="toggleTheme()" title="Toggle Theme"><i class="fa-solid fa-circle-half-stroke"></i></button>
+    <a href="login.html" class="btn-nav-primary"><i class="fa-solid fa-user" style="margin-right:5px"></i>Login</a>
   </div>
 </nav>
 
-<!-- ========== PROPERTY DETAIL ========== -->
-<div style="padding-top:70px;">
-  <div id="propDetailContent">
-    <!-- Loading Skeleton -->
-    <div class="container" style="padding-top:32px; padding-bottom:60px;">
-      <div class="skeleton" style="height:24px; width:300px; margin-bottom:24px;"></div>
-      <div class="prop-layout">
-        <div>
-          <div class="skeleton" style="height:380px; margin-bottom:24px;"></div>
-          <div class="skeleton" style="height:150px; margin-bottom:16px;"></div>
+<!-- BREADCRUMB -->
+<div class="breadcrumb-bar">
+  <div class="container">
+    <div class="breadcrumb">
+      <a href="index.html"><i class="fa-solid fa-house"></i> Home</a>
+      <span class="sep">›</span>
+      <a href="properties.html">Properties</a>
+      <span class="sep">›</span>
+      <span class="current" id="bcTitle">3BHK Apartment — Greater Noida</span>
+    </div>
+  </div>
+</div>
+
+<div class="container">
+  <div class="prop-layout">
+
+    <!-- LEFT COLUMN -->
+    <div class="prop-left">
+
+      <!-- IMAGE GALLERY -->
+      <div class="gallery-wrap">
+        <div class="gallery-main">
+          <img id="galleryMainImg" src="https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=900&q=80" alt="Property Image" />
+          <button class="gallery-arrow prev" onclick="prevImage()"><i class="fa-solid fa-chevron-left"></i></button>
+          <button class="gallery-arrow next" onclick="nextImage()"><i class="fa-solid fa-chevron-right"></i></button>
+          <div class="gallery-label">
+            <span class="g-badge featured">★ Featured</span>
+            <span class="g-badge hot">🔥 Hot Deal</span>
+          </div>
+          <div class="gallery-counter"><span id="galCurrent">1</span> / <span id="galTotal">5</span></div>
         </div>
-        <div>
-          <div class="skeleton" style="height:300px;"></div>
+        <div class="gallery-thumbs" id="galleryThumbs"></div>
+      </div>
+
+      <!-- PROPERTY HEADER -->
+      <div class="prop-header">
+        <div class="prop-badges">
+          <span class="badge badge-rera"><i class="fa-solid fa-shield-halved"></i> RERA Approved</span>
+          <span class="badge badge-gna"><i class="fa-solid fa-landmark"></i> GNA Verified</span>
+          <span class="badge badge-verified"><i class="fa-solid fa-circle-check"></i> Verified</span>
+          <span class="badge badge-furnished"><i class="fa-solid fa-couch"></i> Semi-Furnished</span>
+        </div>
+        <h1 class="prop-title" id="propTitle">Luxury 3BHK Apartment in Sector Omicron, Greater Noida</h1>
+        <div class="prop-location">
+          <i class="fa-solid fa-location-dot"></i>
+          <span id="propLocation">Sector Omicron 1, Greater Noida — 201308</span>
+        </div>
+        <div class="prop-price-row">
+          <div>
+            <div class="prop-price" id="propPrice">₹85 Lakhs</div>
+            <div class="prop-emi-hint"><i class="fa-solid fa-calculator"></i> EMI from ₹63,800/mo</div>
+          </div>
+          <div class="prop-price-sqft" id="propPriceSqft">₹5,667 / sq.ft</div>
+        </div>
+      </div>
+
+      <!-- FEATURES GRID -->
+      <div class="features-section">
+        <div class="section-title"><i class="fa-solid fa-list-check"></i> Key Features</div>
+        <div class="features-grid" id="featuresGrid">
+          <div class="feat-item"><div class="feat-icon"><i class="fa-solid fa-bed"></i></div><div class="feat-val" id="fBeds">3</div><div class="feat-label">Bedrooms</div></div>
+          <div class="feat-item"><div class="feat-icon"><i class="fa-solid fa-bath"></i></div><div class="feat-val" id="fBaths">2</div><div class="feat-label">Bathrooms</div></div>
+          <div class="feat-item"><div class="feat-icon"><i class="fa-solid fa-ruler-combined"></i></div><div class="feat-val" id="fSize">1500</div><div class="feat-label">Sq.ft</div></div>
+          <div class="feat-item"><div class="feat-icon"><i class="fa-solid fa-building"></i></div><div class="feat-val" id="fFloor">5th</div><div class="feat-label">Floor</div></div>
+          <div class="feat-item"><div class="feat-icon"><i class="fa-solid fa-calendar"></i></div><div class="feat-val" id="fAge">2</div><div class="feat-label">Yr Old</div></div>
+        </div>
+      </div>
+
+      <!-- AMENITIES STRIP -->
+      <div class="amenities-strip">
+        <div class="section-title"><i class="fa-solid fa-star"></i> Amenities</div>
+        <div class="amenity-icons">
+          <div class="amenity-icon"><i class="fa-solid fa-car"></i><span>Parking</span></div>
+          <div class="amenity-icon"><i class="fa-solid fa-dumbbell"></i><span>Gym</span></div>
+          <div class="amenity-icon"><i class="fa-solid fa-water-ladder"></i><span>Pool</span></div>
+          <div class="amenity-icon"><i class="fa-solid fa-elevator"></i><span>Lift</span></div>
+          <div class="amenity-icon"><i class="fa-solid fa-bolt"></i><span>Power Backup</span></div>
+          <div class="amenity-icon"><i class="fa-solid fa-wifi"></i><span>WiFi Ready</span></div>
+          <div class="amenity-icon"><i class="fa-solid fa-shield-halved"></i><span>Security</span></div>
+          <div class="amenity-icon"><i class="fa-solid fa-tree"></i><span>Park</span></div>
+          <div class="amenity-icon"><i class="fa-solid fa-fire-burner"></i><span>Gas Line</span></div>
+          <div class="amenity-icon"><i class="fa-solid fa-children"></i><span>Play Area</span></div>
+        </div>
+      </div>
+
+      <!-- DESCRIPTION -->
+      <div class="desc-section">
+        <div class="section-title"><i class="fa-solid fa-file-lines"></i> About this Property</div>
+        <div class="desc-text collapsed" id="descText">
+          <p id="propDesc">Welcome to this stunning 3BHK luxury apartment located in the premium Sector Omicron 1 of Greater Noida. This well-designed property offers a perfect blend of comfort and contemporary living. The apartment is part of a gated township project approved by the Greater Noida Authority (GNA) with full RERA compliance ensuring complete legal safety for buyers.</p><br>
+          <p>The unit is situated on the 5th floor offering beautiful views and excellent cross-ventilation. The property features modular kitchen, premium fittings in bathrooms, vitrified tile flooring in all rooms, and large windows for natural light. The building complex offers world-class amenities including a well-equipped gymnasium, swimming pool, 24/7 security, power backup, and landscaped gardens.</p><br>
+          <p>Located in proximity to major IT hubs, schools, hospitals, and the proposed metro station, this property is ideal for end-users and investors alike. Easy connectivity to Noida, Delhi, and the Yamuna Expressway makes this location highly sought after. The nearby Jewar International Airport project further enhances the future value of properties in this corridor.</p>
+        </div>
+        <button class="btn-read-more" id="readMoreBtn" onclick="toggleDesc()">Read More <i class="fa-solid fa-chevron-down"></i></button>
+      </div>
+
+      <!-- SPECIFICATIONS TABLE -->
+      <div class="spec-section">
+        <div class="section-title"><i class="fa-solid fa-table-list"></i> Property Specifications</div>
+        <table class="spec-table">
+          <tr><td>Property Type</td><td id="specType">Apartment (Residential)</td></tr>
+          <tr><td>Total Area</td><td id="specArea">1,500 sq.ft (139 sq.m)</td></tr>
+          <tr><td>Facing Direction</td><td>East (Vastu Compliant)</td></tr>
+          <tr><td>Floor</td><td id="specFloor">5th of 18 Floors</td></tr>
+          <tr><td>Parking</td><td>2 Covered Car Parking</td></tr>
+          <tr><td>Property Age</td><td id="specAge">2 Years (Ready to Move)</td></tr>
+          <tr><td>Possession Status</td><td id="specPossession">Ready to Move</td></tr>
+          <tr><td>Furnishing Status</td><td id="specFurnishing">Semi-Furnished</td></tr>
+          <tr><td>RERA Number</td><td><span style="color:var(--success);font-weight:700">UPRERAPRJ123456</span></td></tr>
+          <tr><td>Authority</td><td><span style="color:var(--primary);font-weight:700">Greater Noida Authority (GNA)</span></td></tr>
+        </table>
+      </div>
+
+      <!-- EMI CALCULATOR -->
+      <div class="emi-section">
+        <div class="section-title"><i class="fa-solid fa-calculator"></i> EMI Calculator</div>
+        <div class="emi-grid">
+          <div class="emi-field">
+            <label><i class="fa-solid fa-indian-rupee-sign"></i> Loan Amount (₹)</label>
+            <input type="number" id="emiPrincipal" value="6800000" placeholder="Loan Amount" oninput="updateEMI()" />
+          </div>
+          <div class="emi-field">
+            <label><i class="fa-solid fa-percent"></i> Interest Rate (% p.a.)</label>
+            <input type="number" id="emiRate" value="8.5" step="0.1" placeholder="Rate %" oninput="updateEMI()" />
+          </div>
+          <div class="emi-tenure-wrap emi-field">
+            <label><i class="fa-solid fa-hourglass-half"></i> Loan Tenure: <strong id="tenureDisplay">20 Years</strong></label>
+            <input type="range" class="emi-slider" id="emiTenure" min="5" max="30" value="20" oninput="updateEMI(); document.getElementById('tenureDisplay').textContent = this.value + ' Years';" />
+            <div class="emi-slider-labels"><span>5 Yrs</span><span>10 Yrs</span><span>15 Yrs</span><span>20 Yrs</span><span>25 Yrs</span><span>30 Yrs</span></div>
+          </div>
+        </div>
+        <div class="emi-result">
+          <div class="emi-monthly" id="emiMonthly">₹59,263</div>
+          <div class="emi-monthly-label">Monthly EMI</div>
+          <div class="emi-breakdown">
+            <div class="emi-breakdown-item">
+              <div class="val" id="emiTotalInterest">₹75,23,120</div>
+              <div class="lbl">Total Interest</div>
+            </div>
+            <div class="emi-breakdown-item">
+              <div class="val" id="emiTotalPayable">₹1,43,23,120</div>
+              <div class="lbl">Total Payable</div>
+            </div>
+          </div>
+        </div>
+        <button class="btn-loan" onclick="openWAModal('Home Loan Application')"><i class="fa-solid fa-hand-holding-dollar"></i> Apply for Home Loan</button>
+      </div>
+
+      <!-- NEARBY AMENITIES -->
+      <div class="nearby-section">
+        <div class="section-title"><i class="fa-solid fa-map-location-dot"></i> Nearby Amenities</div>
+        <div class="nearby-tabs">
+          <button class="nearby-tab active" onclick="setAmenitiesTab('schools')"><i class="fa-solid fa-graduation-cap"></i> Schools</button>
+          <button class="nearby-tab" onclick="setAmenitiesTab('hospitals')"><i class="fa-solid fa-hospital"></i> Hospitals</button>
+          <button class="nearby-tab" onclick="setAmenitiesTab('metro')"><i class="fa-solid fa-train-subway"></i> Metro</button>
+          <button class="nearby-tab" onclick="setAmenitiesTab('malls')"><i class="fa-solid fa-store"></i> Malls</button>
+        </div>
+        <div class="nearby-list" id="nearbyList"></div>
+      </div>
+
+      <!-- MAP -->
+      <div class="map-section">
+        <div class="section-title"><i class="fa-solid fa-map"></i> Location on Map</div>
+        <div class="map-wrap">
+          <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d112090.42978703754!2d77.46035!3d28.47410!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x390cc1e13c11f3d5%3A0xd10b2e03c96b2bc2!2sGreater%20Noida%2C%20Uttar%20Pradesh!5e0!3m2!1sen!2sin!4v1700000000000!5m2!1sen!2sin" allowfullscreen loading="lazy"></iframe>
+        </div>
+      </div>
+
+      <!-- SIMILAR PROPERTIES -->
+      <div class="similar-section">
+        <div class="section-title"><i class="fa-solid fa-clone"></i> Similar Properties</div>
+        <div class="similar-scroll" id="similarScroll"></div>
+      </div>
+
+    </div><!-- /LEFT -->
+
+    <!-- RIGHT COLUMN (STICKY CONTACT) -->
+    <div class="prop-right">
+      <div class="contact-card">
+        <div class="contact-card-header">
+          <div class="contact-avatar"><i class="fa-solid fa-user-tie"></i></div>
+          <div class="contact-name">City Property</div>
+          <div class="contact-verified"><i class="fa-solid fa-circle-check"></i> GNA Verified Agent</div>
+          <div class="contact-phone"><i class="fa-solid fa-phone"></i> 97117 33120</div>
+        </div>
+        <div class="contact-card-body">
+          <div class="contact-actions">
+            <a href="tel:9711733120" class="btn-contact btn-call"><i class="fa-solid fa-phone"></i> Call Now</a>
+            <button class="btn-contact btn-wa" onclick="openWAModal(document.getElementById('propTitle').textContent)"><i class="fa-brands fa-whatsapp"></i> WhatsApp</button>
+            <button class="btn-contact btn-visit" onclick="showToast('Visit scheduled! Our agent will contact you shortly.','success')"><i class="fa-solid fa-calendar-check"></i> Schedule Visit</button>
+            <button class="btn-contact btn-callback" onclick="openWAModal('Callback Request')"><i class="fa-solid fa-phone-volume"></i> Callback</button>
+          </div>
+          <div class="enquiry-form">
+            <div class="enquiry-title"><i class="fa-solid fa-paper-plane" style="color:var(--primary)"></i> Quick Enquiry</div>
+            <input class="enq-field" type="text" id="enqName" placeholder="Your Name" />
+            <input class="enq-field" type="tel" id="enqPhone" placeholder="Mobile Number" oninput="updateQCID()" />
+            <textarea class="enq-field" id="enqMsg" placeholder="I am interested in this property..."></textarea>
+            <div class="modal-cid" id="enqCidBox" style="display:none">Customer ID: <strong id="enqCid">—</strong></div>
+            <button class="btn-enq-send" onclick="sendQuickEnquiry()"><i class="fa-brands fa-whatsapp"></i> Send Enquiry via WhatsApp</button>
+          </div>
+        </div>
+        <div class="trust-strip">
+          <i class="fa-solid fa-shield-halved"></i> 100% Verified &nbsp;|&nbsp;
+          <i class="fa-solid fa-lock"></i> Secure &nbsp;|&nbsp;
+          <i class="fa-solid fa-certificate"></i> RERA Approved
         </div>
       </div>
     </div>
-  </div>
+
+  </div><!-- /LAYOUT -->
 </div>
 
-<!-- WhatsApp Modal -->
-<div class="overlay" id="waOverlay" onclick="closeWAModal(event)">
-  <div class="modal">
-    <button class="modal-close" onclick="closeWAModal()"><i class="fas fa-times"></i></button>
-    <div class="modal-wa-icon"><i class="fab fa-whatsapp"></i></div>
-    <h3>Chat on WhatsApp</h3>
-    <p>Enter your phone number to get your Customer ID and enquire about this property.</p>
-    <div class="form-group">
-      <label>Your Mobile Number</label>
-      <input type="tel" id="waPhone" placeholder="Enter 10-digit mobile number" maxlength="10" oninput="generateCID()" />
-    </div>
-    <div id="cidResult" class="cid-result hidden">
-      <div class="cid-label">Your Customer ID</div>
-      <div class="cid-value" id="cidValue">—</div>
-    </div>
-    <button class="btn btn-whatsapp pulse" style="width:100%; justify-content:center; margin-top:16px; padding:14px;" onclick="sendToWhatsApp()">
-      <i class="fab fa-whatsapp"></i> Open WhatsApp Chat
-    </button>
-  </div>
-</div>
-
-<!-- Floating Buttons -->
+<!-- FLOATING BUTTONS -->
 <div class="floating-btns">
-  <div class="float-btn-wrap">
-    <span class="float-label">Call Us</span>
-    <a href="tel:9711733120" class="float-btn float-call"><i class="fas fa-phone"></i></a>
-  </div>
-  <div class="float-btn-wrap">
-    <span class="float-label">WhatsApp</span>
-    <button class="float-btn float-wa" onclick="openWAModal()"><i class="fab fa-whatsapp"></i></button>
+  <button class="fab fab-top" onclick="window.scrollTo({top:0,behavior:'smooth'})" title="Back to top"><i class="fa-solid fa-chevron-up"></i></button>
+  <a href="tel:9711733120" class="fab fab-call" title="Call Now"><i class="fa-solid fa-phone"></i></a>
+  <button class="fab fab-wa" onclick="openWAModal('Property Enquiry')" title="WhatsApp"><i class="fa-brands fa-whatsapp"></i></button>
+</div>
+
+<!-- WA MODAL -->
+<div class="modal-overlay" id="waModal" onclick="closeWAModal(event)">
+  <div class="modal-box">
+    <div class="modal-header">
+      <h3><i class="fa-brands fa-whatsapp"></i> WhatsApp Enquiry</h3>
+      <button class="modal-close" onclick="closeWAModal()"><i class="fa-solid fa-xmark"></i></button>
+    </div>
+    <div class="modal-body">
+      <input class="enq-field" type="text" id="waName" placeholder="Your Name" style="width:100%;margin-bottom:8px" />
+      <input class="enq-field" type="tel" id="waPhone" placeholder="Your Phone Number" style="width:100%;margin-bottom:8px" oninput="generateCID()" />
+      <textarea class="enq-field" id="waMsg" placeholder="Your message..." style="width:100%;margin-bottom:8px"></textarea>
+      <div class="modal-cid">Your Customer ID: <strong id="waCid">—</strong></div>
+      <button class="btn-wa-send" onclick="sendToWhatsApp()"><i class="fa-brands fa-whatsapp"></i> Send on WhatsApp</button>
+    </div>
   </div>
 </div>
 
+<!-- TOAST CONTAINER -->
+<div class="toast-container" id="toastContainer"></div>
+
+<!-- CHATBOT MOUNT -->
+<div id="chatbotMount"></div>
+
+<script src="js/theme.js"></script>
+<script src="js/auth.js"></script>
 <script src="js/property.js"></script>
 <script src="js/chatbot.js"></script>
 </body>

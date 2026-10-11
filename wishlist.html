@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Saved Properties & Compare — City Property</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <link rel="stylesheet" href="css/style.css" />
+  <style>
+    body { background: var(--bg); color: var(--text); min-height: 100vh; }
+    .page-container { max-width: 1200px; margin: 40px auto; padding: 0 16px; }
+    .wish-tabs { display: flex; gap: 12px; margin-bottom: 28px; border-bottom: 2px solid var(--border); padding-bottom: 12px; }
+    .wish-tab-btn {
+      background: none; border: none; font-size: 1.1rem; font-weight: 700; color: var(--text-light);
+      cursor: pointer; padding: 8px 16px; border-radius: 8px; transition: var(--transition);
+    }
+    .wish-tab-btn.active { color: var(--primary); background: rgba(26,60,110,0.08); }
+    .empty-state { text-align: center; padding: 60px 20px; color: var(--text-light); }
+    .empty-state i { font-size: 3.5rem; color: var(--border); margin-bottom: 16px; }
+    .compare-table { width: 100%; border-collapse: collapse; background: var(--card-bg, #fff); border-radius: 12px; overflow: hidden; box-shadow: var(--shadow); margin-top: 16px; }
+    .compare-table th, .compare-table td { padding: 14px 18px; border: 1px solid var(--border); text-align: left; }
+    .compare-table th { background: var(--bg2, #f8f9fa); width: 200px; font-weight: 700; }
+  </style>
+</head>
+<body>
+
+  <nav class="navbar" style="position:sticky; top:0; background:rgba(255,255,255,0.96); backdrop-filter:blur(10px); border-bottom:1px solid var(--border); z-index:100;">
+    <div class="nav-container" style="display:flex; justify-content:space-between; align-items:center; height:70px; max-width:1200px; margin:0 auto; padding:0 16px;">
+      <a href="index.html" class="nav-brand" style="text-decoration:none; font-size:1.2rem; font-weight:800; color:var(--primary)">
+        City <span>Property</span>
+      </a>
+      <div style="display:flex; align-items:center; gap:16px;">
+        <button class="theme-btn" onclick="toggleTheme()" title="Toggle Theme" style="border:none; background:transparent; font-size:1.1rem; cursor:pointer; color:var(--text)">
+          <i class="fas fa-moon" id="themeIcon"></i>
+        </button>
+        <a href="listings.html" class="btn btn-outline btn-sm" style="text-decoration:none">All Properties</a>
+        <a href="index.html" class="btn btn-primary btn-sm" style="text-decoration:none">Home</a>
+      </div>
+    </div>
+  </nav>
+
+  <div class="page-container">
+    <div class="wish-tabs">
+      <button class="wish-tab-btn active" id="tabWishBtn" onclick="switchWishTab('wish')">
+        <i class="fas fa-heart" style="color:#e74c3c"></i> Saved Properties (<span id="wishCount">0</span>)
+      </button>
+      <button class="wish-tab-btn" id="tabCompBtn" onclick="switchWishTab('comp')">
+        <i class="fas fa-columns" style="color:var(--accent)"></i> Compare Properties
+      </button>
+    </div>
+
+    <!-- WISHLIST VIEW -->
+    <div id="wishlistView">
+      <div id="wishlistGrid" class="properties-grid" style="display:grid; grid-template-columns:repeat(auto-fill, minmax(320px, 1fr)); gap:24px;"></div>
+      <div id="wishEmpty" class="empty-state" style="display:none;">
+        <i class="far fa-heart"></i>
+        <h3>No saved properties yet</h3>
+        <p>Browse our verified Greater Noida listings and click the heart icon to save.</p>
+        <a href="listings.html" class="btn btn-primary" style="margin-top:16px; display:inline-block; text-decoration:none">Explore Properties</a>
+      </div>
+    </div>
+
+    <!-- COMPARE VIEW -->
+    <div id="compareView" style="display:none;">
+      <div id="compareContent"></div>
+    </div>
+  </div>
+
+  <script src="js/theme.js"></script>
+  <script src="js/main.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      renderWishlistPage();
+    });
+
+    function switchWishTab(tab) {
+      const isWish = tab === 'wish';
+      document.getElementById('tabWishBtn').classList.toggle('active', isWish);
+      document.getElementById('tabCompBtn').classList.toggle('active', !isWish);
+      document.getElementById('wishlistView').style.display = isWish ? 'block' : 'none';
+      document.getElementById('compareView').style.display = !isWish ? 'block' : 'none';
+      if (!isWish) renderComparePage();
+    }
+
+    function renderWishlistPage() {
+      const wishIds = JSON.parse(localStorage.getItem('cp_wishlist') || '[]');
+      document.getElementById('wishCount').textContent = wishIds.length;
+      const grid = document.getElementById('wishlistGrid');
+      const empty = document.getElementById('wishEmpty');
+
+      if (wishIds.length === 0) {
+        grid.innerHTML = '';
+        empty.style.display = 'block';
+        return;
+      }
+      empty.style.display = 'none';
+
+      // Find properties from allProperties (from main.js)
+      const props = typeof allProperties !== 'undefined' ? allProperties : (typeof defaultProperties !== 'undefined' ? defaultProperties : []);
+      const savedProps = props.filter(p => wishIds.includes(p.id) || wishIds.includes(String(p.id)));
+
+      if (savedProps.length === 0) {
+        grid.innerHTML = '';
+        empty.style.display = 'block';
+        return;
+      }
+
+      grid.innerHTML = savedProps.map(p => `
+        <div class="property-card" style="background:var(--card-bg, #fff); border:1px solid var(--border); border-radius:14px; overflow:hidden; box-shadow:var(--shadow);">
+          <div style="position:relative; height:180px;">
+            <img src="${p.image || 'https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?w=600'}" alt="${p.title}" style="width:100%; height:100%; object-fit:cover;" />
+            <button onclick="removeFromWishlist('${p.id}')" style="position:absolute; top:12px; right:12px; background:rgba(255,255,255,0.9); border:none; border-radius:50%; width:34px; height:34px; color:#e74c3c; cursor:pointer;" title="Remove">
+              <i class="fas fa-trash"></i>
+            </button>
+            <span style="position:absolute; top:12px; left:12px; background:var(--accent); color:#fff; padding:4px 10px; border-radius:50px; font-size:0.75rem; font-weight:700;">${p.category || 'For Sale'}</span>
+          </div>
+          <div style="padding:16px;">
+            <h4 style="margin:0 0 8px 0; font-size:1rem;">${p.title}</h4>
+            <div style="color:var(--text-light); font-size:0.85rem; margin-bottom:8px;"><i class="fas fa-map-marker-alt"></i> ${p.location}</div>
+            <div style="font-size:1.2rem; font-weight:800; color:var(--primary); margin-bottom:12px;">${p.priceDisplay || '₹' + p.price}</div>
+            <div style="display:flex; gap:8px;">
+              <a href="property.html?id=${p.id}" class="btn btn-outline btn-sm" style="flex:1; text-align:center; text-decoration:none">Details</a>
+              <a href="https://wa.me/919711733120?text=Interested in saved property: ${encodeURIComponent(p.title)}" target="_blank" class="btn btn-whatsapp btn-sm" style="flex:1; text-align:center; text-decoration:none">
+                <i class="fab fa-whatsapp"></i> Chat
+              </a>
+            </div>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    function removeFromWishlist(id) {
+      let wishIds = JSON.parse(localStorage.getItem('cp_wishlist') || '[]');
+      wishIds = wishIds.filter(w => w != id && String(w) != String(id));
+      localStorage.setItem('cp_wishlist', JSON.stringify(wishIds));
+      renderWishlistPage();
+    }
+
+    function renderComparePage() {
+      const wishIds = JSON.parse(localStorage.getItem('cp_wishlist') || '[]');
+      const container = document.getElementById('compareContent');
+      const props = typeof allProperties !== 'undefined' ? allProperties : (typeof defaultProperties !== 'undefined' ? defaultProperties : []);
+      const savedProps = props.filter(p => wishIds.includes(p.id) || wishIds.includes(String(p.id))).slice(0, 3);
+
+      if (savedProps.length < 2) {
+        container.innerHTML = `
+          <div class="empty-state">
+            <i class="fas fa-columns"></i>
+            <h3>Need at least 2 properties to compare</h3>
+            <p>Save 2 or more properties in your wishlist to see side-by-side comparison.</p>
+            <a href="listings.html" class="btn btn-primary" style="margin-top:14px; text-decoration:none; display:inline-block">Browse Listings</a>
+          </div>
+        `;
+        return;
+      }
+
+      container.innerHTML = `
+        <table class="compare-table">
+          <tr><th>Feature</th>${savedProps.map(p => `<th><strong style="color:var(--primary)">${p.title}</strong></th>`).join('')}</tr>
+          <tr><td>Price</td>${savedProps.map(p => `<td><strong style="color:var(--success)">${p.priceDisplay || '₹' + p.price}</strong></td>`).join('')}</tr>
+          <tr><td>Location</td>${savedProps.map(p => `<td>${p.location}</td>`).join('')}</tr>
+          <tr><td>Type</td>${savedProps.map(p => `<td>${p.type || 'Flat'}</td>`).join('')}</tr>
+          <tr><td>Size</td>${savedProps.map(p => `<td>${p.size || 'N/A'}</td>`).join('')}</tr>
+          <tr><td>Bedrooms</td>${savedProps.map(p => `<td>${p.bedrooms || p.beds || 'N/A'}</td>`).join('')}</tr>
+          <tr><td>Authority</td>${savedProps.map(p => `<td>${(p.authority || 'GNA').toUpperCase()}</td>`).join('')}</tr>
+          <tr><td>Action</td>${savedProps.map(p => `<td><a href="https://wa.me/919711733120?text=Comparing ${encodeURIComponent(p.title)}" target="_blank" class="btn btn-whatsapp btn-sm" style="text-decoration:none"><i class="fab fa-whatsapp"></i> Enquire</a></td>`).join('')}</tr>
+        </table>
+      `;
+    }
+  </script>
+</body>
+</html>
