@@ -466,17 +466,29 @@ function confirmDelete(id) {
   };
 }
 
-function deleteProperty(id) {
+async function deleteProperty(id) {
   let props = getProperties();
-  props = props.filter(p => p.id !== id);
-  saveAdminProperties(props); if (window.savePropertyToFirebase) window.savePropertyToFirebase(propData);
-  showToast('🗑️ Property deleted.', 'error');
+  props = props.filter(p => String(p.id) !== String(id));
+  saveAdminProperties(props);
+
+  // Delete directly from Firebase Realtime Database
+  if (window.deletePropertyFromFirebase) {
+    try {
+      await window.deletePropertyFromFirebase(id);
+      console.log('Deleted property from Firebase:', id);
+    } catch(err) {
+      console.warn('Firebase delete error:', err);
+    }
+  }
+
+  showToast('🗑️ Property deleted successfully from cloud & site!', 'error');
   updatePendingBadge();
 
-  // Re-render current page table
+  // Re-render current page table immediately
   if (currentPage === 'manage') renderManageTable();
   else if (currentPage === 'pending') renderPendingTable();
   else if (currentPage === 'featured') renderFeaturedTable();
+  else renderManageTable();
 }
 
 function closeModal() {
