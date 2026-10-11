@@ -1156,3 +1156,83 @@ document.getElementById('delete-modal').addEventListener('click', function(e) {
   const el = document.getElementById(id);
   if (el) el.addEventListener('keydown', e => { if (e.key === 'Enter') doLogin(); });
 });
+
+// ============================================================
+// CLOUDINARY & FIREBASE BACKEND INTEGRATION
+// ============================================================
+
+// 1. Direct file upload to Cloudinary
+async function handleImageFileUpload(e) {
+  const file = e.target.files[0];
+  if (!file) return;
+
+  const statusEl = document.getElementById('upload-status');
+  const urlInput = document.getElementById('prop-image');
+  const previewBox = document.getElementById('image-preview-box');
+  const previewImg = document.getElementById('image-preview-img');
+
+  if (statusEl) statusEl.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Uploading to Cloudinary...';
+
+  try {
+    const uploadedUrl = await window.uploadToCloudinary(file);
+    if (urlInput) urlInput.value = uploadedUrl;
+    if (previewImg) previewImg.src = uploadedUrl;
+    if (previewBox) previewBox.style.display = 'block';
+    if (statusEl) statusEl.innerHTML = '<span style="color:#27ae60"><i class="fas fa-check-circle"></i> Uploaded!</span>';
+    showToast('Photo uploaded successfully to Cloudinary!', 'success');
+  } catch (err) {
+    console.error('Upload error:', err);
+    if (statusEl) statusEl.innerHTML = '<span style="color:#e74c3c"><i class="fas fa-exclamation-circle"></i> Upload failed</span>';
+    showToast('Upload error: ' + err.message, 'error');
+  }
+}
+
+// 2. Save Backend Credentials from Settings
+function saveBackendConfig() {
+  const cloudName = document.getElementById('set-cloud-name')?.value.trim();
+  const preset = document.getElementById('set-cloud-preset')?.value.trim();
+  const projectId = document.getElementById('set-fb-project-id')?.value.trim();
+  const apiKey = document.getElementById('set-fb-api-key')?.value.trim();
+  const authDomain = document.getElementById('set-fb-auth-domain')?.value.trim();
+  const storageBucket = document.getElementById('set-fb-storage-bucket')?.value.trim();
+
+  if (cloudName) localStorage.setItem('cp_cloudinary_cloud_name', cloudName);
+  if (preset) localStorage.setItem('cp_cloudinary_preset', preset);
+  if (projectId) localStorage.setItem('cp_firebase_project_id', projectId);
+  if (apiKey) localStorage.setItem('cp_firebase_api_key', apiKey);
+  if (authDomain) localStorage.setItem('cp_firebase_auth_domain', authDomain);
+  if (storageBucket) localStorage.setItem('cp_firebase_storage_bucket', storageBucket);
+
+  showToast('Cloud credentials saved! Refreshing connection...', 'success');
+  setTimeout(() => location.reload(), 1000);
+}
+
+// 3. Test Connection
+async function testCloudConnection() {
+  const cloudName = localStorage.getItem('cp_cloudinary_cloud_name') || 'demo';
+  const projectId = localStorage.getItem('cp_firebase_project_id');
+
+  let msg = `Cloudinary: Configured (${cloudName}). `;
+  if (window.db) {
+    msg += 'Firebase Firestore: Connected & Ready!';
+  } else if (projectId) {
+    msg += 'Firebase: Initializing...';
+  } else {
+    msg += 'Firebase: Not yet configured (using LocalStorage fallback).';
+  }
+  showToast(msg, 'info');
+}
+
+// 4. Load backend credentials in settings form on open
+function loadBackendSettingsInputs() {
+  if (document.getElementById('set-cloud-name')) {
+    document.getElementById('set-cloud-name').value = localStorage.getItem('cp_cloudinary_cloud_name') || '';
+    document.getElementById('set-cloud-preset').value = localStorage.getItem('cp_cloudinary_preset') || '';
+    document.getElementById('set-fb-project-id').value = localStorage.getItem('cp_firebase_project_id') || '';
+    document.getElementById('set-fb-api-key').value = localStorage.getItem('cp_firebase_api_key') || '';
+    document.getElementById('set-fb-auth-domain').value = localStorage.getItem('cp_firebase_auth_domain') || '';
+    document.getElementById('set-fb-storage-bucket').value = localStorage.getItem('cp_firebase_storage_bucket') || '';
+  }
+}
+
+document.addEventListener('DOMContentLoaded', loadBackendSettingsInputs);

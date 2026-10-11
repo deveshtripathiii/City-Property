@@ -1069,9 +1069,18 @@
               <textarea id="prop-description" rows="4" placeholder="Describe the property — features, highlights, location benefits..."></textarea>
             </div>
             <div class="field form-full">
-              <label>Image URL</label>
-              <input type="url" id="prop-image" placeholder="https://images.unsplash.com/..." />
-              <div class="field-hint">Paste a direct image URL (Unsplash, etc.)</div>
+              <label>Property Photo (Cloudinary Instant Upload / URL)</label>
+              <div style="display:flex; gap:10px; align-items:center; flex-wrap:wrap; margin-bottom:8px;">
+                <input type="file" id="prop-image-file" accept="image/*" onchange="handleImageFileUpload(event)" style="display:none;" />
+                <button type="button" class="btn btn-primary btn-sm" onclick="document.getElementById('prop-image-file').click()">
+                  <i class="fas fa-cloud-upload-alt"></i> Choose Photo to Upload (Cloudinary)
+                </button>
+                <span id="upload-status" style="font-size:0.85rem; color:var(--text-light);">No file chosen</span>
+              </div>
+              <input type="url" id="prop-image" placeholder="Or paste direct image URL (https://...)" />
+              <div id="image-preview-box" style="margin-top:10px; display:none;">
+                <img id="image-preview-img" src="" alt="Preview" style="max-height:160px; border-radius:8px; border:1px solid var(--border); object-fit:cover;" />
+              </div>
             </div>
           </div>
 
@@ -1329,6 +1338,54 @@
             </button>
           </div>
 
+                    <div class="settings-section" style="border: 2px solid var(--primary); border-radius: 12px; padding: 18px; background: rgba(230,81,0,0.03);">
+            <h4 style="color:var(--primary);"><i class="fas fa-server"></i> Free Backend Settings (Firebase &amp; Cloudinary)</h4>
+            <p style="font-size:0.85rem; color:var(--text-light); margin-bottom:14px;">
+              Configure free cloud storage & database. Everything works with <strong>100% Free Tiers</strong> without needing a credit card!
+            </p>
+
+            <div style="margin-bottom:16px;">
+              <h5 style="margin:0 0 8px 0; color:var(--accent); font-size:0.95rem;"><i class="fas fa-images"></i> 1. Cloudinary Free Image Storage (25 GB Free CDN)</h5>
+              <div class="form-grid">
+                <div class="field">
+                  <label>Cloud Name</label>
+                  <input type="text" id="set-cloud-name" placeholder="e.g. your_cloud_name" />
+                </div>
+                <div class="field">
+                  <label>Upload Preset (Unsigned)</label>
+                  <input type="text" id="set-cloud-preset" placeholder="e.g. city_property_preset" />
+                </div>
+              </div>
+            </div>
+
+            <div>
+              <h5 style="margin:0 0 8px 0; color:var(--primary); font-size:0.95rem;"><i class="fas fa-fire"></i> 2. Firebase Firestore Free Database (1 GB / 50K Reads Free)</h5>
+              <div class="form-grid">
+                <div class="field">
+                  <label>Project ID</label>
+                  <input type="text" id="set-fb-project-id" placeholder="e.g. city-property-12345" />
+                </div>
+                <div class="field">
+                  <label>API Key</label>
+                  <input type="text" id="set-fb-api-key" placeholder="AIzaSy..." />
+                </div>
+                <div class="field">
+                  <label>Auth Domain</label>
+                  <input type="text" id="set-fb-auth-domain" placeholder="city-property-12345.firebaseapp.com" />
+                </div>
+                <div class="field">
+                  <label>Storage Bucket</label>
+                  <input type="text" id="set-fb-storage-bucket" placeholder="city-property-12345.appspot.com" />
+                </div>
+              </div>
+            </div>
+
+            <div style="margin-top:14px; display:flex; gap:10px;">
+              <button type="button" class="btn btn-primary" onclick="saveBackendConfig()"><i class="fas fa-save"></i> Save Cloud Credentials</button>
+              <button type="button" class="btn btn-outline" onclick="testCloudConnection()"><i class="fas fa-plug"></i> Test Connection</button>
+            </div>
+          </div>
+
           <div class="settings-section">
             <h4><i class="fas fa-database"></i> Data Management</h4>
             <div style="display:flex;gap:12px;flex-wrap:wrap;align-items:center">
@@ -1356,7 +1413,11 @@
   </main>
 </div>
 
-<script src="js/theme.js"></script>
+  <!-- Firebase & Cloudinary SDKs -->
+  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
+  <script src="js/firebase-config.js"></script>
+  <script src="js/theme.js"></script>
 <script src="js/admin.js"></script>
 </body>
 </html>
