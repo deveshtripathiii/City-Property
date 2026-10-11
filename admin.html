@@ -1139,30 +1139,30 @@
               <label>Property Description</label>
               <textarea id="prop-description" rows="4" placeholder="Describe the property — features, highlights, location benefits..."></textarea>
             </div>
-            <div class="field form-full" style="background:rgba(230,81,0,0.03); border:2px dashed var(--primary); border-radius:14px; padding:20px; text-align:center;">
-              <label style="font-size:1rem; font-weight:700; color:var(--primary); margin-bottom:8px; display:block;">
-                <i class="fas fa-camera"></i> Upload Property Photo (Auto Saved to Cloudinary)
+            <div class="field form-full" style="background:rgba(230,81,0,0.04); border:2px dashed var(--primary); border-radius:14px; padding:20px 14px; text-align:center; position:relative;">
+              <label style="font-size:1rem; font-weight:700; color:var(--primary); margin-bottom:6px; display:block;">
+                <i class="fas fa-camera"></i> Upload Property Photo
               </label>
-              <p style="font-size:0.85rem; color:var(--text-light); margin-bottom:14px;">
-                Apne phone ya laptop se photo select karein — photo seedha Cloudinary par save hogi aur website par display hogi!
+              <p style="font-size:0.8rem; color:var(--text-light); margin-bottom:12px;">
+                Phone gallery ya camera se photo upload karein (Cloudinary auto-save):
               </p>
 
-              <input type="file" id="prop-image-file" accept="image/*" onchange="handleImageFileUpload(event)" style="display:none;" />
-              
-              <div style="display:flex; justify-content:center; gap:12px; align-items:center; flex-wrap:wrap;">
-                <button type="button" class="btn btn-primary" style="padding:12px 24px; font-weight:700;" onclick="document.getElementById('prop-image-file').click()">
-                  <i class="fas fa-cloud-upload-alt"></i> Choose Photo to Upload
-                </button>
-                <span id="upload-status" style="font-size:0.9rem; font-weight:600; color:var(--text);">No photo selected</span>
+              <label for="prop-image-file" style="display:inline-flex; align-items:center; justify-content:center; gap:8px; padding:12px 24px; background:var(--primary); color:#fff; border-radius:8px; font-weight:700; font-size:0.95rem; cursor:pointer; box-shadow:0 4px 12px rgba(230,81,0,0.3);">
+                <i class="fas fa-folder-open"></i> Tap to Choose Photo
+              </label>
+              <input type="file" id="prop-image-file" accept="image/*" onchange="handleImageFileUpload(event)" style="opacity:0; position:absolute; z-index:-1; width:1px; height:1px;" />
+
+              <div style="margin-top:10px;">
+                <span id="upload-status" style="font-size:0.85rem; font-weight:600; color:var(--text);">No photo selected</span>
               </div>
 
-              <!-- Hidden input to store Cloudinary HTTPS URL -->
+              <!-- Store image URL -->
               <input type="hidden" id="prop-image" value="" />
 
-              <div id="image-preview-box" style="margin-top:16px; display:none;">
-                <img id="image-preview-img" src="" alt="Uploaded Preview" style="max-height:220px; max-width:100%; border-radius:12px; border:2px solid var(--primary); object-fit:cover; margin:0 auto; box-shadow:var(--shadow);" />
-                <div style="margin-top:6px; font-size:0.8rem; color:#27ae60; font-weight:700;">
-                  <i class="fas fa-check-circle"></i> Photo Ready &amp; Uploaded to Cloudinary Cloud!
+              <div id="image-preview-box" style="margin-top:14px; display:none;">
+                <img id="image-preview-img" src="" alt="Uploaded Preview" style="max-height:200px; max-width:100%; border-radius:10px; border:2px solid var(--primary); object-fit:cover; margin:0 auto; display:block;" />
+                <div style="margin-top:6px; font-size:0.82rem; color:#27ae60; font-weight:700;">
+                  <i class="fas fa-check-circle"></i> Photo Uploaded &amp; Ready!
                 </div>
               </div>
             </div>
