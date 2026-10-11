@@ -67,20 +67,22 @@ const I18N = {
 let ALL_PROPERTIES = [];
 
 function loadLiveProperties() {
-  // 1. Load from local cache
-  const local = JSON.parse(localStorage.getItem('cp_properties') || '[]');
-  ALL_PROPERTIES = local;
-
-  // 2. Sync from Firebase Cloud Realtime Database
+  // Always fetch fresh truth from Firebase Realtime Database
   if (window.fetchPropertiesFromFirebase) {
     window.fetchPropertiesFromFirebase().then(cloudProps => {
-      if (cloudProps && cloudProps.length > 0) {
-        ALL_PROPERTIES = cloudProps;
-        localStorage.setItem('cp_properties', JSON.stringify(cloudProps));
-        updateTypeCounts();
-        applyFilters();
-      }
-    }).catch(err => console.warn('Cloud sync:', err));
+      const liveList = Array.isArray(cloudProps) ? cloudProps : [];
+      ALL_PROPERTIES = liveList;
+      localStorage.setItem('cp_properties', JSON.stringify(liveList));
+      updateTypeCounts();
+      applyFilters();
+    }).catch(err => {
+      console.warn('Cloud sync error, fallback to local:', err);
+      ALL_PROPERTIES = JSON.parse(localStorage.getItem('cp_properties') || '[]');
+      updateTypeCounts();
+      applyFilters();
+    });
+  } else {
+    ALL_PROPERTIES = JSON.parse(localStorage.getItem('cp_properties') || '[]');
   }
 }
 loadLiveProperties();
@@ -304,9 +306,9 @@ function createPropertyCard(prop) {
   return `
 <div class="prop-card" data-id="${prop.id}">
   <div class="prop-img-wrap">
-    ${prop.image ? `<img src="${prop.image}" alt="${escHtml(prop.title)}" class="prop-card-img" style="width:100%;height:100%;object-fit:cover;" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';" /><div class="prop-img-placeholder" style="display:none;">${prop.emoji || '🏢'}</div>` : `<div class="prop-img-placeholder">${prop.emoji || '🏢'}</div>`}
+    ${prop.image ? `<img src="${prop.image}" alt="${escHtml(prop.title)}" class="prop-card-img" style="width:100%;height:100%;object-fit:cover;" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';" /><div class="prop-img-placeholder" style="display:none;"><i class="fas fa-building" style="font-size:2.5rem;color:var(--primary);"></i></div>` : `<div class="prop-img-placeholder"><i class="fas fa-building" style="font-size:2.5rem;color:var(--primary);"></i></div>`}
     <div class="prop-badges">
-      <span class="badge ${badgeClass}">${badgeLabel}</span>
+      <span class="badge ${prop.category ? ("badge-" + prop.category) : "badge-sale"}">${prop.category ? (prop.category === "sale" ? "For Sale" : (prop.category === "rent" ? "For Rent" : "Land / Plot")) : "For Sale"}</span>
     </div>
     ${newBadge}
     <button class="wishlist-btn ${isWishlisted ? 'active' : ''}"
@@ -316,7 +318,7 @@ function createPropertyCard(prop) {
     </button>
   </div>
   <div class="prop-body">
-    <div class="prop-type">${prop.type.toUpperCase()} · ${prop.authority.toUpperCase()}</div>
+    <div class="prop-type">${(prop.type || "property").toUpperCase()} · ${(prop.authority || "GNA").toUpperCase()}</div>
     <h3 class="prop-title">${prop.title}</h3>
     <div class="prop-location"><i class="fas fa-map-marker-alt"></i> ${prop.location}</div>
     <div class="prop-price" style="display:flex;align-items:center;gap:8px;">

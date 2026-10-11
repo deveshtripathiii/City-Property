@@ -12,11 +12,10 @@ let LISTINGS = JSON.parse(localStorage.getItem('cp_properties') || '[]');
 function syncListingsFromCloud() {
   if (window.fetchPropertiesFromFirebase) {
     window.fetchPropertiesFromFirebase().then(cloudProps => {
-      if (cloudProps && cloudProps.length > 0) {
-        LISTINGS = cloudProps;
-        localStorage.setItem('cp_properties', JSON.stringify(cloudProps));
-        applyAllFilters();
-      }
+      const liveList = Array.isArray(cloudProps) ? cloudProps : [];
+      LISTINGS = liveList;
+      localStorage.setItem('cp_properties', JSON.stringify(liveList));
+      applyAllFilters();
     }).catch(e => console.warn(e));
   }
 }
