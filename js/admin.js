@@ -321,10 +321,8 @@ function validateForm() {
     { id: 'prop-title',     label: 'Property Title' },
     { id: 'prop-category',  label: 'Category' },
     { id: 'prop-type',      label: 'Listing Type' },
-    { id: 'prop-price',     label: 'Price' },
     { id: 'prop-location',  label: 'Location' },
     { id: 'prop-authority', label: 'Authority' },
-    { id: 'prop-rera',      label: 'RERA Number' },
   ];
   for (const f of required) {
     const el = document.getElementById(f.id);
