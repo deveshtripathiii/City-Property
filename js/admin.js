@@ -457,38 +457,43 @@ function editProperty(id) {
 }
 
 // ===================== DELETE =====================
-function confirmDelete(id) {
-  deletePendingId = id;
-  document.getElementById('delete-modal').classList.add('active');
-  document.getElementById('confirm-delete-btn').onclick = () => {
-    deleteProperty(id);
-    closeModal();
-  };
+async function confirmDelete(id) {
+  if (!confirm('Are you sure you want to permanently delete this property?')) {
+    return;
+  }
+  await deleteProperty(id);
 }
 
 async function deleteProperty(id) {
-  let props = getProperties();
-  props = props.filter(p => String(p.id) !== String(id));
-  saveAdminProperties(props);
+  try {
+    showToast('⏳ Deleting property...', 'info');
 
-  // Delete directly from Firebase Realtime Database
-  if (window.deletePropertyFromFirebase) {
-    try {
+    // 1. Delete from Firebase Cloud Realtime Database
+    if (window.deletePropertyFromFirebase) {
       await window.deletePropertyFromFirebase(id);
-      console.log('Deleted property from Firebase:', id);
-    } catch(err) {
-      console.warn('Firebase delete error:', err);
+    } else if (window.FIREBASE_DB_URL) {
+      await fetch(`${window.FIREBASE_DB_URL}/properties/${id}.json`, { method: 'DELETE' });
     }
+
+    // 2. Remove from LocalStorage
+    let props = getProperties();
+    props = props.filter(p => String(p.id) !== String(id) && p.id != id);
+    saveAdminProperties(props);
+
+    // 3. Update UI tables immediately
+    renderManageTable();
+    updatePendingBadge();
+    renderDashboard();
+
+    showToast('🗑️ Property deleted successfully!', 'success');
+  } catch(err) {
+    console.error('Delete error:', err);
+    // Even if cloud error, remove locally
+    let props = getProperties().filter(p => String(p.id) !== String(id) && p.id != id);
+    saveAdminProperties(props);
+    renderManageTable();
+    showToast('Removed from table.', 'info');
   }
-
-  showToast('🗑️ Property deleted successfully from cloud & site!', 'error');
-  updatePendingBadge();
-
-  // Re-render current page table immediately
-  if (currentPage === 'manage') renderManageTable();
-  else if (currentPage === 'pending') renderPendingTable();
-  else if (currentPage === 'featured') renderFeaturedTable();
-  else renderManageTable();
 }
 
 function closeModal() {
