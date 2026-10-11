@@ -1,43 +1,64 @@
 // ============================================================
 // CITY PROPERTY — FIREBASE & CLOUDINARY CONFIGURATION
-// Backend: Firebase Firestore (Free Database) + Cloudinary (Free Image Storage)
+// Configured for Realtime Database + Cloudinary Image Storage
 // ============================================================
 
-// 1. CLOUDINARY CONFIG (FREE IMAGE STORAGE)
-// Default unsigned preset config for City Property
+// 1. YOUR FIREBASE REALTIME DATABASE URL (From your screenshot)
+window.FIREBASE_DB_URL = "https://city-property-5f7c2-default-rtdb.firebaseio.com";
+
+// 2. FIREBASE APP CONFIG
+window.FIREBASE_CONFIG = {
+  apiKey: localStorage.getItem('cp_firebase_api_key') || '',
+  authDomain: "city-property-5f7c2.firebaseapp.com",
+  databaseURL: "https://city-property-5f7c2-default-rtdb.firebaseio.com",
+  projectId: "city-property-5f7c2",
+  storageBucket: "city-property-5f7c2.appspot.com",
+  messagingSenderId: localStorage.getItem('cp_firebase_sender_id') || '',
+  appId: localStorage.getItem('cp_firebase_app_id') || ''
+};
+
+// 3. CLOUDINARY CONFIG (FREE IMAGE STORAGE)
 window.CLOUDINARY_CONFIG = {
   cloudName: localStorage.getItem('cp_cloudinary_cloud_name') || 'demo',
   uploadPreset: localStorage.getItem('cp_cloudinary_preset') || 'city_property_unsigned'
 };
 
-// 2. FIREBASE CONFIG (FREE FIRESTORE DATABASE)
-window.FIREBASE_CONFIG = {
-  apiKey: localStorage.getItem('cp_firebase_api_key') || '',
-  authDomain: localStorage.getItem('cp_firebase_auth_domain') || '',
-  projectId: localStorage.getItem('cp_firebase_project_id') || '',
-  storageBucket: localStorage.getItem('cp_firebase_storage_bucket') || '',
-  messagingSenderId: localStorage.getItem('cp_firebase_sender_id') || '',
-  appId: localStorage.getItem('cp_firebase_app_id') || ''
-};
-
-// Check if Firebase is configured
-window.isFirebaseConfigured = function() {
-  return !!(window.FIREBASE_CONFIG.apiKey && window.FIREBASE_CONFIG.projectId);
-};
-
-// Initialize Firebase SDK if configured
-window.db = null;
-if (window.isFirebaseConfigured() && typeof firebase !== 'undefined') {
+// Helper: Realtime Database REST API functions (Works directly with zero SDK setup needed!)
+window.savePropertyToFirebase = async function(property) {
   try {
-    if (!firebase.apps.length) {
-      firebase.initializeApp(window.FIREBASE_CONFIG);
-    }
-    window.db = firebase.firestore();
-    console.log('✅ Firebase Firestore connected successfully!');
+    const url = `${window.FIREBASE_DB_URL}/properties/${property.id}.json`;
+    const res = await fetch(url, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(property)
+    });
+    return await res.json();
   } catch (err) {
-    console.warn('Firebase init warning:', err);
+    console.warn('Firebase RTDB save error:', err);
   }
-}
+};
+
+window.fetchPropertiesFromFirebase = async function() {
+  try {
+    const url = `${window.FIREBASE_DB_URL}/properties.json`;
+    const res = await fetch(url);
+    const data = await res.json();
+    if (!data) return [];
+    return Object.values(data);
+  } catch (err) {
+    console.warn('Firebase RTDB fetch error:', err);
+    return [];
+  }
+};
+
+window.deletePropertyFromFirebase = async function(propId) {
+  try {
+    const url = `${window.FIREBASE_DB_URL}/properties/${propId}.json`;
+    await fetch(url, { method: 'DELETE' });
+  } catch (err) {
+    console.warn('Firebase RTDB delete error:', err);
+  }
+};
 
 // ============================================================
 // HELPER: Upload image to Cloudinary (Free 25GB Storage & CDN)
@@ -47,7 +68,7 @@ window.uploadToCloudinary = async function(file, onProgress) {
   const uploadPreset = window.CLOUDINARY_CONFIG.uploadPreset;
 
   if (!cloudName || cloudName === 'demo') {
-    // If user hasn't set their custom cloud name yet, read as Base64 for instant working preview!
+    // If custom cloud name not set yet, convert to Base64 for instant working preview!
     return new Promise((resolve, reject) => {
       const reader = new FileReader();
       reader.onload = () => resolve(reader.result);
@@ -72,5 +93,5 @@ window.uploadToCloudinary = async function(file, onProgress) {
   }
 
   const data = await response.json();
-  return data.secure_url; // Return fast, CDN-cached HTTPS image URL!
+  return data.secure_url;
 };

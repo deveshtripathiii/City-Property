@@ -343,7 +343,7 @@ function saveProperty() {
     showToast('✅ Property added successfully!', 'success');
   }
 
-  saveAdminProperties(props);
+  saveAdminProperties(props); if (window.savePropertyToFirebase) window.savePropertyToFirebase(propData);
   updatePendingBadge();
   resetPropertyForm();
 
@@ -432,7 +432,7 @@ function confirmDelete(id) {
 function deleteProperty(id) {
   let props = getProperties();
   props = props.filter(p => p.id !== id);
-  saveAdminProperties(props);
+  saveAdminProperties(props); if (window.savePropertyToFirebase) window.savePropertyToFirebase(propData);
   showToast('🗑️ Property deleted.', 'error');
   updatePendingBadge();
 
@@ -463,7 +463,7 @@ function toggleFeatured(id) {
   const p = props.find(x => x.id === id);
   if (!p) return;
   p.featured = !p.featured;
-  saveAdminProperties(props);
+  saveAdminProperties(props); if (window.savePropertyToFirebase) window.savePropertyToFirebase(propData);
   showToast(p.featured ? '⭐ Marked as featured!' : 'Feature removed.', p.featured ? 'success' : 'info');
   updatePendingBadge();
   if (currentPage === 'manage') renderManageTable();
@@ -476,7 +476,7 @@ function updatePropField(id, field, value) {
   if (!p) return;
   p[field] = value;
   p.updatedAt = Date.now();
-  saveAdminProperties(props);
+  saveAdminProperties(props); if (window.savePropertyToFirebase) window.savePropertyToFirebase(propData);
   updatePendingBadge();
   if (currentPage === 'manage') renderManageTable();
   else if (currentPage === 'pending') renderPendingTable();
