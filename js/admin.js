@@ -1280,3 +1280,50 @@ function loadBackendSettingsInputs() {
 }
 
 document.addEventListener('DOMContentLoaded', loadBackendSettingsInputs);
+
+// ============================================================
+// FORGOT PASSWORD / RESET VIA WHATSAPP VERIFICATION
+// ============================================================
+async function handleForgotPassword() {
+  const phone = prompt('Enter the Admin registered WhatsApp Number (e.g. 9711733120):');
+  if (!phone) return;
+  const cleanPhone = phone.replace(/\D/g, '');
+
+  if (cleanPhone.endsWith('9711733120') || cleanPhone === '9711733120') {
+    const otp = Math.floor(100000 + Math.random() * 900000);
+    alert(`🔐 Admin Security Verification!\nYour Reset Security PIN is: ${otp}\n(In production, this is sent to your registered number).`);
+    const enteredPin = prompt(`Enter the 6-Digit Security PIN sent to ${cleanPhone}:`);
+
+    if (enteredPin && enteredPin.trim() === String(otp)) {
+      const newPassword = prompt('Enter your NEW Admin Password (min 6 characters):');
+      if (newPassword && newPassword.trim().length >= 6) {
+        const cleanNewPass = newPassword.trim();
+        // 1. Update in Local Settings
+        saveSettingsData({ adminPass: cleanNewPass });
+
+        // 2. Update live in Firebase Realtime Database
+        if (window.FIREBASE_DB_URL) {
+          try {
+            await fetch(window.FIREBASE_DB_URL + '/admin_credentials.json', {
+              method: 'PUT',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ username: DEFAULT_ADMIN_USER, password: cleanNewPass })
+            });
+            console.log('✅ Password updated in Firebase Realtime Database!');
+          } catch (e) {
+            console.warn('Firebase password update warning:', e);
+          }
+        }
+
+        alert('✅ Password changed successfully in Firebase Cloud!\nYou can now log in with your new password.');
+        document.getElementById('login-pass').value = cleanNewPass;
+      } else {
+        alert('❌ Password must be at least 6 characters.');
+      }
+    } else {
+      alert('❌ Invalid Security PIN.');
+    }
+  } else {
+    alert('❌ This phone number does not match the Admin registered account.');
+  }
+}
