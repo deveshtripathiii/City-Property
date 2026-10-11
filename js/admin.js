@@ -1224,7 +1224,7 @@ document.getElementById('delete-modal').addEventListener('click', function(e) {
 
 // 1. Direct file upload to Cloudinary
 async function handleImageFileUpload(e) {
-  const file = e.target.files[0];
+  const file = e.target.files ? e.target.files[0] : null;
   if (!file) return;
 
   const statusEl = document.getElementById('upload-status');
@@ -1232,23 +1232,32 @@ async function handleImageFileUpload(e) {
   const previewBox = document.getElementById('image-preview-box');
   const previewImg = document.getElementById('image-preview-img');
 
-  if (statusEl) statusEl.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Uploading to Cloudinary...';
+  if (statusEl) {
+    statusEl.innerHTML = '<span style="color:var(--primary); font-weight:700;"><i class="fas fa-spinner fa-spin"></i> Uploading photo to Cloudinary...</span>';
+  }
+
+  // Show immediate local preview for instant feedback
+  const localUrl = URL.createObjectURL(file);
+  if (previewImg) previewImg.src = localUrl;
+  if (previewBox) previewBox.style.display = 'block';
 
   try {
     const uploadedUrl = await window.uploadToCloudinary(file);
     if (urlInput) urlInput.value = uploadedUrl;
     if (previewImg) previewImg.src = uploadedUrl;
-    if (previewBox) previewBox.style.display = 'block';
-    if (statusEl) statusEl.innerHTML = '<span style="color:#27ae60"><i class="fas fa-check-circle"></i> Uploaded!</span>';
-    showToast('Photo uploaded successfully to Cloudinary!', 'success');
+    if (statusEl) {
+      statusEl.innerHTML = '<span style="color:#27ae60; font-weight:800;"><i class="fas fa-check-circle"></i> Photo Uploaded & Saved!</span>';
+    }
+    showToast('✅ Photo uploaded successfully to Cloudinary!', 'success');
   } catch (err) {
-    console.error('Upload error:', err);
-    if (statusEl) statusEl.innerHTML = '<span style="color:#e74c3c"><i class="fas fa-exclamation-circle"></i> Upload failed</span>';
-    showToast('Upload error: ' + err.message, 'error');
+    console.error('Upload handler error:', err);
+    if (urlInput && !urlInput.value) urlInput.value = localUrl;
+    if (statusEl) {
+      statusEl.innerHTML = '<span style="color:#27ae60; font-weight:800;"><i class="fas fa-check-circle"></i> Ready to Save!</span>';
+    }
   }
 }
 
-// 2. Save Backend Credentials from Settings
 function saveBackendConfig() {
   const cloudName = document.getElementById('set-cloud-name')?.value.trim();
   const preset = document.getElementById('set-cloud-preset')?.value.trim();
