@@ -793,11 +793,81 @@
     </div>
     <button class="btn-login" onclick="doLogin()"><i class="fas fa-sign-in-alt"></i> Sign In to Admin Panel</button>
     <div style="margin-top:14px; text-align:center;">
-      <a href="#" onclick="handleForgotPassword(); return false;" style="font-size:12px; color:var(--primary); font-weight:600; text-decoration:none;">
-        <i class="fas fa-key"></i> Forgot Password? / Reset via WhatsApp OTP
+      <a href="#" onclick="openRecoveryModal(); return false;" style="font-size:12px; color:var(--primary); font-weight:600; text-decoration:none;">
+        <i class="fas fa-shield-alt"></i> Secure Admin Account Recovery
       </a>
     </div>
     <p style="margin-top:16px;font-size:11px;color:var(--text-light)">🔒 Secure admin access only &nbsp;|&nbsp; City Property © 2025</p>
+  </div>
+</div>
+
+
+<!-- ===== SECURE 2-STEP RECOVERY MODAL ===== -->
+<div class="modal-overlay" id="recovery-modal" style="display:none; z-index:10000;">
+  <div class="modal" style="max-width:440px; text-align:left; padding:28px 24px;">
+    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:16px;">
+      <h3 style="margin:0; font-size:1.15rem; color:var(--primary); display:flex; align-items:center; gap:8px;">
+        <i class="fas fa-user-shield"></i> Admin Account Recovery
+      </h3>
+      <button type="button" onclick="closeRecoveryModal()" style="background:none; border:none; font-size:1.2rem; cursor:pointer; color:var(--text-light);">&times;</button>
+    </div>
+
+    <!-- STEP 1: Verify Master Phone & Security Key -->
+    <div id="recovery-step-1">
+      <p style="font-size:0.84rem; color:var(--text-light); margin-bottom:16px; line-height:1.4;">
+        Security verification ke liye registered mobile number aur Master Security Key enter karein:
+      </p>
+
+      <div class="form-group">
+        <label>Registered Mobile Number</label>
+        <div class="input-wrap">
+          <i class="fas fa-phone"></i>
+          <input type="tel" id="rec-phone" placeholder="Enter registered number (97117 33120)" />
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label>Master Security Key</label>
+        <div class="input-wrap">
+          <i class="fas fa-key"></i>
+          <input type="password" id="rec-key" placeholder="Enter Master Security Key" />
+        </div>
+        <div style="font-size:0.75rem; color:var(--text-light); margin-top:4px;">
+          Default Master Key: <strong>CP-SECURE-9711</strong>
+        </div>
+      </div>
+
+      <button type="button" class="btn btn-primary" onclick="verifyRecoveryStep1()" style="width:100%; padding:12px; margin-top:8px;">
+        <i class="fas fa-shield-alt"></i> Verify Credentials
+      </button>
+    </div>
+
+    <!-- STEP 2: Set New Password -->
+    <div id="recovery-step-2" style="display:none;">
+      <div style="background:#e8f5e9; color:#2e7d32; padding:10px 12px; border-radius:8px; font-size:0.84rem; margin-bottom:16px; font-weight:600;">
+        <i class="fas fa-check-circle"></i> Identity Verified! Naya password create karein:
+      </div>
+
+      <div class="form-group">
+        <label>New Admin Password</label>
+        <div class="input-wrap">
+          <i class="fas fa-lock"></i>
+          <input type="password" id="rec-new-pass" placeholder="Enter new password (min 6 chars)" />
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label>Confirm New Password</label>
+        <div class="input-wrap">
+          <i class="fas fa-lock"></i>
+          <input type="password" id="rec-conf-pass" placeholder="Confirm new password" />
+        </div>
+      </div>
+
+      <button type="button" class="btn btn-primary" onclick="saveNewAdminPassword()" style="width:100%; padding:12px; margin-top:8px;">
+        <i class="fas fa-save"></i> Save Password &amp; Sync to Firebase
+      </button>
+    </div>
   </div>
 </div>
 

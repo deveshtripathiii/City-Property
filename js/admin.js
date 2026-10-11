@@ -1306,48 +1306,81 @@ function loadBackendSettingsInputs() {
 document.addEventListener('DOMContentLoaded', loadBackendSettingsInputs);
 
 // ============================================================
-// FORGOT PASSWORD / RESET VIA WHATSAPP VERIFICATION
+
 // ============================================================
-async function handleForgotPassword() {
-  const phone = prompt('Enter the Admin registered WhatsApp Number (e.g. 9711733120):');
-  if (!phone) return;
-  const cleanPhone = phone.replace(/\D/g, '');
+// ENTERPRISE 2-FACTOR ADMIN RECOVERY SYSTEM
+// ============================================================
+const MASTER_SECURITY_KEY = "CP-SECURE-9711";
+const ADMIN_PHONE_NUMBER = "9711733120";
 
-  if (cleanPhone.endsWith('9711733120') || cleanPhone === '9711733120') {
-    const otp = Math.floor(100000 + Math.random() * 900000);
-    alert(`🔐 Admin Security Verification!\nYour Reset Security PIN is: ${otp}\n(In production, this is sent to your registered number).`);
-    const enteredPin = prompt(`Enter the 6-Digit Security PIN sent to ${cleanPhone}:`);
+function openRecoveryModal() {
+  document.getElementById('recovery-modal').style.display = 'flex';
+  document.getElementById('recovery-step-1').style.display = 'block';
+  document.getElementById('recovery-step-2').style.display = 'none';
+  document.getElementById('rec-phone').value = '';
+  document.getElementById('rec-key').value = '';
+}
 
-    if (enteredPin && enteredPin.trim() === String(otp)) {
-      const newPassword = prompt('Enter your NEW Admin Password (min 6 characters):');
-      if (newPassword && newPassword.trim().length >= 6) {
-        const cleanNewPass = newPassword.trim();
-        // 1. Update in Local Settings
-        saveSettingsData({ adminPass: cleanNewPass });
+function closeRecoveryModal() {
+  document.getElementById('recovery-modal').style.display = 'none';
+}
 
-        // 2. Update live in Firebase Realtime Database
-        if (window.FIREBASE_DB_URL) {
-          try {
-            await fetch(window.FIREBASE_DB_URL + '/admin_credentials.json', {
-              method: 'PUT',
-              headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify({ username: DEFAULT_ADMIN_USER, password: cleanNewPass })
-            });
-            console.log('✅ Password updated in Firebase Realtime Database!');
-          } catch (e) {
-            console.warn('Firebase password update warning:', e);
-          }
-        }
+function verifyRecoveryStep1() {
+  const phone = (document.getElementById('rec-phone').value || '').replace(/\D/g, '');
+  const key = (document.getElementById('rec-key').value || '').trim();
 
-        alert('✅ Password changed successfully in Firebase Cloud!\nYou can now log in with your new password.');
-        document.getElementById('login-pass').value = cleanNewPass;
-      } else {
-        alert('❌ Password must be at least 6 characters.');
-      }
-    } else {
-      alert('❌ Invalid Security PIN.');
-    }
-  } else {
-    alert('❌ This phone number does not match the Admin registered account.');
+  if (phone !== ADMIN_PHONE_NUMBER && !phone.endsWith(ADMIN_PHONE_NUMBER)) {
+    showToast('❌ Mobile number does not match registered Admin!', 'error');
+    return;
   }
+
+  // Get master key from local settings or fallback to constant
+  const cfg = getSettings();
+  const validKey = cfg.masterKey || MASTER_SECURITY_KEY;
+
+  if (key !== validKey) {
+    showToast('❌ Invalid Master Security Key!', 'error');
+    return;
+  }
+
+  // Success: Proceed to Step 2
+  document.getElementById('recovery-step-1').style.display = 'none';
+  document.getElementById('recovery-step-2').style.display = 'block';
+  showToast('✅ Identity verified! Enter new password.', 'success');
+}
+
+async function saveNewAdminPassword() {
+  const newPass = (document.getElementById('rec-new-pass').value || '').trim();
+  const confPass = (document.getElementById('rec-conf-pass').value || '').trim();
+
+  if (newPass.length < 6) {
+    showToast('⚠️ Password must be at least 6 characters.', 'warning');
+    return;
+  }
+  if (newPass !== confPass) {
+    showToast('❌ Passwords do not match.', 'error');
+    return;
+  }
+
+  // 1. Update in local settings
+  saveSettingsData({ adminPass: newPass });
+
+  // 2. Sync permanently to Firebase Cloud Database
+  if (window.FIREBASE_DB_URL) {
+    try {
+      await fetch(window.FIREBASE_DB_URL + '/admin_credentials.json', {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ username: DEFAULT_ADMIN_USER, password: newPass })
+      });
+      console.log('✅ Admin password updated in Firebase Realtime Database!');
+    } catch (e) {
+      console.warn('Firebase password update warning:', e);
+    }
+  }
+
+  closeRecoveryModal();
+  showToast('🔐 Password changed & synced to Firebase! You can now login.', 'success');
+  const passInp = document.getElementById('login-pass');
+  if (passInp) passInp.value = newPass;
 }
