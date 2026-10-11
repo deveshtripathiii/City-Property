@@ -760,28 +760,47 @@ document.addEventListener('DOMContentLoaded', () => {
   if (typeof checkAuthState === 'function') checkAuthState();
 });
 
+
+
 // ============================================================
-// SELLER CONNECT TO WHATSAPP FUNCTION
+// SELLER CONNECT TO WHATSAPP FUNCTION (BROKER MODEL)
 // ============================================================
 function updateSellerCID() {
-  const phone = document.getElementById('sellerPhone').value.replace(/\D/g, '');
+  const phoneInput = document.getElementById('sellerPhone');
+  if (!phoneInput) return;
+  const phone = phoneInput.value.replace(/\D/g, '');
   const box = document.getElementById('sellerCIDBox');
   const val = document.getElementById('sellerCIDVal');
   if (phone.length >= 5) {
     const cid = 'CID-' + phone.substring(0, 5);
-    val.textContent = cid;
-    box.style.display = 'block';
+    if (val) val.textContent = cid;
+    if (box) box.style.display = 'block';
   } else {
-    box.style.display = 'none';
+    if (box) box.style.display = 'none';
   }
 }
 
+function selectQuickSize(sqm) {
+  const input = document.getElementById('sellerSizeSqMtr');
+  if (input) input.value = sqm;
+}
+
 function connectSellerWhatsApp() {
-  const name = document.getElementById('sellerName').value.trim();
-  const phone = document.getElementById('sellerPhone').value.replace(/\D/g, '');
-  const propType = document.getElementById('sellerPropType').value;
-  const price = document.getElementById('sellerPrice').value.trim();
-  const location = document.getElementById('sellerLocation').value.trim();
+  const nameEl = document.getElementById('sellerName');
+  const phoneEl = document.getElementById('sellerPhone');
+  const propTypeEl = document.getElementById('sellerPropType');
+  const priceEl = document.getElementById('sellerPrice');
+  const locationEl = document.getElementById('sellerLocation');
+  const sizeInput = document.getElementById('sellerSizeSqMtr');
+  const sizeUnit = document.getElementById('sellerSizeUnit');
+
+  const name = nameEl ? nameEl.value.trim() : '';
+  const phone = phoneEl ? phoneEl.value.replace(/\D/g, '') : '';
+  const propType = propTypeEl ? propTypeEl.value : 'Plot / Land';
+  const price = priceEl ? priceEl.value.trim() : '';
+  const location = locationEl ? locationEl.value.trim() : '';
+  const sizeVal = sizeInput ? sizeInput.value.trim() : '';
+  const unitVal = sizeUnit ? sizeUnit.value : 'Sq. Mtr';
 
   if (phone.length < 5) {
     alert('Please enter at least 5 digits of your phone number.');
@@ -789,18 +808,19 @@ function connectSellerWhatsApp() {
   }
 
   const cid = 'CID-' + phone.substring(0, 5);
-  let msg = `🏠 *SELLER INQUIRY — CITY PROPERTY*\n`;
-  msg += `━━━━━━━━━━━━━━━━━━\n`;
-  msg += `🆔 *Customer ID:* ${cid}\n`;
-  if (name) msg += `👤 *Seller Name:* ${name}\n`;
-  msg += `📱 *Phone:* ${phone}\n`;
-  msg += `🏷️ *Property Type:* ${propType}\n`;
-  if (price) msg += `💰 *Expected Price:* ${price}\n`;
-  if (location) msg += `📍 *Location:* ${location}\n`;
-  msg += `━━━━━━━━━━━━━━━━━━\n`;
-  msg += `🤝 *Request:* I want to sell this property through City Property. Please provide genuine buyers!\n`;
-  msg += `⏰ *Date:* ${new Date().toLocaleDateString('en-IN')}`;
+  let msg = '🏠 *SELLER INQUIRY — PROPERTY SELL KARWANI HAI*\n';
+  msg += '━━━━━━━━━━━━━━━━━━\n';
+  msg += '🆔 *Customer ID:* ' + cid + '\n';
+  if (name) msg += '👤 *Owner Name:* ' + name + '\n';
+  msg += '📱 *Mobile Number:* ' + phone + '\n';
+  msg += '🏷️ *Property Type:* ' + propType + '\n';
+  if (sizeVal) msg += '📐 *Size / Area:* ' + sizeVal + ' ' + unitVal + ' (Square Meter)\n';
+  if (price) msg += '💰 *Expected Price:* ' + price + '\n';
+  if (location) msg += '📍 *Sector / Location:* ' + location + '\n';
+  msg += '━━━━━━━━━━━━━━━━━━\n';
+  msg += '🤝 *Role:* Hum broker ke roop mein aapke liye genuine buyers provide karwayenge taaki aapki property best rate par SELL ho sake!\n';
+  msg += '⏰ *Date:* ' + new Date().toLocaleDateString('en-IN');
 
-  const url = `https://wa.me/919711733120?text=${encodeURIComponent(msg)}`;
+  const url = 'https://wa.me/919711733120?text=' + encodeURIComponent(msg);
   window.open(url, '_blank');
 }

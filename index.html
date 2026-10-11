@@ -1623,9 +1623,17 @@
       <span class="badge-badge" style="background:var(--accent); color:#fff; padding:6px 16px; border-radius:50px; font-size:0.8rem; font-weight:800; text-transform:uppercase; letter-spacing:1px; display:inline-block; margin-bottom:12px;">
         <i class="fas fa-handshake"></i> Guaranteed Buyer Network
       </span>
-      <h2 class="section-title">Want to Sell Your Property? <span style="color:var(--accent);">We Provide Genuine Buyers!</span></h2>
+      <h2 class="section-title">Want to Sell Your Property? <span style="color:var(--accent);">Hum Aapki Property Sell Karwate Hain!</span></h2>
+      <div style="max-width:760px; margin:16px auto; background:rgba(230,81,0,0.12); border-left:4px solid var(--primary); padding:12px 18px; border-radius:8px; text-align:left;">
+        <div style="font-weight:800; color:var(--primary); font-size:1rem; margin-bottom:4px;">
+          <i class="fas fa-handshake"></i> Hum Broker Hain — Hum Aapki Property Sell Karwate Hain (Kharidte Nahi):
+        </div>
+        <p style="margin:0; font-size:0.9rem; color:var(--text); line-height:1.5;">
+          Hamara kaam aapki property ko direct khareedna nahi hai — <strong>hum genuine verified buyers provide karke best market price par aapki property SELL karwate hain</strong>. Greater Noida Authority (GNA) aur Yamuna Authority (YEA) ke verified buyers se direct connect karein!
+        </p>
+      </div>
       <p class="section-subtitle" style="max-width:760px; margin:0 auto;">
-        List your flat, plot, house, or commercial building with City Property. We have <strong>1,200+ active verified buyers</strong> ready for Greater Noida Authority (GNA) and Yamuna Expressway Authority (YEA) sectors. Fast deal closing & direct WhatsApp connection!
+        Plots, Flats, Villas, Commercial &amp; Industrial land ke <strong>1,200+ active buyers</strong> ready hain.
       </p>
     </div>
 
@@ -1689,8 +1697,8 @@
         <div>
           <label style="display:block; font-size:0.85rem; font-weight:600; margin-bottom:6px;">Property Type</label>
           <select id="sellerPropType" style="width:100%; padding:12px 14px; border:1.5px solid var(--border); border-radius:8px; background:var(--bg); color:var(--text); box-sizing:border-box; outline:none; font-family:inherit;">
-            <option value="Flat / Apartment">Flat / Apartment</option>
             <option value="Plot / Land">Plot / Land (GNA / YEA)</option>
+            <option value="Flat / Apartment">Flat / Apartment</option>
             <option value="Independent House / Villa">House / Villa</option>
             <option value="Commercial Building / Shop">Commercial Space</option>
             <option value="Hostel / PG Building">Hostel / PG</option>
@@ -1702,9 +1710,35 @@
         </div>
       </div>
 
-      <div style="margin-bottom:16px;">
-        <label style="display:block; font-size:0.85rem; font-weight:600; margin-bottom:6px;">Location / Sector in Greater Noida / Yamuna Expressway</label>
-        <input type="text" id="sellerLocation" placeholder="e.g. Sector Beta-2, Greater Noida OR Sector 22D, Yamuna Expressway" style="width:100%; padding:12px 14px; border:1.5px solid var(--border); border-radius:8px; background:var(--bg); color:var(--text); box-sizing:border-box; outline:none; font-family:inherit;" />
+      <!-- Location and Size in Square Meter (Sq. Mtr) -->
+      <div style="display:grid; grid-template-columns: 1.5fr 1fr; gap:16px; margin-bottom:16px;">
+        <div>
+          <label style="display:block; font-size:0.85rem; font-weight:600; margin-bottom:6px;">Location / Sector in Greater Noida (GNA) / Yamuna Expressway (YEA)</label>
+          <input type="text" id="sellerLocation" placeholder="e.g. Sector Beta-2, Sector Alpha-1 OR YEA Sector 18, 22D" style="width:100%; padding:12px 14px; border:1.5px solid var(--border); border-radius:8px; background:var(--bg); color:var(--text); box-sizing:border-box; outline:none; font-family:inherit;" />
+        </div>
+        <div>
+          <label style="display:block; font-size:0.85rem; font-weight:600; margin-bottom:6px;">Plot / Property Size (in Square Meter - Sq. Mtr.)</label>
+          <div style="display:flex; gap:6px;">
+            <input type="number" id="sellerSizeSqMtr" placeholder="e.g. 60, 120, 300, 500" style="flex:1; padding:12px 14px; border:1.5px solid var(--border); border-radius:8px; background:var(--bg); color:var(--text); box-sizing:border-box; outline:none; font-family:inherit;" />
+            <select id="sellerSizeUnit" style="width:120px; padding:12px 8px; border:1.5px solid var(--border); border-radius:8px; background:var(--bg); color:var(--text); outline:none; font-family:inherit; font-weight:600;">
+              <option value="Sq. Mtr" selected>Sq. Mtr (वर्ग मीटर)</option>
+              <option value="Sq. Yard">Sq. Yard (गज)</option>
+              <option value="Sq. Feet">Sq. Feet (फीट)</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <!-- Quick standard sizes for GNA/YEA authority plots -->
+      <div style="margin-bottom:18px; display:flex; align-items:center; gap:8px; flex-wrap:wrap;">
+        <span style="font-size:0.8rem; color:var(--text-light); font-weight:600;">Quick Authority Plot Sizes:</span>
+        <button type="button" onclick="selectQuickSize(60)" style="background:var(--bg2); border:1px solid var(--border); padding:4px 10px; border-radius:6px; font-size:0.78rem; cursor:pointer; color:var(--text);">60 Sq.Mtr</button>
+        <button type="button" onclick="selectQuickSize(120)" style="background:var(--bg2); border:1px solid var(--border); padding:4px 10px; border-radius:6px; font-size:0.78rem; cursor:pointer; color:var(--text);">120 Sq.Mtr</button>
+        <button type="button" onclick="selectQuickSize(162)" style="background:var(--bg2); border:1px solid var(--border); padding:4px 10px; border-radius:6px; font-size:0.78rem; cursor:pointer; color:var(--text);">162 Sq.Mtr</button>
+        <button type="button" onclick="selectQuickSize(200)" style="background:var(--bg2); border:1px solid var(--border); padding:4px 10px; border-radius:6px; font-size:0.78rem; cursor:pointer; color:var(--text);">200 Sq.Mtr</button>
+        <button type="button" onclick="selectQuickSize(300)" style="background:var(--bg2); border:1px solid var(--border); padding:4px 10px; border-radius:6px; font-size:0.78rem; cursor:pointer; color:var(--text);">300 Sq.Mtr</button>
+        <button type="button" onclick="selectQuickSize(500)" style="background:var(--bg2); border:1px solid var(--border); padding:4px 10px; border-radius:6px; font-size:0.78rem; cursor:pointer; color:var(--text);">500 Sq.Mtr</button>
+        <button type="button" onclick="selectQuickSize(1000)" style="background:var(--bg2); border:1px solid var(--border); padding:4px 10px; border-radius:6px; font-size:0.78rem; cursor:pointer; color:var(--text);">1000 Sq.Mtr</button>
       </div>
 
       <div id="sellerCIDBox" style="display:none; background:rgba(37,211,102,0.1); border:1.5px dashed #25d366; border-radius:8px; padding:10px 14px; margin-bottom:16px; color:#128c7e; font-size:0.88rem; font-weight:700;">
