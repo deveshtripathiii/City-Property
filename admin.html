@@ -696,7 +696,74 @@
       transition: var(--transition);
     }
     .file-label:hover { border-color: var(--primary); color: var(--primary); }
-  </style>
+  
+/* ===== ADMIN MOBILE POLISH & SCREEN FIT ===== */
+@media (max-width: 768px) {
+  :root {
+    --sidebar-w: 56px !important;
+  }
+  .sidebar {
+    width: 56px !important;
+    padding-top: 10px !important;
+  }
+  .sidebar-logo {
+    padding: 12px 6px !important;
+    justify-content: center !important;
+  }
+  .logo-text, .s-name, .s-sub, .nav-section-label, .admin-info .admin-name, .admin-info .admin-role {
+    display: none !important;
+  }
+  .nav-item {
+    padding: 12px 0 !important;
+    justify-content: center !important;
+  }
+  .nav-item span {
+    display: none !important;
+  }
+  .nav-item i {
+    font-size: 1.15rem !important;
+    margin: 0 !important;
+  }
+  .topbar {
+    left: 56px !important;
+    padding: 0 10px !important;
+    height: 58px !important;
+  }
+  .topbar-left h1 {
+    font-size: 1rem !important;
+  }
+  .topbar-badge {
+    display: none !important;
+  }
+  .topbar-right .btn-ghost {
+    padding: 6px 10px !important;
+    font-size: 0.78rem !important;
+  }
+  .main-content {
+    margin-left: 56px !important;
+    padding: 12px 8px !important;
+    width: calc(100vw - 56px) !important;
+    box-sizing: border-box !important;
+  }
+  .card-body {
+    padding: 14px 10px !important;
+  }
+  .form-grid, .form-grid.three {
+    grid-template-columns: 1fr !important;
+    gap: 12px !important;
+  }
+  .field label {
+    font-size: 0.8rem !important;
+  }
+  .field input, .field select, .field textarea {
+    padding: 10px 12px !important;
+    font-size: 0.88rem !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
+  }
+}
+
+</style>
 </head>
 <body>
 
@@ -938,20 +1005,18 @@
             </div>
           </div>
 
-          <div class="form-section-heading"><i class="fas fa-tag"></i> Pricing</div>
-          <div class="form-grid three">
-            <div class="field">
-              <label>Price (₹) <span class="required">*</span></label>
-              <input type="number" id="prop-price" placeholder="e.g. 5000000" />
+          <div class="form-section-heading"><i class="fas fa-phone-alt"></i> Pricing Mode</div>
+          <div class="field form-full" style="background:rgba(230,81,0,0.06); border:1.5px solid var(--primary); border-radius:10px; padding:12px 16px; margin-bottom:12px;">
+            <div style="font-weight:700; color:var(--primary); font-size:0.9rem; display:flex; align-items:center; gap:8px;">
+              <i class="fas fa-check-circle"></i> Price on Call (Direct Deal Model)
             </div>
-            <div class="field">
-              <label>Price Display Text</label>
-              <input type="text" id="prop-price-display" placeholder="e.g. ₹50 Lac" />
-            </div>
-            <div class="field">
-              <label>Price Per Sq.ft</label>
-              <input type="text" id="prop-price-sqft" placeholder="e.g. ₹4,500/sq.ft" />
-            </div>
+            <p style="margin:4px 0 0 0; font-size:0.8rem; color:var(--text-light); line-height:1.4;">
+              Is property ka price website par automatically <strong>"Price on Call (97117 33120)"</strong> dikhega. Customer direct call karke negotiate karega.
+            </p>
+            <!-- Hidden inputs so internal save logic keeps working smoothly -->
+            <input type="hidden" id="prop-price" value="0" />
+            <input type="hidden" id="prop-price-display" value="Price on Call" />
+            <input type="hidden" id="prop-price-sqft" value="Price on Call" />
           </div>
 
           <div class="form-section-heading"><i class="fas fa-map-marker-alt"></i> Location & Authority</div>
