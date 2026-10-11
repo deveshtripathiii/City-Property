@@ -3731,3 +3731,39 @@ img, video, canvas, svg {
     font-size: 1.3rem !important;
   }
 }
+
+
+/* ===== HEADER MOBILE FIT OVERRIDE ===== */
+@media (max-width: 768px) {
+  .hide-mobile {
+    display: none !important;
+  }
+  .navbar-inner {
+    height: 60px !important;
+    gap: 12px !important;
+    justify-content: space-between !important;
+    width: 100% !important;
+    overflow: hidden !important;
+  }
+  .nav-right {
+    gap: 6px !important;
+    flex-shrink: 0 !important;
+  }
+  .lang-toggle button {
+    padding: 4px 8px !important;
+    font-size: 0.75rem !important;
+  }
+  .theme-btn {
+    width: 32px !important;
+    height: 32px !important;
+    font-size: 0.85rem !important;
+  }
+  .logo {
+    font-size: 1.1rem !important;
+  }
+  .logo-icon {
+    width: 32px !important;
+    height: 32px !important;
+    font-size: 0.85rem !important;
+  }
+}

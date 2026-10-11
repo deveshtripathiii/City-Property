@@ -1271,7 +1271,43 @@
       }
     }
 
-  </style>
+  
+/* ===== HEADER MOBILE FIT OVERRIDE ===== */
+@media (max-width: 768px) {
+  .hide-mobile {
+    display: none !important;
+  }
+  .navbar-inner {
+    height: 60px !important;
+    gap: 12px !important;
+    justify-content: space-between !important;
+    width: 100% !important;
+    overflow: hidden !important;
+  }
+  .nav-right {
+    gap: 6px !important;
+    flex-shrink: 0 !important;
+  }
+  .lang-toggle button {
+    padding: 4px 8px !important;
+    font-size: 0.75rem !important;
+  }
+  .theme-btn {
+    width: 32px !important;
+    height: 32px !important;
+    font-size: 0.85rem !important;
+  }
+  .logo {
+    font-size: 1.1rem !important;
+  }
+  .logo-icon {
+    width: 32px !important;
+    height: 32px !important;
+    font-size: 0.85rem !important;
+  }
+}
+
+</style>
 </head>
 <body>
 
@@ -1290,12 +1326,12 @@
         <a href="#about" data-i18n="nav.about">About</a>
         <a href="#contact" data-i18n="nav.contact">Contact</a>
       </div>
-      <div class="nav-right" style="display:flex; align-items:center; gap:10px;">
-        <a href="tel:9711733120" class="btn btn-call-top" style="display:inline-flex; align-items:center; gap:6px; background:#27ae60; color:#fff; padding:7px 14px; border-radius:50px; font-size:0.85rem; font-weight:700; text-decoration:none; box-shadow:0 2px 8px rgba(39,174,96,0.3); transition:transform 0.2s;" title="Direct Call">
-          <i class="fas fa-phone-alt"></i> <span class="hide-mobile">Call: 97117 33120</span>
+      <div class="nav-right" style="display:flex; align-items:center; gap:8px;">
+        <a href="tel:9711733120" class="btn btn-call-top hide-mobile" style="display:inline-flex; align-items:center; gap:6px; background:#27ae60; color:#fff; padding:7px 14px; border-radius:50px; font-size:0.85rem; font-weight:700; text-decoration:none; box-shadow:0 2px 8px rgba(39,174,96,0.3);" title="Direct Call">
+          <i class="fas fa-phone-alt"></i> Call: 97117 33120
         </a>
-        <a href="https://wa.me/919711733120" target="_blank" class="btn btn-wa-top" style="display:inline-flex; align-items:center; gap:6px; background:#25d366; color:#fff; padding:7px 14px; border-radius:50px; font-size:0.85rem; font-weight:700; text-decoration:none; box-shadow:0 2px 8px rgba(37,211,102,0.3); transition:transform 0.2s;" title="WhatsApp Chat">
-          <i class="fab fa-whatsapp" style="font-size:1rem;"></i> <span class="hide-mobile">WhatsApp</span>
+        <a href="https://wa.me/919711733120" target="_blank" class="btn btn-wa-top hide-mobile" style="display:inline-flex; align-items:center; gap:6px; background:#25d366; color:#fff; padding:7px 14px; border-radius:50px; font-size:0.85rem; font-weight:700; text-decoration:none; box-shadow:0 2px 8px rgba(37,211,102,0.3);" title="WhatsApp Chat">
+          <i class="fab fa-whatsapp" style="font-size:1rem;"></i> WhatsApp
         </a>
         <div class="lang-toggle">
           <button id="langHi" onclick="setLang('hi')" data-i18n="lang.hi">HI</button>
@@ -1304,7 +1340,7 @@
         <button class="theme-btn" id="themeBtn" onclick="toggleTheme()" title="Toggle dark mode">
           <i class="fas fa-moon" id="themeIcon"></i>
         </button>
-        <a href="admin.html" class="login-btn" title="Admin Login"><i class="fas fa-lock"></i> Admin</a>
+        <a href="admin.html" class="login-btn hide-mobile" title="Admin Login"><i class="fas fa-lock"></i> Admin</a>
         <button class="hamburger" onclick="toggleMenu()" aria-label="Menu">
           <span></span><span></span><span></span>
         </button>
