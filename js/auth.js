@@ -632,7 +632,7 @@ function handleForgotPasswordForm(form) {
           window.showToast('Password reset successfully! Please login.', 'success', 'Success');
         }
         setTimeout(() => {
-          window.location.href = 'login.html';
+          window.location.href = 'admin.html';
         }, 1500);
       } else {
         if (typeof window.showToast === 'function') {
