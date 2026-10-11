@@ -63,207 +63,27 @@ const I18N = {
   }
 };
 
-/* ─── SAMPLE PROPERTIES (9 – Greater Noida GNA/YEA) ─── */
-const ALL_PROPERTIES = [
-  {
-    id: 1,
-    title: '3 BHK Premium Flat in Sector Alpha-I',
-    type: 'flat',
-    listingType: 'sale',
-    price: 7500000,
-    priceLabel: '₹75 Lakh',
-    priceNote: 'onwards',
-    location: 'Sector Alpha-I, Greater Noida',
-    authority: 'gna',
-    beds: 3, baths: 2, size: '1450 sq ft',
-    rera: true,
-    verified: true,
-    furnishing: 'semi',
-    possession: 'ready',
-    amenities: ['parking', 'lift', 'power-backup', 'security'],
-    emoji: '🏢',
-    badge: 'sale',
-    isNew: false,
-    addedDays: 5,
-    popular: true,
-  },
-  {
-    id: 2,
-    title: 'Furnished 2 BHK Flat — Gamma II',
-    type: 'flat',
-    listingType: 'rent',
-    price: 18000,
-    priceLabel: '₹18,000',
-    priceNote: '/month',
-    location: 'Sector Gamma-II, Greater Noida',
-    authority: 'gna',
-    beds: 2, baths: 2, size: '1100 sq ft',
-    rera: true,
-    verified: true,
-    furnishing: 'furnished',
-    possession: 'ready',
-    amenities: ['parking', 'gym', 'lift', 'wifi', 'security'],
-    emoji: '🏠',
-    badge: 'rent',
-    isNew: true,
-    addedDays: 1,
-    popular: true,
-  },
-  {
-    id: 3,
-    title: '200 Sq Yd Residential Plot — YEA Sector 18',
-    type: 'plot',
-    listingType: 'sale',
-    price: 3200000,
-    priceLabel: '₹32 Lakh',
-    priceNote: 'total',
-    location: 'YEA Sector 18, Yamuna Expressway',
-    authority: 'yea',
-    beds: null, baths: null, size: '200 sq yd',
-    rera: true,
-    verified: true,
-    furnishing: null,
-    possession: 'ready',
-    amenities: ['security'],
-    emoji: '🌍',
-    badge: 'land',
-    isNew: false,
-    addedDays: 10,
-    popular: false,
-  },
-  {
-    id: 4,
-    title: 'Boys Hostel / PG — Knowledge Park III',
-    type: 'hostel',
-    listingType: 'rent',
-    price: 6000,
-    priceLabel: '₹6,000',
-    priceNote: '/month',
-    location: 'Knowledge Park III, Greater Noida',
-    authority: 'gna',
-    beds: 1, baths: 1, size: 'Shared Room',
-    rera: false,
-    verified: true,
-    furnishing: 'furnished',
-    possession: 'ready',
-    amenities: ['wifi', 'security', 'power-backup'],
-    emoji: '🏨',
-    badge: 'hostel',
-    isNew: true,
-    addedDays: 2,
-    popular: true,
-  },
-  {
-    id: 5,
-    title: '4 BHK Builder Floor — Sector Beta II',
-    type: 'house',
-    listingType: 'sale',
-    price: 12500000,
-    priceLabel: '₹1.25 Cr',
-    priceNote: 'onwards',
-    location: 'Sector Beta-II, Greater Noida',
-    authority: 'gna',
-    beds: 4, baths: 3, size: '2200 sq ft',
-    rera: true,
-    verified: true,
-    furnishing: 'unfurnished',
-    possession: 'ready',
-    amenities: ['parking', 'security', 'power-backup'],
-    emoji: '🏠',
-    badge: 'sale',
-    isNew: false,
-    addedDays: 20,
-    popular: true,
-  },
-  {
-    id: 6,
-    title: 'Commercial Building — Omicron I',
-    type: 'building',
-    listingType: 'sale',
-    price: 35000000,
-    priceLabel: '₹3.5 Cr',
-    priceNote: 'negotiable',
-    location: 'Omicron-I, Greater Noida',
-    authority: 'gna',
-    beds: null, baths: 4, size: '4500 sq ft',
-    rera: true,
-    verified: true,
-    furnishing: 'semi',
-    possession: 'ready',
-    amenities: ['parking', 'lift', 'security', 'power-backup'],
-    emoji: '🏗️',
-    badge: 'sale',
-    isNew: false,
-    addedDays: 8,
-    popular: false,
-  },
-  {
-    id: 7,
-    title: '1 BHK Flat for Rent — Delta I',
-    type: 'flat',
-    listingType: 'rent',
-    price: 9500,
-    priceLabel: '₹9,500',
-    priceNote: '/month',
-    location: 'Sector Delta-I, Greater Noida',
-    authority: 'gna',
-    beds: 1, baths: 1, size: '650 sq ft',
-    rera: false,
-    verified: true,
-    furnishing: 'semi',
-    possession: 'ready',
-    amenities: ['parking', 'security'],
-    emoji: '🏢',
-    badge: 'rent',
-    isNew: true,
-    addedDays: 3,
-    popular: false,
-  },
-  {
-    id: 8,
-    title: '500 Sq Yd Plot — YEA Sector 22 (Near Jewar)',
-    type: 'plot',
-    listingType: 'sale',
-    price: 7000000,
-    priceLabel: '₹70 Lakh',
-    priceNote: 'total',
-    location: 'YEA Sector 22, Yamuna Expressway',
-    authority: 'yea',
-    beds: null, baths: null, size: '500 sq yd',
-    rera: true,
-    verified: true,
-    furnishing: null,
-    possession: 'ready',
-    amenities: [],
-    emoji: '🌍',
-    badge: 'land',
-    isNew: false,
-    addedDays: 15,
-    popular: true,
-  },
-  {
-    id: 9,
-    title: 'Girls PG / Hostel — Knowledge Park V',
-    type: 'hostel',
-    listingType: 'rent',
-    price: 7500,
-    priceLabel: '₹7,500',
-    priceNote: '/month',
-    location: 'Knowledge Park V, Greater Noida',
-    authority: 'gna',
-    beds: 1, baths: 1, size: 'Single / Double Room',
-    rera: false,
-    verified: true,
-    furnishing: 'furnished',
-    possession: 'ready',
-    amenities: ['wifi', 'security', 'power-backup'],
-    emoji: '🏨',
-    badge: 'hostel',
-    isNew: true,
-    addedDays: 1,
-    popular: false,
-  },
-];
+/* ─── DYNAMIC PROPERTIES (LOADED FROM FIREBASE / ADMIN POSTS) ─── */
+let ALL_PROPERTIES = [];
+
+function loadLiveProperties() {
+  // 1. Load from local cache
+  const local = JSON.parse(localStorage.getItem('cp_properties') || '[]');
+  ALL_PROPERTIES = local;
+
+  // 2. Sync from Firebase Cloud Realtime Database
+  if (window.fetchPropertiesFromFirebase) {
+    window.fetchPropertiesFromFirebase().then(cloudProps => {
+      if (cloudProps && cloudProps.length > 0) {
+        ALL_PROPERTIES = cloudProps;
+        localStorage.setItem('cp_properties', JSON.stringify(cloudProps));
+        updateTypeCounts();
+        applyFilters();
+      }
+    }).catch(err => console.warn('Cloud sync:', err));
+  }
+}
+loadLiveProperties();
 
 /* ─── STATE ─── */
 let currentLang = 'en';
@@ -436,10 +256,20 @@ function renderProperties(props) {
   if (!grid) return;
   if (props.length === 0) {
     grid.innerHTML = `
-      <div style="grid-column:1/-1;text-align:center;padding:60px 20px;">
-        <div style="font-size:3rem;margin-bottom:16px;">🔍</div>
-        <h3 style="color:var(--text);margin-bottom:8px;">No properties found</h3>
-        <p style="color:var(--text-light);">Try changing your search filters or <a href="listings.html" style="color:var(--primary);">view all listings</a></p>
+      <div style="grid-column:1/-1; text-align:center; padding:50px 20px; background:var(--card-bg); border-radius:16px; border:2px dashed var(--border);">
+        <div style="font-size:3rem; margin-bottom:12px;">🏡</div>
+        <h3 style="color:var(--text); margin-bottom:8px; font-size:1.25rem;">Looking to Buy or Sell Property in Greater Noida?</h3>
+        <p style="color:var(--text-light); max-width:540px; margin:0 auto 20px; font-size:0.9rem; line-height:1.5;">
+          Direct verified buyers & sellers network. Hamari team se seedha connect karein aur apni requirement batayein!
+        </p>
+        <div style="display:flex; justify-content:center; gap:12px; flex-wrap:wrap;">
+          <a href="#sell" class="btn btn-primary" style="text-decoration:none;">
+            <i class="fas fa-bullhorn"></i> Sell Property (Hum Buyers Denge)
+          </a>
+          <a href="https://wa.me/919711733120?text=Hello%20City%20Property,%20mujhe%20property%20kharidni%20hai" target="_blank" class="btn btn-whatsapp" style="text-decoration:none;">
+            <i class="fab fa-whatsapp"></i> Buy Property (Contact Team)
+          </a>
+        </div>
       </div>`;
     return;
   }
