@@ -1074,18 +1074,31 @@
               <label>Property Description</label>
               <textarea id="prop-description" rows="4" placeholder="Describe the property — features, highlights, location benefits..."></textarea>
             </div>
-            <div class="field form-full">
-              <label>Property Photo (Cloudinary Instant Upload / URL)</label>
-              <div style="display:flex; gap:10px; align-items:center; flex-wrap:wrap; margin-bottom:8px;">
-                <input type="file" id="prop-image-file" accept="image/*" onchange="handleImageFileUpload(event)" style="display:none;" />
-                <button type="button" class="btn btn-primary btn-sm" onclick="document.getElementById('prop-image-file').click()">
-                  <i class="fas fa-cloud-upload-alt"></i> Choose Photo to Upload (Cloudinary)
+            <div class="field form-full" style="background:rgba(230,81,0,0.03); border:2px dashed var(--primary); border-radius:14px; padding:20px; text-align:center;">
+              <label style="font-size:1rem; font-weight:700; color:var(--primary); margin-bottom:8px; display:block;">
+                <i class="fas fa-camera"></i> Upload Property Photo (Auto Saved to Cloudinary)
+              </label>
+              <p style="font-size:0.85rem; color:var(--text-light); margin-bottom:14px;">
+                Apne phone ya laptop se photo select karein — photo seedha Cloudinary par save hogi aur website par display hogi!
+              </p>
+
+              <input type="file" id="prop-image-file" accept="image/*" onchange="handleImageFileUpload(event)" style="display:none;" />
+              
+              <div style="display:flex; justify-content:center; gap:12px; align-items:center; flex-wrap:wrap;">
+                <button type="button" class="btn btn-primary" style="padding:12px 24px; font-weight:700;" onclick="document.getElementById('prop-image-file').click()">
+                  <i class="fas fa-cloud-upload-alt"></i> Choose Photo to Upload
                 </button>
-                <span id="upload-status" style="font-size:0.85rem; color:var(--text-light);">No file chosen</span>
+                <span id="upload-status" style="font-size:0.9rem; font-weight:600; color:var(--text);">No photo selected</span>
               </div>
-              <input type="url" id="prop-image" placeholder="Or paste direct image URL (https://...)" />
-              <div id="image-preview-box" style="margin-top:10px; display:none;">
-                <img id="image-preview-img" src="" alt="Preview" style="max-height:160px; border-radius:8px; border:1px solid var(--border); object-fit:cover;" />
+
+              <!-- Hidden input to store Cloudinary HTTPS URL -->
+              <input type="hidden" id="prop-image" value="" />
+
+              <div id="image-preview-box" style="margin-top:16px; display:none;">
+                <img id="image-preview-img" src="" alt="Uploaded Preview" style="max-height:220px; max-width:100%; border-radius:12px; border:2px solid var(--primary); object-fit:cover; margin:0 auto; box-shadow:var(--shadow);" />
+                <div style="margin-top:6px; font-size:0.8rem; color:#27ae60; font-weight:700;">
+                  <i class="fas fa-check-circle"></i> Photo Ready &amp; Uploaded to Cloudinary Cloud!
+                </div>
               </div>
             </div>
           </div>
