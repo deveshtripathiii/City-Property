@@ -343,7 +343,7 @@ function saveProperty() {
     showToast('✅ Property added successfully!', 'success');
   }
 
-  saveAdminProperties(props); if (window.savePropertyToFirebase) window.savePropertyToFirebase(propData);
+  saveAdminProperties(props); if (window.deletePropertyFromFirebase && typeof id !== "undefined") window.deletePropertyFromFirebase(id); if (window.savePropertyToFirebase) window.savePropertyToFirebase(propData);
   updatePendingBadge();
   resetPropertyForm();
 

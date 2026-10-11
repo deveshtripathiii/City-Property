@@ -1,29 +1,25 @@
 // ============================================================
 // CITY PROPERTY — FIREBASE & CLOUDINARY CONFIGURATION
-// Configured for Realtime Database + Cloudinary Image Storage
+// Configured with your exact Cloudinary & Firebase Credentials!
 // ============================================================
 
-// 1. YOUR FIREBASE REALTIME DATABASE URL (From your screenshot)
+// 1. YOUR CLOUDINARY CREDENTIALS (FROM YOUR SCREENSHOT)
+window.CLOUDINARY_CONFIG = {
+  cloudName: 'ecoriscn',
+  uploadPreset: 'cjcaira1'
+};
+
+// 2. YOUR FIREBASE REALTIME DATABASE CONFIG (FROM YOUR SCREENSHOT)
 window.FIREBASE_DB_URL = "https://city-property-5f7c2-default-rtdb.firebaseio.com";
 
-// 2. FIREBASE APP CONFIG
 window.FIREBASE_CONFIG = {
-  apiKey: localStorage.getItem('cp_firebase_api_key') || '',
-  authDomain: "city-property-5f7c2.firebaseapp.com",
   databaseURL: "https://city-property-5f7c2-default-rtdb.firebaseio.com",
-  projectId: "city-property-5f7c2",
-  storageBucket: "city-property-5f7c2.appspot.com",
-  messagingSenderId: localStorage.getItem('cp_firebase_sender_id') || '',
-  appId: localStorage.getItem('cp_firebase_app_id') || ''
+  projectId: "city-property-5f7c2"
 };
 
-// 3. CLOUDINARY CONFIG (FREE IMAGE STORAGE)
-window.CLOUDINARY_CONFIG = {
-  cloudName: localStorage.getItem('cp_cloudinary_cloud_name') || 'demo',
-  uploadPreset: localStorage.getItem('cp_cloudinary_preset') || 'city_property_unsigned'
-};
-
-// Helper: Realtime Database REST API functions (Works directly with zero SDK setup needed!)
+// ============================================================
+// REALTIME DATABASE REST API (AUTOMATIC BACKGROUND SYNC)
+// ============================================================
 window.savePropertyToFirebase = async function(property) {
   try {
     const url = `${window.FIREBASE_DB_URL}/properties/${property.id}.json`;
@@ -32,6 +28,7 @@ window.savePropertyToFirebase = async function(property) {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(property)
     });
+    console.log('✅ Property synced to Firebase Realtime Database!');
     return await res.json();
   } catch (err) {
     console.warn('Firebase RTDB save error:', err);
@@ -55,32 +52,20 @@ window.deletePropertyFromFirebase = async function(propId) {
   try {
     const url = `${window.FIREBASE_DB_URL}/properties/${propId}.json`;
     await fetch(url, { method: 'DELETE' });
+    console.log('✅ Property deleted from Firebase Realtime Database!');
   } catch (err) {
     console.warn('Firebase RTDB delete error:', err);
   }
 };
 
 // ============================================================
-// HELPER: Upload image to Cloudinary (Free 25GB Storage & CDN)
+// DIRECT CLOUDINARY IMAGE UPLOAD (FREE 25 GB CDN)
 // ============================================================
-window.uploadToCloudinary = async function(file, onProgress) {
-  const cloudName = window.CLOUDINARY_CONFIG.cloudName;
-  const uploadPreset = window.CLOUDINARY_CONFIG.uploadPreset;
-
-  if (!cloudName || cloudName === 'demo') {
-    // If custom cloud name not set yet, convert to Base64 for instant working preview!
-    return new Promise((resolve, reject) => {
-      const reader = new FileReader();
-      reader.onload = () => resolve(reader.result);
-      reader.onerror = reject;
-      reader.readAsDataURL(file);
-    });
-  }
-
-  const url = `https://api.cloudinary.com/v1_1/${cloudName}/image/upload`;
+window.uploadToCloudinary = async function(file) {
+  const url = `https://api.cloudinary.com/v1_1/${window.CLOUDINARY_CONFIG.cloudName}/image/upload`;
   const formData = new FormData();
   formData.append('file', file);
-  formData.append('upload_preset', uploadPreset);
+  formData.append('upload_preset', window.CLOUDINARY_CONFIG.uploadPreset);
 
   const response = await fetch(url, {
     method: 'POST',
@@ -93,5 +78,6 @@ window.uploadToCloudinary = async function(file, onProgress) {
   }
 
   const data = await response.json();
+  console.log('✅ Photo uploaded to Cloudinary CDN:', data.secure_url);
   return data.secure_url;
 };
