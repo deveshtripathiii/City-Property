@@ -379,7 +379,7 @@ function injectChatWidget() {
     <div id="chatBubble" onclick="toggleChat()" title="AI Support Chat" style="
       position:fixed; bottom:90px; right:20px; z-index:9000;
       width:58px; height:58px; border-radius:50%;
-      background:linear-gradient(135deg,#1a3c6e,#2554a0);
+      background:linear-gradient(135deg,#e65100,#ff6d00);
       display:flex; align-items:center; justify-content:center;
       cursor:pointer; box-shadow:0 4px 20px rgba(26,60,110,0.4);
       transition:all 0.3s; border:3px solid #fff;
@@ -406,7 +406,7 @@ function injectChatWidget() {
     ">
       <!-- Header -->
       <div style="
-        background:linear-gradient(135deg,#1a3c6e,#2554a0);
+        background:linear-gradient(135deg,#e65100,#ff6d00);
         padding:14px 16px; display:flex; align-items:center; gap:10px;
         flex-shrink:0;
       ">
@@ -417,7 +417,7 @@ function injectChatWidget() {
           font-size:1.1rem; color:#fff; position:relative;
         ">
           <i class="fas fa-robot"></i>
-          <div style="position:absolute;bottom:1px;right:1px;width:10px;height:10px;background:#27ae60;border-radius:50%;border:2px solid #1a3c6e;"></div>
+          <div style="position:absolute;bottom:1px;right:1px;width:10px;height:10px;background:#27ae60;border-radius:50%;border:2px solid #e65100;"></div>
         </div>
         <div style="flex:1;">
           <div style="font-weight:700; color:#fff; font-size:0.9rem;">CityBot — AI Assistant</div>
@@ -451,12 +451,12 @@ function injectChatWidget() {
             border-radius:50px; font-size:0.85rem; outline:none;
             font-family:inherit; transition:border-color 0.2s;
           "
-          onfocus="this.style.borderColor='#1a3c6e'"
+          onfocus="this.style.borderColor='#e65100'"
           onblur="this.style.borderColor='#e0e6ef'"
         />
         <button onclick="sendChatMessage()" style="
           width:38px; height:38px; border-radius:50%;
-          background:linear-gradient(135deg,#1a3c6e,#2554a0);
+          background:linear-gradient(135deg,#e65100,#ff6d00);
           color:#fff; border:none; cursor:pointer;
           display:flex; align-items:center; justify-content:center;
           font-size:0.95rem; flex-shrink:0;
@@ -484,7 +484,7 @@ function injectChatWidget() {
       .chat-msg.user .chat-bubble { flex-direction:row-reverse; }
       .bot-avatar {
         width:28px; height:28px; border-radius:50%;
-        background:linear-gradient(135deg,#1a3c6e,#2554a0);
+        background:linear-gradient(135deg,#e65100,#ff6d00);
         display:flex; align-items:center; justify-content:center;
         color:#fff; font-size:0.75rem; flex-shrink:0; margin-top:2px;
       }
@@ -494,7 +494,7 @@ function injectChatWidget() {
         line-height:1.5; word-break:break-word;
       }
       .chat-msg.bot  .bubble-text { background:#fff; color:#2d2d2d; border-radius:4px 14px 14px 14px; box-shadow:0 1px 4px rgba(0,0,0,0.08); }
-      .chat-msg.user .bubble-text { background:linear-gradient(135deg,#1a3c6e,#2554a0); color:#fff; border-radius:14px 4px 14px 14px; }
+      .chat-msg.user .bubble-text { background:linear-gradient(135deg,#e65100,#ff6d00); color:#fff; border-radius:14px 4px 14px 14px; }
       .bubble-time { font-size:0.65rem; color:#9ca3af; padding: 0 4px; }
       .chat-msg.user .bubble-time { text-align:right; }
       .cid-badge {
@@ -509,17 +509,17 @@ function injectChatWidget() {
       }
       .qr-btn {
         padding:6px 12px; border-radius:50px;
-        border:1.5px solid #1a3c6e; background:#fff;
-        color:#1a3c6e; font-size:0.75rem; font-weight:600;
+        border:1.5px solid #e65100; background:#fff;
+        color:#e65100; font-size:0.75rem; font-weight:600;
         cursor:pointer; transition:all 0.2s;
         font-family:inherit; white-space:nowrap;
       }
-      .qr-btn:hover { background:#1a3c6e; color:#fff; }
+      .qr-btn:hover { background:#e65100; color:#fff; }
       .qr-btn.disabled { opacity:0.4; pointer-events:none; }
       .typing-dots { display:flex; gap:4px; padding:10px 14px; }
       .typing-dots span {
         width:7px; height:7px; border-radius:50%;
-        background:#1a3c6e; opacity:0.4;
+        background:#e65100; opacity:0.4;
         animation:typingDot 1.2s infinite;
       }
       .typing-dots span:nth-child(2){animation-delay:.2s;}

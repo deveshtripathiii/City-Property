@@ -14,11 +14,11 @@
 ─────────────────────────────────────────────────────────── */
 :root {
   /* Brand Colors */
-  --primary:       #1a3c6e;
-  --primary-light: #2554a0;
-  --primary-dark:  #0f2444;
-  --accent:        #f5a623;
-  --accent-dark:   #d4891a;
+  --primary:       #e65100;
+  --primary-light: #f4511e;
+  --primary-dark:  #bf360c;
+  --accent:        #ff8f00;
+  --accent-dark:   #e65100;
   --success:       #27ae60;
   --danger:        #e74c3c;
   --warning:       #f59e0b;
@@ -38,10 +38,10 @@
 
   /* Border & Shadow */
   --border:       #e0e6ef;
-  --shadow:       0 4px 24px rgba(26,60,110,0.10);
-  --shadow-hover: 0 8px 32px rgba(26,60,110,0.18);
-  --shadow-sm:    0 2px 8px rgba(26,60,110,0.08);
-  --shadow-lg:    0 16px 48px rgba(26,60,110,0.20);
+  --shadow:       0 4px 24px rgba(230,81,0,0.12);
+  --shadow-hover: 0 8px 32px rgba(230,81,0,0.22);
+  --shadow-sm:    0 2px 8px rgba(230,81,0,0.08);
+  --shadow-lg:    0 16px 48px rgba(230,81,0,0.25);
 
   /* Misc */
   --radius:    14px;
@@ -55,9 +55,9 @@
   --nav-h: 70px;
 
   /* Gradients */
-  --grad-primary: linear-gradient(135deg, #1a3c6e 0%, #2554a0 100%);
+  --grad-primary: linear-gradient(135deg, #e65100 0%, #ff6d00 100%);
   --grad-accent:  linear-gradient(135deg, #f5a623 0%, #d4891a 100%);
-  --grad-hero:    linear-gradient(135deg, #0f2444 0%, #1a3c6e 40%, #2554a0 100%);
+  --grad-hero:    linear-gradient(135deg, #bf360c 0%, #e65100 45%, #ff8f00 100%);
   --grad-card:    linear-gradient(180deg, transparent 0%, rgba(15,36,68,0.85) 100%);
 }
 
@@ -65,11 +65,11 @@
    3. CSS VARIABLES — DARK MODE
 ─────────────────────────────────────────────────────────── */
 [data-theme="dark"] {
-  --primary:       #4a7fd4;
-  --primary-light: #6b9ee8;
-  --primary-dark:  #2554a0;
-  --accent:        #f5a623;
-  --accent-dark:   #d4891a;
+  --primary:       #ff7043;
+  --primary-light: #ff8a65;
+  --primary-dark:  #d84315;
+  --accent:        #ff8f00;
+  --accent-dark:   #e65100;
 
   --bg:       #0f1923;
   --bg2:      #1a2535;
@@ -86,8 +86,8 @@
   --shadow-sm:    0 2px 8px rgba(0,0,0,0.20);
   --shadow-lg:    0 16px 48px rgba(0,0,0,0.50);
 
-  --grad-primary: linear-gradient(135deg, #2554a0 0%, #4a7fd4 100%);
-  --grad-hero:    linear-gradient(135deg, #0a1520 0%, #0f1923 40%, #1a2535 100%);
+  --grad-primary: linear-gradient(135deg, #d84315 0%, #ff7043 100%);
+  --grad-hero:    linear-gradient(135deg, #1f0b04 0%, #291007 40%, #38180c 100%);
   --grad-card:    linear-gradient(180deg, transparent 0%, rgba(10,21,32,0.92) 100%);
 }
 
@@ -392,7 +392,7 @@ input, select, textarea {
   backdrop-filter: blur(20px) saturate(180%);
   -webkit-backdrop-filter: blur(20px) saturate(180%);
   border-bottom: 1px solid rgba(224,230,239,0.6);
-  box-shadow: 0 2px 20px rgba(26,60,110,0.08);
+  box-shadow: 0 2px 20px rgba(230,81,0,0.08);
   transition: var(--transition);
 }
 
@@ -953,7 +953,7 @@ input, select, textarea {
 .search-field select:focus {
   border-color: var(--primary);
   background: var(--card-bg);
-  box-shadow: 0 0 0 3px rgba(26,60,110,0.1);
+  box-shadow: 0 0 0 3px rgba(230,81,0,0.15);
 }
 
 .search-field select { cursor: pointer; }
@@ -1048,7 +1048,7 @@ input, select, textarea {
 }
 
 .trust-item .trust-icon.rera-icon   { background: rgba(39,174,96,0.12); color: var(--success); }
-.trust-item .trust-icon.gna-icon    { background: rgba(26,60,110,0.1);  color: var(--primary); }
+.trust-item .trust-icon.gna-icon    { background: rgba(230,81,0,0.15);  color: var(--primary); }
 .trust-item .trust-icon.yea-icon    { background: rgba(245,166,35,0.12); color: var(--accent); }
 .trust-item .trust-icon.verified-icon { background: rgba(39,174,96,0.12); color: var(--success); }
 .trust-item .trust-icon.listing-icon { background: rgba(74,127,212,0.12); color: var(--info); }
@@ -1077,7 +1077,7 @@ input, select, textarea {
 .section-tag {
   display: inline-block;
   padding: 6px 18px;
-  background: rgba(26,60,110,0.08);
+  background: rgba(230,81,0,0.08);
   border: 1px solid rgba(26,60,110,0.15);
   color: var(--primary);
   border-radius: 999px;
@@ -1143,7 +1143,7 @@ input, select, textarea {
 .property-card:hover {
   transform: translateY(-6px);
   box-shadow: var(--shadow-hover);
-  border-color: rgba(26,60,110,0.2);
+  border-color: rgba(230,81,0,0.25);
 }
 [data-theme="dark"] .property-card:hover { border-color: rgba(74,127,212,0.3); }
 
@@ -1548,7 +1548,7 @@ input, select, textarea {
   border-radius: 50%;
   background: var(--primary);
   border: 3px solid var(--card-bg);
-  box-shadow: 0 2px 8px rgba(26,60,110,0.4);
+  box-shadow: 0 2px 8px rgba(230,81,0,0.4);
   cursor: pointer;
   transition: var(--transition);
 }
@@ -1675,8 +1675,8 @@ input, select, textarea {
   width: 70px;
   height: 70px;
   border-radius: var(--radius);
-  background: rgba(26,60,110,0.08);
-  border: 2px solid rgba(26,60,110,0.12);
+  background: rgba(230,81,0,0.08);
+  border: 2px solid rgba(230,81,0,0.15);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -1883,7 +1883,7 @@ input, select, textarea {
 .form-control:focus {
   border-color: var(--primary);
   background: var(--card-bg);
-  box-shadow: 0 0 0 3px rgba(26,60,110,0.1);
+  box-shadow: 0 0 0 3px rgba(230,81,0,0.15);
 }
 
 .form-control.error { border-color: var(--danger); }
@@ -2116,7 +2116,7 @@ select.form-control { cursor: pointer; -webkit-appearance: none; }
   justify-content: center;
   font-size: 1.4rem;
   cursor: pointer;
-  box-shadow: 0 4px 20px rgba(26,60,110,0.4);
+  box-shadow: 0 4px 20px rgba(230,81,0,0.4);
   transition: var(--transition);
 }
 .float-chat-btn:hover { transform: scale(1.1); box-shadow: 0 8px 30px rgba(26,60,110,0.55); }
@@ -2292,7 +2292,7 @@ select.form-control { cursor: pointer; -webkit-appearance: none; }
   color: var(--text);
   transition: var(--transition);
 }
-.otp-input:focus { border-color: var(--primary); box-shadow: 0 0 0 3px rgba(26,60,110,0.1); }
+.otp-input:focus { border-color: var(--primary); box-shadow: 0 0 0 3px rgba(230,81,0,0.15); }
 
 .social-login {
   margin-top: 20px;
@@ -2556,7 +2556,7 @@ select.form-control { cursor: pointer; -webkit-appearance: none; }
   width: 38px;
   height: 38px;
   border-radius: 10px;
-  background: rgba(26,60,110,0.08);
+  background: rgba(230,81,0,0.08);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -2757,7 +2757,7 @@ select.form-control { cursor: pointer; -webkit-appearance: none; }
 .status-pill.active   { background: rgba(39,174,96,0.12);  color: var(--success); }
 .status-pill.pending  { background: rgba(245,158,11,0.12); color: var(--warning); }
 .status-pill.inactive { background: rgba(231,76,60,0.12);  color: var(--danger); }
-.status-pill.sold     { background: rgba(26,60,110,0.1);   color: var(--primary); }
+.status-pill.sold     { background: rgba(230,81,0,0.15);   color: var(--primary); }
 
 /* ──────────────────────────────────────────────────────────
    26. LOGIN/SIGNUP PAGE STYLES
@@ -3149,7 +3149,7 @@ select.form-control { cursor: pointer; -webkit-appearance: none; }
   color: var(--text-light);
   border: 1px solid var(--border);
 }
-.tag-primary { background: rgba(26,60,110,0.1); color: var(--primary); border-color: rgba(26,60,110,0.2); }
+.tag-primary { background: rgba(230,81,0,0.15); color: var(--primary); border-color: rgba(230,81,0,0.25); }
 .tag-accent  { background: rgba(245,166,35,0.1); color: var(--accent-dark); border-color: rgba(245,166,35,0.2); }
 .tag-success { background: rgba(39,174,96,0.1); color: var(--success); border-color: rgba(39,174,96,0.2); }
 .tag-danger  { background: rgba(231,76,60,0.1); color: var(--danger); border-color: rgba(231,76,60,0.2); }
