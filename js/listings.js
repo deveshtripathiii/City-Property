@@ -151,7 +151,7 @@ function createListingCard(prop) {
   return `
 <div class="listing-card" data-id="${prop.id}">
   <div class="card-img-wrap">
-    <div class="card-img-placeholder">${prop.emoji}</div>
+    ${prop.image ? `<img src="${prop.image}" alt="${prop.title}" class="card-img" style="width:100%;height:100%;object-fit:cover;" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';" /><div class="card-img-placeholder" style="display:none;">${prop.emoji || '🏢'}</div>` : `<div class="card-img-placeholder">${prop.emoji || '🏢'}</div>`}
     <div class="card-top-badges">
       <span class="badge ${badgeClass}">${badgeLabel}</span>
     </div>

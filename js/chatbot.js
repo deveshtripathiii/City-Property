@@ -377,7 +377,7 @@ function injectChatWidget() {
   widget.innerHTML = `
     <!-- Chat Bubble Button -->
     <div id="chatBubble" onclick="toggleChat()" title="AI Support Chat" style="
-      position:fixed; bottom:90px; right:20px; z-index:9000;
+      position:fixed; bottom:92px; right:20px; z-index:9000;
       width:58px; height:58px; border-radius:50%;
       background:linear-gradient(135deg,#e65100,#ff6d00);
       display:flex; align-items:center; justify-content:center;
@@ -536,7 +536,7 @@ function injectChatWidget() {
           bottom:140px !important;
           max-height:60vh !important;
         }
-        #chatBubble{ right:14px !important; bottom:82px !important; }
+        #chatBubble{ right:14px !important; bottom:80px !important; }
       }
     </style>
   `;

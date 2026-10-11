@@ -304,7 +304,7 @@ function createPropertyCard(prop) {
   return `
 <div class="prop-card" data-id="${prop.id}">
   <div class="prop-img-wrap">
-    <div class="prop-img-placeholder">${prop.emoji}</div>
+    ${prop.image ? `<img src="${prop.image}" alt="${escHtml(prop.title)}" class="prop-card-img" style="width:100%;height:100%;object-fit:cover;" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';" /><div class="prop-img-placeholder" style="display:none;">${prop.emoji || '🏢'}</div>` : `<div class="prop-img-placeholder">${prop.emoji || '🏢'}</div>`}
     <div class="prop-badges">
       <span class="badge ${badgeClass}">${badgeLabel}</span>
     </div>
